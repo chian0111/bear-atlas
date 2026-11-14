@@ -11,7 +11,7 @@ run('gh',['auth','setup-git','--hostname','github.com']);
 const records=JSON.parse(readFileSync('docs/release-history.json','utf8')).versions,refs=[];
 for(const row of records){const tag='bear-atlas-v'+row.version;run('git',['cat-file','-e',row.commit+'^{commit}']);const existing=spawnSync('git',['rev-parse','--verify','refs/tags/'+tag+'^{commit}'],{encoding:'utf8'});if(existing.status===0&&existing.stdout.trim()!==row.commit)throw Error('A release tag already points to another commit.');if(existing.status!==0)run('git',['tag',tag,row.commit]);refs.push('refs/tags/'+tag);}
 const remote='https://github.com/'+repo+'.git';
-run('git',['push','--atomic',remote,'HEAD:refs/heads/bear-atlas',...refs]);
-const head=run('git',['rev-parse','HEAD'],true),remoteHead=run('git',['ls-remote',remote,'refs/heads/bear-atlas'],true).split(/\s+/)[0];
+run('git',['push','--atomic',remote,'HEAD:refs/heads/main',...refs]);
+const head=run('git',['rev-parse','HEAD'],true),remoteHead=run('git',['ls-remote',remote,'refs/heads/main'],true).split(/\s+/)[0];
 if(head!==remoteHead)throw Error('Remote verification did not match the source commit.');
-console.log('Verified GitHub mirror: '+repo+' branch bear-atlas at '+head);
+console.log('Verified GitHub mirror: '+repo+' branch main at '+head);
