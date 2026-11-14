@@ -688,6 +688,19 @@ assert.match((await get('/passport')).headers.get('Content-Security-Policy'),/sc
  console.log('Resort P0: five areas, one avatar, own home/exit, friend porch permission, private-room denial, stable legacy routes and unchanged saves after recovery passed.');
 }
 
+// V83.1: isolated owner environment persistence, CAS, room isolation and privacy.
+const cozyBefore=sql.prepare('SELECT * FROM island_cabins WHERE visitor_key=?').get(friend.split('=')[1]);
+const cozyState={main:false,bedside:true,nightlight:true,curtains:true,day:'night',rain:true,music:false,ambience:false};
+assert.equal((await post('/dock/cabin/environment','',{room:'living',revision:'0',state:JSON.stringify(cozyState)})).status,403);
+const envFirst=await post('/dock/cabin/environment',friend,{room:'living',revision:'0',state:JSON.stringify(cozyState)});assert.equal(envFirst.status,200);assert.equal((await envFirst.json()).revision,1);
+assert.equal((await post('/dock/cabin/environment',friend,{room:'living',revision:'0',state:JSON.stringify(cozyState)})).status,409);
+assert.equal((await post('/dock/cabin/environment',friend,{room:'living',revision:'1',state:JSON.stringify(cozyState)},'https://other.test')).status,403);
+assert.equal((await post('/dock/cabin/environment',friend,{owner:legacy,room:'living',revision:'1',state:JSON.stringify(cozyState)})).status,400);
+assert.equal((await post('/dock/cabin/environment',friend,{room:'living',revision:'1',state:JSON.stringify({...cozyState,main:'false'})})).status,400);
+const cozyPage=await (await get('/dock/cabin',friend)).text();assert.ok(cozyPage.includes('data-cozy-revision="1"'));assert.ok(cozyPage.includes('"curtains":true'));assert.ok(!(await (await get('/dock/cabin/bedroom',friend)).text()).includes('data-cozy-revision="1"'));
+assert.deepEqual(sql.prepare('SELECT * FROM island_cabins WHERE visitor_key=?').get(friend.split('=')[1]),cozyBefore);
+console.log('V83.1 environment persistence, separate room state, stale-write rejection, cross-origin/forged owner denial and unchanged furniture passed.');
+
 // Local-only browser QA uses the same Worker with the isolated in-memory DB above.
 // This server is never part of the deployed Worker or production routes.
 if(process.env.CABIN_QA_SERVER==='1'){

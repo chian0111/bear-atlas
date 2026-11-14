@@ -7,7 +7,7 @@ dist_root="$project_root/dist"
 rm -rf "$dist_root"
 mkdir -p "$dist_root/server" "$dist_root/.openai"
 {
-  sed '/^import /d;s/^export //' "$project_root/worker/resort-upgrade.js" "$project_root/worker/golf.js" "$project_root/worker/resort.js" "$project_root/worker/harbor-art.js" "$project_root/worker/harbor-neighbors.js" "$project_root/worker/public-scenes.js" "$project_root/worker/sad-island.js" "$project_root/worker/bedroom.js" "$project_root/worker/island-life.js"
+  sed '/^import /d;s/^export //' "$project_root/worker/cozy-living.js" "$project_root/worker/resort-upgrade.js" "$project_root/worker/golf.js" "$project_root/worker/resort.js" "$project_root/worker/harbor-art.js" "$project_root/worker/harbor-neighbors.js" "$project_root/worker/public-scenes.js" "$project_root/worker/sad-island.js" "$project_root/worker/bedroom.js" "$project_root/worker/island-life.js"
   sed '/^import /d' "$project_root/worker/index.js"
 } > "$dist_root/server/index.js"
 cp "$project_root/.openai/hosting.json" "$dist_root/.openai/hosting.json"

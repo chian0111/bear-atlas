@@ -294,3 +294,13 @@ for(const species of ['cat','rabbit']){
  activity.value='wake';activity.handlers.change();pump(clock+=100);assert.equal(canvas.dataset.posture,'standing');
 }
 console.log('Cat/rabbit chair approach, sit, bed approach, sleep, wake and single species-matched owner passed.');
+
+// V83 daily actions share collision navigation and retain all species.
+for(const species of ['bear','cat','rabbit']){
+ raf.clear();display.dataset.cabinRoom='living';display.dataset.cabinInstances='0';display.dataset.bearSpecies=species;display.dataset.cabinLayout=JSON.stringify({...cabinLayoutDefaults,bed:{x:3.5,z:2.4,r:0},displaycase:{x:3.4,z:.3,r:0}});activity.value='auto';cabin3DClient();pump(clock+=100);
+ display.handlers['cabin-cozy-activity']({detail:'window'});settle('window');assert.equal(canvas.dataset.species,species);
+ display.handlers['cabin-cozy-activity']({detail:'desk'});settle('desk');
+ activity.value='sleep';activity.handlers.change();settle('sleep');activity.value='wake';activity.handlers.change();pump(clock+=100);assert.equal(canvas.dataset.activity,'stretch');
+ for(let i=0;i<40;i++)pump(clock+=100);assert.notEqual(canvas.dataset.activity,'stretch');
+}
+console.log('V83 bear/cat/rabbit window and desk navigation, sleep/wake stretch and resumed walking passed.');
