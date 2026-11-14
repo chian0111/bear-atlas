@@ -591,8 +591,8 @@
       "version": 84,
       "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_53600924088481919067c7fb59733981",
       "commit": "e4573473b95c46dad939158a49033e13c97785c2",
-      "deployment_id": null,
-      "deployment_status": "not_deployed_pending_safari_and_mobile_acceptance",
+      "deployment_id": "appgdep_6af8672240d88191b6a10427026323df",
+      "deployment_status": "succeeded",
       "archive_sha256": "sha256:ba77dba794b596e889037354a2c0344baa18f0db2695767da7b6cb5158454d54"
     }
   ]

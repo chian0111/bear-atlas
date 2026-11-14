@@ -1,6 +1,6 @@
 # V84 Full Bilingual Experience — release candidate
 
-Status: implemented and tested in isolation; production publication is blocked on the requested Safari acceptance. Production remains V83. This is not a record of a successful V84 deployment.
+Status: V84 successfully published on 2026-11-14 after the user confirmed acceptance and explicitly requested deployment. Safari was not independently tested by this environment.
 
 ## Baseline and scope
 
@@ -62,11 +62,13 @@ Observed in the managed isolated preview:
 
 ## Rollback
 
-Production is still the saved V83 version `appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_f5ff952182d881918e89ed38c5e2e520`. Retain that exact version and source for a later rollback. V84 adds no data schema changes; older V83 ignores the dedicated language preference key/cookie. Original commits and saved-version tags are retained in the GitHub history bundle; connector mirror commits have separate SHAs.
+Rollback target is the saved V83 version `appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_f5ff952182d881918e89ed38c5e2e520`. Retain that exact version and source for a later rollback. V84 adds no data schema changes; older V83 ignores the dedicated language preference key/cookie. Original commits and saved-version tags are retained in the GitHub history bundle; connector mirror commits have separate SHAs.
 
 ## Saved candidate
 
 - Saved V84: `appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_53600924088481919067c7fb59733981`.
 - Source: `e4573473b95c46dad939158a49033e13c97785c2`.
 - Archive: `sha256:ba77dba794b596e889037354a2c0344baa18f0db2695767da7b6cb5158454d54`.
-- Deployment: none. Reuse this saved version for publication after acceptance; do not rebuild or recreate the Site merely to retry publication.
+- Deployment: `appgdep_6af8672240d88191b6a10427026323df` (succeeded).
+- Production URL: https://atlas-sports-reply.kitty50228.chatgpt.site
+- User confirmation: 「驗收通過請部署」. The historical pending gates above describe pre-publication checks, not the current release state.
