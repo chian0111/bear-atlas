@@ -583,8 +583,8 @@
       "version": 83,
       "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_f5ff952182d881918e89ed38c5e2e520",
       "commit": "aa923ddd783726033d1635bef9c989014ddb1832",
-      "deployment_id": null,
-      "deployment_status": "not_deployed_pending_safari_acceptance",
+      "deployment_id": "appgdep_6af85251d6848191a4662f15e5880d04",
+      "deployment_status": "succeeded",
       "archive_sha256": "sha256:d191dc40969df9a937819ce5b596acb9a5388793d248c44408e0450beea5f69b"
     }
   ]

@@ -1,6 +1,6 @@
 # V83 Cozy Living & Immersive World — candidate
 
-Base: production V82 source a379e60d9579b5ab2102fe0cae6ae700b71cc994. Branch v83-cozy-living starts from bf29c4261c21a3bbba6061851ed6caf46a294905, the same V82 code with verified release metadata. No V83 deployment is authorized until the requested browser acceptance gate passes.
+Base: production V82 source a379e60d9579b5ab2102fe0cae6ae700b71cc994. Branch v83-cozy-living starts from bf29c4261c21a3bbba6061851ed6caf46a294905, the same V82 code with verified release metadata. The user explicitly requested production publication on 2026-11-14 after disclosure that Safari acceptance remains unverified.
 
 ## Batches
 - 83.1: 5ba65b0 — isolated per-owner/per-room environment table, validated same-origin API, optimistic revisions, main light/bedside/nightlight/curtains/presets. Existing furniture formats untouched.
@@ -16,7 +16,7 @@ Chrome browser: scene light controls, manual change after preset, refresh persis
 ## Remaining acceptance gates
 - iPhone Safari and desktop Safari are unavailable here. Touch gestures, Web Audio, room return/re-entry, reduced motion and visual layout require real Safari verification.
 - Chrome WebGL hardware path was unavailable; Canvas fallback was exercised.
-- No production player data was used. Production remains V82.
+- No production player data was used. Production is V83 after the user’s explicit publication request.
 - GitHub visibility change requires a signed-in browser; connector lacks repository-settings mutation.
 
 ## Rollback
@@ -28,4 +28,6 @@ Explicit presets alter a group once. Real time never overwrites manual settings.
 
 Saved candidate: appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_f5ff952182d881918e89ed38c5e2e520
 Candidate source: aa923ddd783726033d1635bef9c989014ddb1832
-No production deployment was requested for this candidate.
+Published at the user’s explicit request on 2026-11-14; Safari remains unverified.
+
+V83 production deployment: appgdep_6af85251d6848191a4662f15e5880d04 (succeeded). Existing bindings retained.
