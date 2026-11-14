@@ -156,5 +156,45 @@
   "golf.direction_label": {
     "zh-TW": "方向（0° 指向球洞）",
     "en": "Direction (0° points toward the hole)"
+  },
+  "sports.scene": {
+    "zh-TW": "立體運動場館，可使用下方按鈕切換視角",
+    "en": "Dimensional sports venue. Use the buttons below to change the view."
+  },
+  "sports.view_left": {
+    "zh-TW": "左側視角",
+    "en": "Left View"
+  },
+  "sports.view_front": {
+    "zh-TW": "入口視角",
+    "en": "Entrance View"
+  },
+  "sports.view_right": {
+    "zh-TW": "右側視角",
+    "en": "Right View"
+  },
+  "sports.detail_0": {
+    "zh-TW": "選一座場館，換個角度看看海景與器材，想動一動時再開始。",
+    "en": "Choose a venue, explore the sea views and equipment from another angle, and move when you feel like it."
+  },
+  "sports.detail_1": {
+    "zh-TW": "沿著池緣看看海，或輕輕入水，留一點時間給自己。",
+    "en": "Watch the sea from the poolside, or slip into the water and take a moment for yourself."
+  },
+  "sports.detail_2": {
+    "zh-TW": "面海的木質健身房。試試跑步機的輕鬆動作，隨時可以休息。",
+    "en": "A wooden gym facing the sea. Try a gentle treadmill movement and rest whenever you like."
+  },
+  "sports.detail_3": {
+    "zh-TW": "看看球網、場線與海風，試一段短暫的擊球動作。完整對打尚未開放。",
+    "en": "Explore the net and court markings, then try a brief hitting movement. Full matches are not available yet."
+  },
+  "sports.detail_4": {
+    "zh-TW": "輕輕入水，漂浮一會。",
+    "en": "Slip gently into the water and float for a moment."
+  },
+  "sports.detail_5": {
+    "zh-TW": "跟著自己的步調，輕鬆動一動…",
+    "en": "Move gently, at your own pace…"
   }
 }
