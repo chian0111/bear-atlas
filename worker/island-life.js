@@ -381,7 +381,7 @@ export function cabin3DClient(){
   else if(display.dataset.cabinHeld)currentActivity='card';
   const walkingNow=currentActivity==='walk',swing=walkingNow?Math.sin(motionTime*8):0,bob=walkingNow?Math.abs(swing)*.035:0;
   const label={window:'正在窗邊看看風景',admire:'正在欣賞展示櫃裡的小回憶',desk:'正在書桌前安靜停留',stretch:'起床後伸個懶腰',sit:'正在椅子上休息 · 隨時可以起身',sleep:'正在床上安穩睡覺 · 隨時可以起床',card:'正拿著你的紀念卡',wave:'向你揮手打招呼',walk:navigation?.points.length?'正走向你點的家具':'正在小屋裡散步',read:'正在翻幾頁書',coffee:'正在慢慢喝咖啡',golf:'正在練習輕推桿',rest:'正在放空休息',flowers:'正在欣賞小花'}[currentActivity];
-  if(activityStatus.textContent!==label)activityStatus.textContent=label;
+  const localizedLabel=globalThis.window?.BearI18n?.text(label)||label;if(activityStatus.textContent!==localizedLabel)activityStatus.textContent=localizedLabel;
   canvas.dataset.litLamps=JSON.stringify([...litLamps].filter(id=>layout[id]));canvas.dataset.activity=currentActivity;canvas.dataset.posture=sitting?'sitting':sleeping?'sleeping':'standing';canvas.dataset.seatedInstance=sitting?activeSeatId:'';
   const fur=display.dataset.bearFur||'#c18b60',outfit=display.dataset.bearOutfit||'#427560';
   function teddy(bx,bz,heading,fur,outfit,step,bob,activity,species='bear'){

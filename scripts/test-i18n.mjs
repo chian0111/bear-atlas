@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {i18nCatalog} from '../worker/i18n-catalog.js';
-import {i18nTranslate,i18nRequestLocale,i18nRuntime} from '../worker/i18n.js';
+import {i18nTranslate,i18nRequestLocale,i18nRuntime,i18nProtectHtml,i18nTextTranslator} from '../worker/i18n.js';
 const issues=[];
 assert.equal(i18nTranslate('cottage.welcome',{name:'小茶 <Kitty>'},'en'),'Welcome home, 小茶 <Kitty>');
 assert.equal(i18nTranslate('unknown',{},'en',x=>issues.push(x)),'unknown');
@@ -17,12 +17,12 @@ assert.equal(i18nRequestLocale(request('/?lang=evil')),'zh-TW');
 for(const [key,entry] of Object.entries(i18nCatalog))for(const locale of ['zh-TW','en'])assert.ok(entry[locale]?.trim(),key+' '+locale);
 function fixture({stored='en',blocked=false}={}){
  const state={position:{x:40,y:17},furniture:['bed-1'],species:'cat'};
- const attributes=new Map(),label={nodeType:1,dataset:{i18n:'nav.map'},textContent:'地圖',closest:()=>false,querySelectorAll:()=>[],getAttribute:()=>null,setAttribute(){}};
- const user={nodeType:1,dataset:{i18n:'nav.map'},textContent:'地圖',closest:()=>true,querySelectorAll:()=>[],getAttribute:()=>null};
+ const attributes=new Map(),label={nodeType:1,dataset:{i18n:'nav.map'},textContent:'地圖',closest:()=>false,querySelectorAll:()=>[],matches:()=>false,getAttribute:()=>null,setAttribute(){}};
+ const user={nodeType:1,dataset:{i18n:'nav.map'},textContent:'地圖',closest:()=>true,querySelectorAll:()=>[],matches:()=>false,getAttribute:()=>null};
  const button={dataset:{locale:'en'},setAttribute:(key,value)=>attributes.set(key,value)};
- const doc={cookie:'',documentElement:{lang:'zh-TW'},querySelectorAll:selector=>selector==='[data-locale]'?[button]:[label,user],addEventListener(){}};
+ const doc={cookie:'',documentElement:{lang:'zh-TW'},querySelectorAll:selector=>selector==='[data-locale]'?[button]:[label,user],addEventListener(){},createTreeWalker:()=>({nextNode:()=>null})};
  const events=[];const storage=new Map([['bear-atlas-language',stored]]);
- const context={window:{dispatchEvent:e=>events.push(e)},document:doc,localStorage:{getItem:key=>{if(blocked)throw Error('blocked');return storage.get(key);},setItem:(key,value)=>{if(blocked)throw Error('blocked');storage.set(key,value);}},location:{href:'https://example.test/world',protocol:'https:'},navigator:{language:'zh-TW',languages:['zh-TW']},URL,MutationObserver:class{observe(){}},CustomEvent:class{constructor(type,options){this.type=type;this.detail=options.detail;}}};
+ const context={NodeFilter:{SHOW_TEXT:4},window:{dispatchEvent:e=>events.push(e)},document:doc,localStorage:{getItem:key=>{if(blocked)throw Error('blocked');return storage.get(key);},setItem:(key,value)=>{if(blocked)throw Error('blocked');storage.set(key,value);}},location:{href:'https://example.test/world',protocol:'https:'},navigator:{language:'zh-TW',languages:['zh-TW']},URL,MutationObserver:class{observe(){}},CustomEvent:class{constructor(type,options){this.type=type;this.detail=options.detail;}}};
  vm.runInNewContext(i18nRuntime(),context);
  return {api:context.window.BearI18n,label,user,doc,state,events,storage};
 }
@@ -31,3 +31,16 @@ const original=JSON.stringify(f.state);f.api.setLocale('zh-TW');assert.equal(f.l
 f.api.setLocale('en');assert.equal(f.label.textContent,'Map');assert.equal(f.api.getMissing().length,0);
 const blocked=fixture({blocked:true});blocked.api.setLocale('en');assert.equal(blocked.label.textContent,'Map');
 console.log('PASS i18n: catalog parity, interpolation, missing reports, preference priority, no-reload switching, storage denial, user-content protection.');
+
+const diagnostic=[];const legacy=i18nTextTranslator(i18nCatalog,x=>diagnostic.push(x));
+assert.equal(legacy.text('我未知之詞龘','en').includes('龘'),true);assert.equal(diagnostic[0].kind,'untranslated');
+assert.equal(legacy.text('主燈','en'),'Main Light');assert.equal(legacy.text('主燈','zh-TW'),'主燈');
+assert.equal(legacy.text('11月15日週日 21:32'),'Nov 15, Sun 21:32');
+const userHtml=i18nProtectHtml('<title>\uE000儲存\uE001 的護照</title><h1>\uE000儲存\uE001 的小屋</h1><input value="\uE000取消\uE001"><img alt="\uE000儲存\uE001 的護照">');
+assert.match(userHtml,/<span translate="no" data-user-content>儲存<\/span>/);
+assert.match(userHtml,/value="取消"/);assert.match(userHtml,/data-i18n-source-alt="&#57344;儲存&#57345; 的護照"/);
+assert.match(userHtml,/data-i18n-source-text="&#57344;儲存&#57345; 的護照"/);assert.ok(!userHtml.includes('\uE000'));
+assert.equal(legacy.source(legacy.text('正在床上安穩睡覺 · 隨時可以起床')),'正在床上安穩睡覺 · 隨時可以起床');
+console.log('PASS legacy integration: diagnostics retain unknown text, localized dates, reversible dynamic labels, protected player names/attributes and unchanged input values.');
+
+assert.equal(legacy.text('第 1 / 4 頁'),'Page 1 / 4');assert.equal(legacy.text('6 位'),'6 neighbours');assert.equal(legacy.text('和 Clara 聊聊'),'Chat with Clara');

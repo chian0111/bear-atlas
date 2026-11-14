@@ -1,4 +1,4 @@
-import {i18nRuntime} from './i18n.js';
+import {i18nRuntime,i18nProtectHtml} from './i18n.js';
 import {cozyDefaults,cozyValidate,cozyLoad,cozySave,cozyMarkup,cozyCss,cozyClient} from './cozy-living.js';
 import {fullBody,upgradeCss,leisureArt,facilityHub,upgradeClient,resort3dClient,drinkArt} from './resort-upgrade.js';
 import {golfShot,golfClient} from './golf.js';
@@ -10,6 +10,7 @@ import {harborArt,harborGeometry} from './harbor-art.js';
 import {harborNeighbors} from './harbor-neighbors.js';
 import {residentQuests,cabinThemes,cabinCatalog,cabinDefaults,cabinRoomArt,cabin3DClient,islandLifeCalendar,cabinVisits,islandWeeklyEvents,cabinBedroomDefaults,cabinFurniture,cabinRoomBounds,cabinLayoutDefaults,cabinLayoutRects,cabinLayoutProblem,decodeCabinLayout,islandSecretClock,residentSecrets,seaPorts,bottleThemes} from './island-life.js';
 const resortChromeCss=`
+html[lang=en] .book-tabs a{white-space:normal;overflow-wrap:anywhere;min-height:62px;padding:6px 3px}html[lang=en] .cozy-panel button{white-space:normal;overflow-wrap:anywhere}
 html{scroll-padding-top:180px}body{padding-top:172px!important}
 .bear-language{display:flex;gap:4px;align-items:center;margin-left:auto}.bear-language button{min-height:44px;min-width:44px;padding:6px 10px;font-size:.8rem}.bear-language button[aria-pressed=true]{background:#315744;color:#fff}.resort-top-inner{position:relative}@media(max-width:639px){.bear-language{position:absolute;right:0;top:0}.resort-top-account{padding-right:100px}}
 .resort-topbar{position:fixed;inset:0 0 auto;z-index:90;background:#fffaf1f5;border-bottom:1px solid #d4d8c5;backdrop-filter:blur(12px);padding:8px max(14px,env(safe-area-inset-left));box-shadow:0 3px 16px #294a3410}
@@ -21,18 +22,17 @@ html{scroll-padding-top:180px}body{padding-top:172px!important}
 `;
 function naturePage(profile){return html('<style>'+worldSceneCss+'</style><section class="resort-idea"><span class="trip-tag">BEAR ATLAS / SEASIDE RETREAT / TOWN / 05</span><h1>自然休憩區 · 海岸花園</h1><a class="scene-return" href="/world">← 回熊熊渡假村</a><p>花園、木棧道與面海長椅。今天不用帶著任何心事，也可以只是來看海。</p><figure class="resort-scene">'+leisureArt('nature',fullBody(profile?memberAvatar(profile,true):avatar('honey','picnic')))+'<figcaption>海風很輕，沿著木棧道慢慢走。</figcaption></figure><div class="place-actions"><button type="button" data-nature-rest>在海邊坐一會</button></div><p role="status" data-nature-status></p><details><summary>想找一個更安靜的角落？</summary><p>如果今天想整理心情，原本的傷心之島仍在。</p><a href="/world/sadness">前往安靜的心情角落</a></details></section><script src="/world-scene.js?v=resort-v83" defer></script>',200,worldSceneHeaders,{title:'海岸花園｜熊熊渡假村',brand:''});}
 
-function resortTopbar(profile,code,path,english=false){const current=path==='/world'||path==='/islands'?'map':path.startsWith('/dock/cabin')||path.startsWith('/world/home')?'home':path.startsWith('/islands/neighbors')?'neighbors':'';return '<header class="resort-topbar"><div class="resort-top-inner"><div class="resort-top-account">'+(profile?'<a href="/passport" title="'+(english?'My passport':'我的護照')+'">'+escape(profile.nickname)+'<small>'+escape(code||'島民')+'</small></a>':'<a href="/passport?recover=1">'+(english?'Sign in':'島民登入')+'</a>')+'</div><nav class="resort-top-links" data-i18n-aria-label="nav.label" aria-label="'+(english?'Resort navigation':'渡假村主要導覽')+'">'+[['map','/world','地圖'],['neighbors',neighborPath,'找居民'],['home','/dock/cabin','回家'],['dock',harborDockPath,'碼頭']].map(([id,href,label])=>'<a data-i18n="'+({map:'nav.map',neighbors:'nav.residents',home:'nav.home',dock:'nav.dock'})[id]+'" href="'+href+'"'+(current===id?' aria-current="page"':'')+'>'+(english?({map:'Map',neighbors:'Residents',home:'Home',dock:'Dock'})[id]:label)+'</a>').join('')+'</nav><div class="bear-language" role="group" data-i18n-aria-label="language.label" aria-label="介面語言"><button type="button" data-locale="zh-TW" aria-pressed="true" lang="zh-TW">繁中</button><button type="button" data-locale="en" aria-pressed="false" lang="en">EN</button></div></div></header>';}
-function resortIdea(english=false){if(english)return resortIdeaEnglish();return html('<article class="resort-idea idea-page"><nav class="idea-languages" aria-label="理念頁語言"><a href="/about" aria-current="page">繁體中文</a><a href="/about?lang=en" lang="en">English</a></nav><span class="trip-tag">A LITTLE WORLD BY KITTY</span><h1>留一個角落，給不用努力的自己。</h1><p>Bear Atlas 是一座為成年人創作的小小渡假村。在現實生活裡，我們常常忙著工作、回覆訊息、追趕進度；這裡想留下一點空白，讓人可以只是待著。</p><figure class="resort-scene">'+leisureArt('cafe')+'<figcaption>沿著海岸，給自己留一點空白。</figcaption></figure><h2>有自己的家，也有可以走走的世界</h2><p>我想創作的，是「成年人的心靈寄託小宇宙」。小屋收藏你的喜好，海岸接住短暫的疲倦；即使只來五分鐘，也能找到一件單純喜歡的小事。回小屋整理喜歡的角落，出門喝杯咖啡、推一顆球，或在海邊遇見正在散步的動物居民。每個小動作，都可以只是因為喜歡。</p><h2>朋友是陪伴，自在是前提</h2><p>你可以邀朋友來坐，也可以獨自看海。不需要天天報到，不需要比成績，更不需要為了跟上誰而留下。</p><h2>童趣，也是大人可以擁有的日常</h2><p>熊熊渡假村想保留柔軟、好奇與玩心。希望你離開時，帶走一點舒服，而不是多一張待辦清單。</p><div class="idea-gallery"><figure class="resort-scene">'+leisureArt('nature')+'<figcaption>一段不必趕路的海岸。</figcaption></figure><figure class="resort-scene">'+leisureArt('pool')+'<figcaption>一刻可以放慢的日常。</figcaption></figure></div><h2>把生活的節奏，還給自己</h2><p>早晨在咖啡街選一杯熱飲，午後到運動俱樂部動一動，傍晚沿著花園慢慢走回家。這些安排沒有標準順序，也沒有必須完成的清單。今天的你，決定今天的步調。</p><figure class="resort-scene">'+leisureArt('gym',fullBody(avatar('honey','picnic')))+'<figcaption>不是為了追上誰，單純享受身體動起來的感覺。</figcaption></figure><h2>一座慢慢長大的小世界</h2><p>從一間小屋、一段海岸，到動物居民散步的小鎮，Bear Atlas 會一點點長大。我希望每一次增加的細節，都讓這裡更容易親近：看得懂的路、可以坐下的椅子，以及隨時能回去的家。</p><p>願這裡成為你偶爾想回來的地方。你可以熱鬧，也可以安靜；不必交代理由，只要舒服地待著。</p><p>— Kitty · Bear Atlas</p><a class="cta" href="/world">回渡假村散步</a></article>',200,{}, {title:'創作理念｜Bear Atlas',brand:''});}
+function resortTopbar(profile,code,path){const current=path==='/world'||path==='/islands'?'map':path.startsWith('/dock/cabin')||path.startsWith('/world/home')?'home':path.startsWith('/islands/neighbors')?'neighbors':'';return '<header class="resort-topbar"><div class="resort-top-inner"><div class="resort-top-account">'+(profile?'<a href="/passport" title="'+'我的護照'+'">'+escapeUser(profile.nickname)+'<small>'+escape(code||'島民')+'</small></a>':'<a href="/passport?recover=1">'+'島民登入'+'</a>')+'</div><nav class="resort-top-links" data-i18n-aria-label="nav.label" aria-label="'+'渡假村主要導覽'+'">'+[['map','/world','地圖'],['neighbors',neighborPath,'找居民'],['home','/dock/cabin','回家'],['dock',harborDockPath,'碼頭']].map(([id,href,label])=>'<a data-i18n="'+({map:'nav.map',neighbors:'nav.residents',home:'nav.home',dock:'nav.dock'})[id]+'" href="'+href+'"'+(current===id?' aria-current="page"':'')+'>'+label+'</a>').join('')+'</nav><div class="bear-language" role="group" data-i18n-aria-label="language.label" aria-label="介面語言"><button type="button" data-locale="zh-TW" aria-pressed="true" lang="zh-TW">繁中</button><button type="button" data-locale="en" aria-pressed="false" lang="en">EN</button></div></div></header>';}
+function resortIdea(){return html('<article class="resort-idea idea-page"><span class="trip-tag">A LITTLE WORLD BY KITTY</span><h1>留一個角落，給不用努力的自己。</h1><p>Bear Atlas 是一座為成年人創作的小小渡假村。在現實生活裡，我們常常忙著工作、回覆訊息、追趕進度；這裡想留下一點空白，讓人可以只是待著。</p><figure class="resort-scene">'+leisureArt('cafe')+'<figcaption>沿著海岸，給自己留一點空白。</figcaption></figure><h2>有自己的家，也有可以走走的世界</h2><p>我想創作的，是「成年人的心靈寄託小宇宙」。小屋收藏你的喜好，海岸接住短暫的疲倦；即使只來五分鐘，也能找到一件單純喜歡的小事。回小屋整理喜歡的角落，出門喝杯咖啡、推一顆球，或在海邊遇見正在散步的動物居民。每個小動作，都可以只是因為喜歡。</p><h2>朋友是陪伴，自在是前提</h2><p>你可以邀朋友來坐，也可以獨自看海。不需要天天報到，不需要比成績，更不需要為了跟上誰而留下。</p><h2>童趣，也是大人可以擁有的日常</h2><p>熊熊渡假村想保留柔軟、好奇與玩心。希望你離開時，帶走一點舒服，而不是多一張待辦清單。</p><div class="idea-gallery"><figure class="resort-scene">'+leisureArt('nature')+'<figcaption>一段不必趕路的海岸。</figcaption></figure><figure class="resort-scene">'+leisureArt('pool')+'<figcaption>一刻可以放慢的日常。</figcaption></figure></div><h2>把生活的節奏，還給自己</h2><p>早晨在咖啡街選一杯熱飲，午後到運動俱樂部動一動，傍晚沿著花園慢慢走回家。這些安排沒有標準順序，也沒有必須完成的清單。今天的你，決定今天的步調。</p><figure class="resort-scene">'+leisureArt('gym',fullBody(avatar('honey','picnic')))+'<figcaption>不是為了追上誰，單純享受身體動起來的感覺。</figcaption></figure><h2>一座慢慢長大的小世界</h2><p>從一間小屋、一段海岸，到動物居民散步的小鎮，Bear Atlas 會一點點長大。我希望每一次增加的細節，都讓這裡更容易親近：看得懂的路、可以坐下的椅子，以及隨時能回去的家。</p><p>願這裡成為你偶爾想回來的地方。你可以熱鬧，也可以安靜；不必交代理由，只要舒服地待著。</p><p>— Kitty · Bear Atlas</p><a class="cta" href="/world">回渡假村散步</a></article>',200,{}, {title:'創作理念｜Bear Atlas',brand:''});}
 
-function resortIdeaEnglish(){const art=(kind,person='')=>leisureArt(kind,person).replace('海邊咖啡館與露台','Seaside café and terrace').replace('海岸花園與木棧道','Coastal garden and boardwalk').replace('無邊際游泳池','Infinity pool').replace('面海健身房','Seaside gym');return html('<article class="resort-idea idea-page" lang="en"><nav class="idea-languages" aria-label="Page language"><a href="/about" lang="zh-Hant">繁體中文</a><a href="/about?lang=en" aria-current="page">English</a></nav><span class="trip-tag">A LITTLE WORLD BY KITTY</span><h1>A little corner where you can simply be.</h1><p>Bear Atlas is a small seaside retreat created for grown-ups. Outside this little world, we spend our days working, replying to messages and keeping up. Here, I wanted to leave a little breathing room—a place where staying for a while is enough.</p><figure class="resort-scene">'+art('cafe')+'<figcaption>A little space for yourself, along the coast.</figcaption></figure><h2>A home of your own, and a world to wander</h2><p>I imagine Bear Atlas as a little universe of comfort for grown-ups. Your cabin holds the things you love; the coast offers a pause when you feel tired. Even a five-minute visit can hold one small, enjoyable moment. Arrange a favourite corner at home, head out for a coffee, roll a golf ball across the green, or pass an animal resident on a walk. You can do any of these things simply because you feel like it.</p><h2>Company, with room to be yourself</h2><p>Invite a friend to sit with you, or watch the sea on your own. There is no need to check in every day, compare scores or stay just to keep up with someone else.</p><h2>A little playfulness belongs in adult life, too</h2><p>This retreat makes room for softness, curiosity and play. I hope you leave feeling a little more at ease, without another to-do list to carry.</p><div class="idea-gallery"><figure class="resort-scene">'+art('nature')+'<figcaption>A coastline with no reason to hurry.</figcaption></figure><figure class="resort-scene">'+art('pool')+'<figcaption>A moment to let the day slow down.</figcaption></figure></div><h2>Find your own everyday rhythm</h2><p>Choose a warm drink on the café street in the morning, move a little at the sports club in the afternoon, and wander home through the garden at dusk. There is no set order and nothing you have to finish. You get to choose the pace of your day.</p><figure class="resort-scene">'+art('gym',fullBody(avatar('honey','picnic')))+'<figcaption>Enjoy moving, at your own pace.</figcaption></figure><h2>A small world, growing slowly</h2><p>From one cabin and a stretch of coast to a town of wandering animal residents, Bear Atlas will grow a little at a time. I hope each new detail makes it easier to feel at home: paths you can understand, chairs you can sit on, and a home you can always return to.</p><p>May this become a place you sometimes feel like coming back to. Be sociable or be quiet. You do not need a reason to stay.</p><p>— Kitty · Bear Atlas</p><a class="cta" href="/world">Take a walk around the retreat</a></article>',200,{}, {title:'Our story | Bear Atlas',brand:'',lang:'en'});}
 
 export default {async fetch(request,env){
  const path=new URL(request.url).pathname;
  if(path==='/i18n/runtime.js'&&request.method==='GET')return new Response(i18nRuntime(),{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
- const response=path==='/about'&&request.method==='GET'?resortIdea(new URL(request.url).searchParams.get('lang')==='en'):await app.fetch(request,env);
- if(request.method!=='GET'||!response.headers.get('Content-Type')?.includes('text/html')||!/^\/(world|islands|dock|passport|about)(\/|$)/.test(path))return response;
+ const response=path==='/about'&&request.method==='GET'?resortIdea():await app.fetch(request,env);
+ if(!response.headers.get('Content-Type')?.includes('text/html'))return response;
  let profile=null,code='';try{const key=islanderOf(request);if(key){profile=await readPassportProfile(env.DB,key);if(profile){const row=await env.DB.prepare('SELECT member_no FROM island_credentials WHERE visitor_key=?').bind(key).first();if(row)code=memberLabel(row.member_no);}}}catch{}
- const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path,path==='/about'&&new URL(request.url).searchParams.get('lang')==='en').replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+(path==='/about'&&new URL(request.url).searchParams.get('lang')==='en'?'About Bear Atlas · 中文版':'關於 Bear Atlas · 創作理念')+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(out.replace('</html>','<script src="/i18n/runtime.js" defer></script></html>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
+ const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v84'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v84" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
 }};
 
 const tokenPattern=/^[a-f0-9]{48}$/;
@@ -51,6 +51,8 @@ const headers={'Cache-Control':'no-store','Referrer-Policy':'no-referrer','X-Con
 const html=(content,status=200,extra={},chrome={title:'運動邀約｜熊熊 Atlas',brand:'熊熊 ATLAS / 運動島'})=>new Response('<!doctype html><html lang="'+(chrome.lang||'zh-Hant')+'"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+chrome.title+'</title><style>'+styles+'</style><main><div class="brand">'+chrome.brand+'</div>'+content+'</main></html>',{status,headers:{...headers,'Content-Type':'text/html; charset=utf-8',...extra}});
 const json=(data,status=200)=>Response.json(data,{status,headers});
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const userSource=s=>'\uE000'+String(s).replace(/[\uE000\uE001]/g,'')+'\uE001';
+const escapeUser=s=>escape(userSource(s));
 const hex=bytes=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
 const randomToken=()=>hex(crypto.getRandomValues(new Uint8Array(24)));
 const missing=()=>html('<h1>邀約已關閉或不存在</h1><p>請向邀約人確認最新的連結或活動資訊。</p>',404);
@@ -138,9 +140,9 @@ function isOwnReplyForm(request,url){
 function renderInvite(row,reply,notice='',status=200,profile=null,path=''){
  const date=row.event_date.replaceAll('-','/');
  const opts=choiceKeys.map(key=>'<button name="choice" value="'+key+'"'+(reply?.choice===key?' aria-current="true"':'')+'>'+choices[key]+'</button>').join('');
- return html('<h1>'+escape(row.activity)+'邀約</h1><dl><dt>時間（台灣）</dt><dd>'+escape(date+' · '+row.event_time)+'</dd><dt>集合地點</dt><dd>'+escape(row.venue)+'</dd></dl>'
+ return html('<h1>'+escapeUser(row.activity)+'邀約</h1><dl><dt>時間（台灣）</dt><dd>'+escape(date+' · '+row.event_time)+'</dd><dt>集合地點</dt><dd>'+escapeUser(row.venue)+'</dd></dl>'
  + (notice?'<p class="alert" role="alert">'+escape(notice)+'</p>':reply?'<p class="notice" role="status">已收到你的回覆：'+choices[reply.choice]+'。你可以在活動開始前修改。</p>':profile?'<p>選一個回覆就好。</p>':'')
- + (profile?'<form method="post"><p>以 '+escape(profile.nickname)+' 的島民證回覆</p><div class="buttons">'+opts+'</div></form><small>邀約人只會看到你的暱稱和回覆。<a href="/passport#passport-records">查看護照紀錄 ↗</a></small>':memberLinks(path)),status);
+ + (profile?'<form method="post"><p>以 '+escapeUser(profile.nickname)+' 的島民證回覆</p><div class="buttons">'+opts+'</div></form><small>邀約人只會看到你的暱稱和回覆。<a href="/passport#passport-records">查看護照紀錄 ↗</a></small>':memberLinks(path)),status);
 }
 const app={async fetch(request,env){
  const url=new URL(request.url), path=url.pathname;
@@ -407,9 +409,9 @@ async function passportRoutes(request,env,url){
  const error=message?'<p role="alert" class="alert">'+escape(message)+'</p>':'';
  if(!passport){
   const ballot=profile?await db.prepare('SELECT option_index FROM trip_ballots WHERE proposal_token=? AND visitor_key=?').bind(token,person).first():null;
-  const voteChoices=options.map((o,i)=>'<label class="vote-choice"><input type="radio" name="option" value="'+i+'" required'+(ballot?.option_index===i?' checked':'')+'><span>'+escape(o)+'</span></label>').join('');
-  return harborHtml('<span class="trip-tag">旅行提案所 / TRIP CLUB</span><h1>'+escape(row.title)+'</h1>'+(row.context?'<p class="travel-note">'+escape(row.context)+'</p>':'')+error+
-   (ballot?'<p class="notice" role="status">已收到你的投票：'+escape(options[ballot.option_index])+'。</p>':'')+
+  const voteChoices=options.map((o,i)=>'<label class="vote-choice"><input type="radio" name="option" value="'+i+'" required'+(ballot?.option_index===i?' checked':'')+'><span>'+escapeUser(o)+'</span></label>').join('');
+  return harborHtml('<span class="trip-tag">旅行提案所 / TRIP CLUB</span><h1>'+escapeUser(row.title)+'</h1>'+(row.context?'<p class="travel-note">'+escapeUser(row.context)+'</p>':'')+error+
+   (ballot?'<p class="notice" role="status">已收到你的投票：'+escapeUser(options[ballot.option_index])+'。</p>':'')+
    (row.closed===1?'<p>這張提案已結束投票。</p>':!profile?memberLinks(url.pathname):'<form method="post"><fieldset><legend>你最想選哪個？</legend>'+voteChoices+'</fieldset><button type="submit">'+(ballot?'更新我的選擇':'送出投票')+'</button></form>')+
    (ballot?'<p class="closer"><a class="cta" href="/passport">'+(profile?'打開我的熊熊護照':'選熊熊，領島民證')+'</a></p><small>'+(profile?'本次參與已記進護照。':'領證是選填；你也可以直接離開。')+'</small>':'<small>主辦人只會看到各選項的票數。</small>'),message?400:200,fresh);
  }
@@ -474,19 +476,21 @@ const passportImageStyles=`
 `;
 function passportImage(profile,credential){
  const founder=credential.member_no===-1;
- return '<div id="passport-image-tools" data-founder="'+(founder?'yes':'no')+'" data-name="'+escape(profile.nickname)+'" data-member="'+memberLabel(credential.member_no)+'" data-date="'+escape(passportDate(profile.joined_at))+'">'+
-  '<img class="passport-png" alt="'+escape(profile.nickname)+' 的'+(founder?'創辦人護照':'熊熊島民證')+' '+memberLabel(credential.member_no)+'" width="1200" height="780" hidden>'+
+ return '<div id="passport-image-tools" data-founder="'+(founder?'yes':'no')+'" data-name="'+escapeUser(profile.nickname)+'" data-member="'+memberLabel(credential.member_no)+'" data-date="'+escape(passportDate(profile.joined_at))+'">'+
+  '<img class="passport-png" alt="'+escapeUser(profile.nickname)+' 的'+(founder?'創辦人護照':'熊熊島民證')+' '+memberLabel(credential.member_no)+'" width="1200" height="780" hidden>'+
   '<p class="passport-image-tip" hidden>在手機長按上方圖片，即可儲存。也可以下載 PNG。</p>'+
   '<div class="passport-image-actions" hidden><a download>下載 PNG ↓</a><button type="button" hidden>分享／儲存圖片</button></div>'+
   '</div><script src="/passport-image.js" defer></script>';
 }
 const passportImageScript=String.raw`
 'use strict';
-(async()=>{
+(async function renderPassport(){
  const tools=document.getElementById('passport-image-tools');
  const sheet=tools?.closest('.passport-sheet');
  const original=sheet?.querySelector('.founder-folio,.id-card'),svg=original?.querySelector('svg');
  if(!svg||!original)return;
+ const renderTicket=Number(tools.dataset.i18nRender||0)+1;tools.dataset.i18nRender=String(renderTicket);
+ if(!tools.dataset.localeListener){tools.dataset.localeListener='1';window.addEventListener('bear-locale-change',renderPassport);}
  const copy=svg.cloneNode(true);copy.setAttribute('xmlns','http://www.w3.org/2000/svg');
  const [, ,artWidth,artHeight]=copy.getAttribute('viewBox').split(/\s+/).map(Number);
  copy.setAttribute('width',artWidth);copy.setAttribute('height',artHeight);
@@ -510,20 +514,20 @@ const passportImageScript=String.raw`
   const line=(y)=>{ctx.beginPath();ctx.moveTo(87,y);ctx.lineTo(1113,y);ctx.stroke();};
   line(143);line(636);
   const sans='system-ui,-apple-system,"PingFang TC","Noto Sans TC",sans-serif';
-  ctx.font='650 40px '+sans;ctx.fillStyle=secondary;ctx.fillText(founder?'創辦人護照':'熊熊島民證',87,249);
+  ctx.font='650 40px '+sans;ctx.fillStyle=secondary;ctx.fillText(window.BearI18n?.text(founder?'創辦人護照':'熊熊島民證')||(founder?'創辦人護照':'熊熊島民證'),87,249);
   ctx.fillStyle=ink;
   const name=tools.dataset.name;
   let size=87;do{ctx.font='700 '+size+'px '+sans;size-=2;}while(size>=22&&ctx.measureText(name).width>636);
   ctx.fillText(name,84,372,636);
   ctx.font='700 45px ui-monospace,monospace';ctx.fillText(tools.dataset.member,87,461);
-  ctx.font='600 30px '+sans;ctx.fillStyle=secondary;ctx.fillText('領證日 '+tools.dataset.date,87,554);
+  ctx.font='600 30px '+sans;ctx.fillStyle=secondary;ctx.fillText((window.BearI18n?.text('領證日')||'領證日')+' '+tools.dataset.date,87,554);
   const ratio=Math.min(278/artWidth,351/artHeight),w=artWidth*ratio,h=artHeight*ratio;
   ctx.drawImage(picture,943-w/2,380-h/2,w,h);
   ctx.font='650 21px ui-monospace,monospace';ctx.fillText(founder?'JADE COVE / FOUNDER':'JADE HARBOUR / ISLANDER',87,689);
   ctx.textAlign='right';ctx.fillText('ATLAS / 01',1113,689);
   const url=canvas.toDataURL('image/png');
   const img=tools.querySelector('img'),link=tools.querySelector('a'),share=tools.querySelector('button');
-  img.src=url;
+  if(Number(tools.dataset.i18nRender)!==renderTicket)return;img.src=url;
   if(typeof img.decode==='function')await img.decode();
   img.hidden=false;original.hidden=true;
   link.href=url;link.download='Atlas-'+tools.dataset.member+'.png';
@@ -534,7 +538,7 @@ const passportImageScript=String.raw`
    const file=new File([bytes],link.download,{type:'image/png'});
    if(navigator.canShare({files:[file]})){
     share.hidden=false;
-    share.addEventListener('click',async()=>{try{await navigator.share({files:[file]});}catch(e){if(e.name!=='AbortError')link.click();}});
+    share.onclick=async()=>{try{await navigator.share({files:[file]});}catch(e){if(e.name!=='AbortError')link.click();}};
    }
   }
  }catch{ /* Keep the original card available if rendering is unsupported. */ }
@@ -624,7 +628,7 @@ const readPassportProfile=(db,visitor)=>db.prepare(`SELECT p.nickname,p.bear,p.j
 function islanderCard(profile,credential){
  const founder=credential.member_no===-1, bear=harborBears[profile.bear]||harborBears.honey;
  const outfit=founder?founderLooks[lookKey(profile.outfit)]:(harborOutfits[profile.outfit]||harborOutfits.explorer);
- return '<section class="id-card" aria-label="我的島民證">'+memberAvatar(profile)+'<div><span class="trip-tag">'+(founder?'創辦島民 / FOUNDER':'島民證 / ISLANDER')+'</span><h2>'+escape(profile.nickname)+'</h2><p>'+bear.label+' · '+(outfit.name||outfit.label)+'</p><p><strong>'+memberLabel(credential.member_no)+'</strong></p><small>所屬島嶼：'+escape(profile.island_name||(founder?'翡翠灣':'熊熊港城'))+'<br>領證日 '+passportDate(profile.joined_at)+'</small></div></section>';
+ return '<section class="id-card" aria-label="我的島民證">'+memberAvatar(profile)+'<div><span class="trip-tag">'+(founder?'創辦島民 / FOUNDER':'島民證 / ISLANDER')+'</span><h2>'+escapeUser(profile.nickname)+'</h2><p>'+bear.label+' · '+(outfit.name||outfit.label)+'</p><p><strong>'+memberLabel(credential.member_no)+'</strong></p><small>所屬島嶼：'+(profile.island_name?escapeUser(profile.island_name):(founder?'翡翠灣':'熊熊港城'))+'<br>領證日 '+passportDate(profile.joined_at)+'</small></div></section>';
 }
 const dockActions=()=>'<div class="dock-actions"><a class="cta" href="/islands">前往熊熊島嶼 ↗</a><a href="/passport">查看我的護照</a><a href="'+harborDockPath+'">訪客碼頭</a></div>';
 function ownerAtlasHref(env,path){
@@ -727,7 +731,7 @@ async function islandPractice(request,db,url,visitor,port){
 }
 async function islandJournal(db,visitor){
  const {results}=await db.prepare('SELECT port,answer,updated_at FROM island_practice_answers WHERE visitor_key=? ORDER BY updated_at DESC').bind(visitor).all();
- const records=results.flatMap(r=>{const port=privateExercises[r.port];return port?['<article class="dock-exercise"><h2><a href="/dock/'+port.id+'?practice=1#practice-answer">'+port.name+'</a></h2><p class="dock-map-note">'+passportDate(r.updated_at)+' 更新</p><p class="travel-note">'+escape(r.answer)+'</p></article>']:[];}).join('');
+ const records=results.flatMap(r=>{const port=privateExercises[r.port];return port?['<article class="dock-exercise"><h2><a href="/dock/'+port.id+'?practice=1#practice-answer">'+port.name+'</a></h2><p class="dock-map-note">'+passportDate(r.updated_at)+' 更新</p><p class="travel-note">'+escapeUser(r.answer)+'</p></article>']:[];}).join('');
  return dockPage('PRIVATE JOURNAL','我的練習手帳','<p>這裡只顯示你在島上儲存的回答。</p>'+(records||'<p>還沒有回答。<a href="/dock/mba?practice=1">MBA 個案練習</a>與<a href="/dock/english?practice=1">英文口說練習</a>仍保留在個人工具入口。</p>'));
 }
 const questPath='/dock/quests',cabinPath='/dock/cabin';
@@ -849,7 +853,7 @@ body:has(.cabin-game){padding:0;background:#dfe7dc}main:has(.cabin-game){width:m
 `;
 function cabinFurniturePicker(bedroom=false){if(bedroom)return '<p class="game-move-note">私人臥室 · 每款可重複新增 · 最多 25 件。點家具移動，長按拖曳，旋轉或收回後記得儲存。</p><div class="game-picks" role="group" aria-label="臥室家具">'+['single_bed','double_bed','bedside_table','rug','wardrobe','plant','reading_chair','chair','vanity_stool','vanity','bedside_lamp','display_case','teddy_plush','cushion'].map(id=>'<button type="button" data-game-add-furniture="'+id+'"><strong>＋ '+bedroomCatalog[id].name+'</strong></button>').join('')+'</div>'; return '<p class="game-move-note">核心家具 · 每款先一件。點已放置的家具可移動；空間不足時不會搬動舊布置。</p><div class="game-picks" role="group" aria-label="核心家具">'+Object.entries(cabinFurniture).map(([id,item])=>'<button type="button" data-game-add-furniture="'+id+'"'+(id==='bed'?' data-game-add-bed':'')+'><span aria-hidden="true">'+(({bed:'🛏',plant:'🌿',nightlight:'◉',bookshelf:'▤',displaycase:'▣',sofa:'⌑'})[id]||'◇')+'</span><strong>'+item.name+'</strong></button>').join('')+'</div>';}
 function cabinGamePage({settings,available,profile,credential,environment={state:{...cozyDefaults},revision:0},editor='',extras='',rewards='',feedback='',status=200}){
- const today=lifeStoryContext('visit'),week=lifeStoryContext('event'),name=profile?escape(profile.nickname)+(settings.room==='bedroom'?' 的臥室':' 的小屋'):'熊熊的小屋',login=memberLinks(cabinPath);
+ const today=lifeStoryContext('visit'),week=lifeStoryContext('event'),name=profile?escapeUser(profile.nickname)+(settings.room==='bedroom'?' 的臥室':' 的小屋'):'熊熊的小屋',login=memberLinks(cabinPath);
  const panel=(id,title,body)=>'<dialog class="game-sheet" data-game-sheet="'+id+'" aria-labelledby="game-title-'+id+'"><header class="game-sheet-head"><h2 id="game-title-'+id+'">'+title+'</h2><button type="button" data-game-close aria-label="關閉'+title+'">完成 ✕</button></header><div class="game-sheet-body">'+body+'</div></dialog>';
  return lifePage('我的小屋','<style>'+cabinGameStyles+cozyCss+'</style><div class="cabin-game" data-cabin-game data-room-id="'+(settings.room||'living')+'" data-visit-name="'+today.story.name+'"><header class="game-top"><a href="/world?at=11">← 回熊熊渡假村</a><div><small>'+(settings.room==='bedroom'?'PRIVATE BEDROOM':'LIVING ROOM')+(credential?' · '+memberLabel(credential.member_no):' · PREVIEW')+'</small><h1>'+name+'</h1></div><button type="button" data-game-panel="menu" aria-label="開啟小屋選單">☰</button></header><div class="game-status"><p class="game-tip">點家具和熊熊互動 · 拖曳空白處轉動視角</p><button type="button" class="game-wake" data-game-wake data-game-activity="wake" hidden>☀ 起床</button></div><div class="game-stage">'+cabinScene(settings,available,'',profile)+'<div class="game-hotspots" hidden>'+(settings.roomTo?'<button type="button" class="game-hotspot" data-game-hotspot="roomdoor">'+(settings.room==='bedroom'?'回客廳':'進臥室')+'</button>':'')+'<button type="button" class="game-hotspot" data-game-hotspot="bed" hidden>床鋪</button><button type="button" class="game-hotspot" data-game-hotspot="extra" hidden>家具</button><button type="button" class="game-hotspot" data-game-hotspot="chair" hidden>椅子</button><button type="button" class="game-hotspot" data-game-hotspot="rug" hidden>地毯</button><button type="button" class="game-hotspot" data-game-hotspot="desk">看書</button><button type="button" class="game-hotspot" data-game-hotspot="corner">窗邊</button><button type="button" class="game-hotspot" data-game-hotspot="door" hidden>有人敲門</button><button type="button" class="game-hotspot" data-game-hotspot="album">翻相簿</button><button type="button" class="game-hotspot" data-game-hotspot="bear">嗨，熊熊</button></div><section class="furniture-info" data-furniture-info hidden aria-label="已選家具"><strong data-furniture-name></strong><button type="button" data-furniture-action></button><button type="button" data-cozy-admire hidden>欣賞一下</button><button type="button" data-furniture-dismiss aria-label="關閉家具資訊">✕</button></section></div><div class="game-bubble" data-game-bubble role="status">'+feedback+'</div>'+cozyMarkup(environment,settings.room||'living',Boolean(profile))+'<a class="cabin-resort-return scene-return" href="/world?at=11">← 回熊熊度假村</a>'+
  '<nav class="game-layout-controls" data-layout-controls hidden aria-label="移動家具"><div><strong data-layout-selection>選一件家具</strong><small data-layout-feedback>長按拖曳 · R 旋轉 · 方向鍵微調</small></div><button type="button" data-layout-command="rotate">旋轉 ↻</button>'+(settings.instances?'<button type="button" data-layout-command="duplicate" disabled>複製家具</button>':'')+'<button type="button" data-layout-command="undo">復原 ↶</button><button type="button" data-layout-command="remove">收回家具</button><button type="button" data-layout-command="cancel">取消</button><button type="button" data-layout-command="finish">完成</button><button type="button" data-layout-command="save">儲存</button></nav>'+
@@ -918,7 +922,7 @@ async function visitCabin(request,db,url,visitor,profile){
  if(!row||!row.share_enabled&&row.visitor_key!==visitor)return lifePage('小屋參觀','<h1>這間小屋目前沒有開放參觀</h1><p>可以請屋主儲存開放設定，再分享連結。</p>',403,'cabin');
  const appearance=await readPassportProfile(db,row.visitor_key);Object.assign(row,appearance||{});
  const available=availableCabinItems((await questRows(db,row.visitor_key)).results),settings=cabinSettings(row,available);
- return lifePage('小屋參觀','<span class="life-kicker">A FRIEND’S LITTLE HOME / '+code+'</span><h1>'+escape(row.nickname)+' 的小屋</h1><p class="life-intro">坐一會兒，看看這間小屋收藏了什麼。</p>'+
+ return lifePage('小屋參觀','<span class="life-kicker">A FRIEND’S LITTLE HOME / '+code+'</span><h1>'+escapeUser(row.nickname)+' 的小屋</h1><p class="life-intro">坐一會兒，看看這間小屋收藏了什麼。</p>'+
   cabinScene(settings,Object.fromEntries(['wall','desk','corner'].map(slot=>[slot,{[settings[slot]]:available[slot][settings[slot]]}])),'來作客的熊熊，歡迎你。',row)+'<p><a class="life-action" href="'+cabinPath+'">回我的小屋 ↗</a></p>',200,'cabin');
 }
 async function islandLifeRoutes(request,env,url){
@@ -961,7 +965,7 @@ async function islandMemoryRoute(request,db,url,visitor,profile){
  const raw=url.searchParams.get('page')||'1';
  if(!/^[1-9]\d{0,4}$/.test(raw))return lifePage('島嶼紀念冊','<h1>找不到這一頁</h1>',400,'cabin');
  const page=Number(raw),{results}=await db.prepare('SELECT kind,period,story_id,step,path,completed_at FROM island_life_stories WHERE visitor_key=? AND step=2 ORDER BY period DESC,kind LIMIT 13 OFFSET ?').bind(visitor,(page-1)*12).all();
- return lifePage('島嶼紀念冊','<span class="life-kicker">ISLAND MEMORIES</span><h1>'+escape(profile.nickname)+' 的島嶼紀念冊</h1><p>每次來訪與島上小故事，都留在這裡。</p><section class="life-memory"><ul>'+results.slice(0,12).map(storyMemoryCard).join('')+'</ul>'+(results.length?'':'<p>這一頁還沒有紀念。回小屋招待一位居民吧。</p>')+'</section><nav class="life-linkrow" aria-label="紀念冊分頁">'+(page>1?'<a href="/dock/memories?page='+(page-1)+'">← 上一頁</a>':'')+'<span>第 '+page+' 頁</span>'+(results.length>12?'<a href="/dock/memories?page='+(page+1)+'">下一頁 →</a>':'')+'</nav><a href="/dock/cabin">回我的小屋 ↗</a>',200,'cabin');
+ return lifePage('島嶼紀念冊','<span class="life-kicker">ISLAND MEMORIES</span><h1>'+escapeUser(profile.nickname)+' 的島嶼紀念冊</h1><p>每次來訪與島上小故事，都留在這裡。</p><section class="life-memory"><ul>'+results.slice(0,12).map(storyMemoryCard).join('')+'</ul>'+(results.length?'':'<p>這一頁還沒有紀念。回小屋招待一位居民吧。</p>')+'</section><nav class="life-linkrow" aria-label="紀念冊分頁">'+(page>1?'<a href="/dock/memories?page='+(page-1)+'">← 上一頁</a>':'')+'<span>第 '+page+' 頁</span>'+(results.length>12?'<a href="/dock/memories?page='+(page+1)+'">下一頁 →</a>':'')+'</nav><a href="/dock/cabin">回我的小屋 ↗</a>',200,'cabin');
 }
 async function islandLifeStoryRoute(request,db,url,visitor,profile){
  const kind=url.pathname==='/dock/visits'?'visit':'event',current=lifeStoryContext(kind),{calendar,id,period,story}=current,page=kind==='event'?'events':'cabin';
@@ -1126,7 +1130,7 @@ function cabinGameClient(){
   finally{busy=false;}
  });
  const mood=game.querySelector('[data-cabin-mood]');new MutationObserver(()=>{if(mood.textContent)say(mood.textContent);}).observe(mood,{childList:true,subtree:true,characterData:true});
- const activityState=game.querySelector('[data-cabin-activity-state]');new MutationObserver(()=>{if(!dirty&&activityState.textContent)game.querySelector('.game-tip').textContent=activityState.textContent+' · 點家具互動';if(bubble.textContent==='好，熊熊正走過去。'&&!activityState.textContent.startsWith('正走向'))say(activityState.textContent+'。');}).observe(activityState,{childList:true,subtree:true,characterData:true});
+ const activityState=game.querySelector('[data-cabin-activity-state]');new MutationObserver(()=>{if(!dirty&&activityState.textContent)game.querySelector('.game-tip').textContent=activityState.textContent+' · 點家具互動';if((window.BearI18n?.source(bubble)||bubble.textContent)==='好，熊熊正走過去。'&&!(window.BearI18n?.source(activityState)||activityState.textContent).startsWith('正走向'))say(activityState.textContent+'。');}).observe(activityState,{childList:true,subtree:true,characterData:true});
  display.addEventListener('cabin-layout-feedback',event=>{if(!game.classList.contains('is-layout-editing'))say(event.detail);});
  display.addEventListener('cabin-layout-change',event=>{if(form){form.querySelector('[name="layout"]').value=JSON.stringify(event.detail);dirty=new URLSearchParams(new FormData(form)).toString()!==savedForm;game.querySelector('[data-cabin-save-state]').textContent=dirty?'位置預覽已更新，按儲存留下來。':'已回到原本的布置。';}});
  display.addEventListener('cabin-layout-save',()=>{if(form)form.requestSubmit();else{say('登入島民證，才能把這個布置留下來。');openPanel('editor');}});
@@ -1397,7 +1401,7 @@ async function squareResidents(db,visitor,url){
    JOIN island_credentials c ON c.visitor_key=r.visitor_key LEFT JOIN bear_world_looks w ON w.visitor_key=r.visitor_key
    ORDER BY c.member_no LIMIT ? OFFSET ?`).bind(size+1,page*size).all()
  ]);
- const cards=results.slice(0,size).map(r=>'<li>'+memberAvatar(r,true)+'<div><strong>'+escape(r.nickname)+'</strong><small>'+memberLabel(r.member_no)+'</small></div></li>').join('');
+ const cards=results.slice(0,size).map(r=>'<li>'+memberAvatar(r,true)+'<div><strong>'+escapeUser(r.nickname)+'</strong><small>'+memberLabel(r.member_no)+'</small></div></li>').join('');
  return '<section id="residents" class="sq-section"><h2>島民名冊</h2><p>認識願意在廣場亮相的熊熊。</p>'+
   (cards?'<ul class="sq-roster">'+cards+'</ul>':'<p>這一頁還沒有熊熊。</p>')+
   squarePages(url,'residents',page,results.length>size,'residents')+
@@ -1472,11 +1476,11 @@ function meetupCard(row,view,members=[]){
  const labels={'meetup-cancel':'取消揪團','meetup-leave':'退出揪團','meetup-join':'我要報名'};
  const button=action?'<form method="post" action="'+squarePath+'#meetups">'+meetupViewField(view)+'<input type="hidden" name="meetup" value="'+row.id+'"><button name="action" value="'+action+'">'+labels[action]+'</button></form>':'';
  const roster=row.own?'<details class="sq-members"><summary>團員名單 · '+size+' 人</summary><ul><li>你（發起人）</li>'+
-  members.map(member=>'<li>'+escape(member.nickname)+(member.member_no!=null?' <small>'+memberLabel(member.member_no)+'</small>':'')+'</li>').join('')+'</ul></details>':'';
+  members.map(member=>'<li>'+escapeUser(member.nickname)+(member.member_no!=null?' <small>'+memberLabel(member.member_no)+'</small>':'')+'</li>').join('')+'</ul></details>':'';
  const edit=row.own&&!row.cancelled&&!past?'<a class="sq-edit-link" href="'+squarePath+'?view='+view+'&amp;edit='+row.id+'#new-meetup">修改活動資料 ↗</a>':'';
- return '<article class="sq-event"><div class="sq-event-top"><span class="sq-tag">'+meetupCategories[row.category]+'</span><span class="sq-state">'+state+'</span></div><h3>'+escape(row.title)+'</h3>'+
-  '<p><time datetime="'+new Date(row.starts_at).toISOString()+'">'+meetupDate.format(row.starts_at)+'</time></p><p class="sq-venue">'+escape(row.venue)+'</p>'+
-  (row.details?'<p class="travel-note">'+escape(row.details)+'</p>':'')+'<small>'+escape(row.host)+' 發起 · '+size+'/'+row.capacity+' 人 · '+state+'</small>'+
+ return '<article class="sq-event"><div class="sq-event-top"><span class="sq-tag">'+meetupCategories[row.category]+'</span><span class="sq-state">'+state+'</span></div><h3>'+escapeUser(row.title)+'</h3>'+
+  '<p><time datetime="'+new Date(row.starts_at).toISOString()+'">'+meetupDate.format(row.starts_at)+'</time></p><p class="sq-venue">'+escapeUser(row.venue)+'</p>'+
+  (row.details?'<p class="travel-note">'+escapeUser(row.details)+'</p>':'')+'<small>'+escapeUser(row.host)+' 發起 · '+size+'/'+row.capacity+' 人 · '+state+'</small>'+
   roster+(row.own&&action?edit+'<details class="sq-more"><summary>取消這個揪團</summary><p>取消後，已報名的團員會看到取消狀態。</p>'+button+'</details>':button)+'</article>';
 }
 async function squareMeetups(db,visitor,url,draft,edit=null){
@@ -1572,7 +1576,7 @@ async function islandSquare(request,db,url,visitor,profile){
  FROM island_board_greetings g LEFT JOIN island_passports p ON p.visitor_key=g.visitor_key LEFT JOIN bear_world_looks w ON w.visitor_key=g.visitor_key ORDER BY g.updated_at DESC LIMIT 12`).all();
  const {results:signups}=await db.prepare('SELECT activity,COUNT(*) AS count,MAX(CASE WHEN visitor_key=? THEN 1 ELSE 0 END) AS joined FROM island_weekly_activities WHERE week=? GROUP BY activity').bind(visitor,week).all();
  const options=Object.entries(greetings).map(([id,label])=>'<option value="'+id+'"'+(ownGreeting?.greeting===id?' selected':'')+'>'+label+'</option>').join('');
- const board=notes.filter(note=>Object.hasOwn(greetings,note.greeting)).map(note=>'<li>'+memberAvatar(note,true)+'<div><strong>'+escape(note.nickname)+'</strong><p>'+greetings[note.greeting]+'</p></div></li>').join('');
+ const board=notes.filter(note=>Object.hasOwn(greetings,note.greeting)).map(note=>'<li>'+memberAvatar(note,true)+'<div><strong>'+escapeUser(note.nickname)+'</strong><p>'+greetings[note.greeting]+'</p></div></li>').join('');
  const activities=Object.entries(weeklyActivities).map(([id,a])=>{
   const row=signups.find(s=>s.activity===id),joined=row?.joined===1;
   return '<article class="dock-life-card"><h3>'+a.title+'</h3><p>'+a.note+'</p>'+(a.port?'<a href="/dock/'+a.port+'">前往練習 ↗</a>':'')+
@@ -1765,7 +1769,7 @@ async function islandPair(request,db,url,visitor,token){
  if(!member)body+='<p>一位島民邀請你交換明信片。只有兩位參加者都交件後才會揭曉。</p><form method="post"><button name="action" value="join">接受邀請</button></form>';
  else{
   if(owner&&!row.partner_key)body+='<label class="pair-share">把邀請連結傳給一位朋友<input readonly value="'+escape(url.origin+path)+'"></label>';
-  if(own&&other)body+='<p class="notice">雙人揭曉章 · 兩張明信片都到了！</p><article class="dock-exercise"><h2>我的明信片</h2><p class="travel-note">'+escape(own)+'</p></article><article class="dock-exercise"><h2>對方的明信片</h2><p class="travel-note">'+escape(other)+'</p></article><a href="/passport#passport-records">查看護照紀錄 ↗</a>';
+  if(own&&other)body+='<p class="notice">雙人揭曉章 · 兩張明信片都到了！</p><article class="dock-exercise"><h2>我的明信片</h2><p class="travel-note">'+escapeUser(own)+'</p></article><article class="dock-exercise"><h2>對方的明信片</h2><p class="travel-note">'+escapeUser(other)+'</p></article><a href="/passport#passport-records">查看護照紀錄 ↗</a>';
   else if(own)body+='<p class="notice">你的明信片已封存，等對方交件後回來揭曉。</p>';
   else body+='<form method="post" class="dock-practice"><label>我的明信片<textarea name="answer" maxlength="240" rows="5" required></textarea></label><button name="action" value="answer">封存明信片</button></form>';
  }
@@ -1813,7 +1817,7 @@ async function islandDock(request,env,url){
   body='<p><a class="cta" href="/dock/square#meetups">到榕樹廣場找球伴或開團 ↗</a></p><p>收到朋友的揪團邀約了嗎？貼上他分享的連結，就能查看活動時間、地點和回覆。</p>'+error+'<form method="post"><label>運動邀約連結<input name="invite" type="url" inputmode="url" placeholder="https://…" maxlength="500" required></label><button type="submit">開啟邀約</button></form>';
  }else if(port.id==='travel'){
   const {results}=await db.prepare('SELECT p.token,p.title,p.closed FROM trip_ballots b JOIN trip_proposals p ON p.token=b.proposal_token WHERE b.visitor_key=? ORDER BY b.cast_at DESC LIMIT 10').bind(visitor).all();
-  const trips=results.filter(p=>tokenPattern.test(p.token)).map(p=>'<li><a href="/trip/'+p.token+'">'+escape(p.title)+'</a>'+(p.closed===1?' · 已結束':'')+'</li>').join('');
+  const trips=results.filter(p=>tokenPattern.test(p.token)).map(p=>'<li><a href="/trip/'+p.token+'">'+escapeUser(p.title)+'</a>'+(p.closed===1?' · 已結束':'')+'</li>').join('');
   body='<section class="dock-activity"><h2>我參加過的提案</h2>'+(trips?'<ul>'+trips+'</ul>':'<p>你還沒有參加過旅行提案。收到朋友分享的提案連結後，可以直接去投票。</p>')+'</section>';
  }
  return port.id==='sports'?publicPlacePage(port,profile,body,status):dockPage('ISLAND '+port.n,port.name,body,status);
@@ -1892,7 +1896,7 @@ function founderWardrobe(bear,selected){
 }
 function founderPassportSpread(profile,joined,image){
  const look=founderLooks[lookKey(profile.outfit)];
- return '<article class="founder-folio" aria-label="創辦護照封面"><div class="folio-cover"><div class="folio-top"><span>ATLAS / JADE COVE</span><span>PRIVATE EDITION</span></div><div class="folio-mark" aria-hidden="true">00</div><div class="folio-identity"><div><span class="folio-label">創辦島民 / FOUNDER</span><h2>'+escape(profile.nickname)+'</h2><strong>BEAR-0000</strong><p>翡翠灣 · '+look.name+'</p></div><div class="folio-portrait">'+memberAvatar(profile)+'</div></div><div class="folio-foot"><span>登島日 '+joined+'</span><span>001 / 001</span></div></div></article>'+image+'<div class="folio-actions"><a href="#founder-wardrobe">換一套造型 ↓</a></div>';
+ return '<article class="founder-folio" aria-label="創辦護照封面"><div class="folio-cover"><div class="folio-top"><span>ATLAS / JADE COVE</span><span>PRIVATE EDITION</span></div><div class="folio-mark" aria-hidden="true">00</div><div class="folio-identity"><div><span class="folio-label">創辦島民 / FOUNDER</span><h2>'+escapeUser(profile.nickname)+'</h2><strong>BEAR-0000</strong><p>翡翠灣 · '+look.name+'</p></div><div class="folio-portrait">'+memberAvatar(profile)+'</div></div><div class="folio-foot"><span>登島日 '+joined+'</span><span>001 / 001</span></div></div></article>'+image+'<div class="folio-actions"><a href="#founder-wardrobe">換一套造型 ↓</a></div>';
 }
 const jadeStops=[
  ['hotel','海崖飯店','THE COVE HOTEL','住宿',445,244,'推開海景套房的陽台，就能看到船駛進灣內。從有拱廊的中庭出發，散步兩分鐘就到泳池。','海景露台','橄欖樹中庭','客房早餐'],
@@ -2719,14 +2723,14 @@ async function founderIsland(request,env,url){
   const next=estateDestinations[destination],owner=env.SPORTS_RSVP_OWNER_ORIGIN;
   if(!owner)return harborHtml('<h1>航線暫時無法使用</h1>',503);
   const arrival=new URL(next.path,owner);
-  return harborHtml(style+'<span class="estate-kicker">BEAR-0000 / PRIVATE FLIGHT</span><h1>私人飛機飛往'+next.name+'</h1><div class="estate-flight">'+privateJet+'</div><section class="estate-gate"><h2>登機名單</h2><p>'+escape(profile.nickname)+' · 隨行保鏢：松木與栗子</p><p>兩位保鏢已登機。抵達後就可以逛'+next.name+'。</p></section><p><a class="cta" href="'+escape(arrival.href)+'">抵達'+next.name+' ↗</a></p><p><a href="/passport/island">取消行程，回私人島</a></p>');
+  return harborHtml(style+'<span class="estate-kicker">BEAR-0000 / PRIVATE FLIGHT</span><h1>私人飛機飛往'+next.name+'</h1><div class="estate-flight">'+privateJet+'</div><section class="estate-gate"><h2>登機名單</h2><p>'+escapeUser(profile.nickname)+' · 隨行保鏢：松木與栗子</p><p>兩位保鏢已登機。抵達後就可以逛'+next.name+'。</p></section><p><a class="cta" href="'+escape(arrival.href)+'">抵達'+next.name+' ↗</a></p><p><a href="/passport/island">取消行程，回私人島</a></p>');
  }
  const look=founderLooks[lookKey(profile.outfit)];
  const destinations=Object.entries(estateDestinations).map(([key,d])=>'<li><a href="/passport/island/flight?to='+key+'"><strong>搭機前往'+d.name+' →</strong><span>'+d.note+'</span></a></li>').join('');
  return html('<style>'+estateStyles+jadeStyles+jadeTourStyles+jadeSuiteStyles+jadeExperienceStyles+jadeSushiStyles+'</style><header class="jade-head"><div><p class="jade-kicker">JADE COVE / PRIVATE ESTATE</p><h1>翡翠灣</h1></div><div class="jade-edition">FOUNDER EDITION<br>BEAR-0000</div></header>'+
   '<p class="jade-head-note">Kitty 的私人島。從海崖往森林走，沿途有十站可以停留。</p>'+founderMapNav(env,'estate')+
   '<div class="dock-actions"><a class="cta" href="/world/manage/emerald">邀請朋友到翡翠灣 ↗</a></div>'+jadeResort(url,profile)+'<div class="jade-admin">'+
-  '<section class="estate-deed"><span class="estate-kicker">私人島島產證</span><h2>翡翠灣</h2><p>島主：'+escape(profile.nickname)+' · BEAR-0000</p><p>私人碼頭與專屬跑道</p></section>'+
+  '<section class="estate-deed"><span class="estate-kicker">私人島島產證</span><h2>翡翠灣</h2><p>島主：'+escapeUser(profile.nickname)+' · BEAR-0000</p><p>私人碼頭與專屬跑道</p></section>'+
   '<section class="estate-wardrobe">'+memberAvatar(profile)+'<div><h2>'+look.name+'</h2><p>'+look.wear+' · '+look.shoes+' · '+look.bag+'</p><a href="/passport#founder-wardrobe">換一套造型 ↗</a></div></section>'+
   '<section class="estate-gate"><h2>私人機庫</h2><p>松木與栗子兩位熊熊保鏢在登機口等你。</p><ul class="estate-destinations">'+destinations+'</ul></section></div><script src="/jade-tour.js?v=chef-menu-2" defer></script>',200,{'Content-Security-Policy':headers['Content-Security-Policy']+"; script-src 'self'"}, {title:'翡翠灣｜熊熊 Atlas',brand:'熊熊 ATLAS / 港城'});
 }
@@ -2798,7 +2802,7 @@ function worldCover(){
  return '<figure class="world-art" aria-label="翡翠灣公開封面"><svg viewBox="0 0 600 200" role="img" aria-label="海面上的翡翠灣和私人碼頭"><rect width="600" height="200" fill="#65887f"/><path d="M0 143q131-14 250 0t350-11M0 171q99-7 168 0m228 7h129" fill="none" stroke="#adc3ab" stroke-width="3"/><path d="M68 137 149 78 280 39l168 41 88 58-73 34H167z" fill="#ae9075"/><path d="M68 122 149 66l131-39 168 42 88 56-73 29H167z" fill="#b9c9ad"/><path d="m240 95 49-27 42 17-48 31z" fill="#e9bebd"/><path d="m240 95 43 21v17l-43-20zm43 21 48-31v22l-48 26z" fill="#f7f3e9"/><path d="M406 133h63v7h-63zm59 0h7v26h-7z" fill="#806b58"/><path d="m148 114 12-22 12 22zm211-22 16-32 16 32z" fill="#5c7d6c"/></svg></figure>';
 }
 function worldIslandDirectory(rows,visitor,dock){
- return rows.map(r=>worldTile(r.name,r.owner_key===visitor?'我的島嶼':worldModes[r.mode],dock?'/world/sail/'+r.island_id:worldPath(r.island_id),r.owner_key===visitor?'進入或管理自己的島嶼':dock?'搭船前往':'到碼頭查看登島方式')).join('');
+ return rows.map(r=>worldTile(userSource(r.name),r.owner_key===visitor?'我的島嶼':worldModes[r.mode],dock?'/world/sail/'+r.island_id:worldPath(r.island_id),r.owner_key===visitor?'進入或管理自己的島嶼':dock?'搭船前往':'到碼頭查看登島方式')).join('');
 }
 async function worldPasswordHash(env,password,salt){
  const key=env.BEAR_WORLD_KEY||env.SPORTS_RSVP_RELAY_KEY;
@@ -2885,7 +2889,7 @@ const worldNavLink=(href,text)=>'<a class="world-link" href="'+escape(href)+'">'
 const worldError=(message)=>message?'<p class="alert" role="alert">'+escape(message)+'</p>':'';
 const worldCodeField='<label>朋友的島民編號<input name="member" placeholder="例如 BEAR-0006" autocapitalize="characters" autocomplete="off" required maxlength="20"></label>';
 const worldVisitDate=timestamp=>new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(timestamp);
-const worldInviteTitle=row=>row.island_id==='emerald'?'翡翠灣':row.name;
+const worldInviteTitle=row=>row.island_id==='emerald'?'翡翠灣':userSource(row.name);
 function worldGrantStatus(row,grant){
  if(grant.method==='blocked')return '已撤銷';
  if(worldAccess(row,grant.visitor_key,grant))return '可登島 · '+(row.mode==='public'?'公開開放':'至 '+worldVisitDate(grant.expires_at)+'（台灣時間）');
@@ -2908,10 +2912,10 @@ function worldManager(row,grants,message='',status=200,result=''){
   (grants.length?grants.map(g=>{
    const blocked=g.method==='blocked',active=worldAccess(row,g.visitor_key,g);
    const action=active?'revoke':'invite';
-   return '<div class="world-grant"><span><strong>'+memberLabel(g.member_no)+'</strong> '+escape(g.nickname)+'<br><small class="'+(active?'world-positive':'')+'">'+worldGrantStatus(row,g)+'</small></span>'+
+   return '<div class="world-grant"><span><strong>'+memberLabel(g.member_no)+'</strong> '+escapeUser(g.nickname)+'<br><small class="'+(active?'world-positive':'')+'">'+worldGrantStatus(row,g)+'</small></span>'+
     '<form method="post"><input type="hidden" name="member" value="'+memberLabel(g.member_no)+'"><button name="action" value="'+action+'">'+(active?'撤銷':blocked?'重新邀請':'讓他登島')+'</button></form></div>';
   }).join(''):'<p>目前沒有訪客授權。</p>')+'</section>'+
-  '<details class="world-panel world-settings"'+(message&&status===400?' open':'')+'><summary>島嶼設定 · 開放方式、期限與可見區域</summary><form method="post">'+(emerald?'':'<label>島名<input name="name" value="'+escape(row.name)+'" required maxlength="42"></label><label>島上介紹<textarea name="welcome" maxlength="420">'+escape(row.welcome)+'</textarea></label>')+
+  '<details class="world-panel world-settings"'+(message&&status===400?' open':'')+'><summary>島嶼設定 · 開放方式、期限與可見區域</summary><form method="post">'+(emerald?'':'<label>島名<input name="name" value="'+escapeUser(row.name)+'" required maxlength="42"></label><label>島上介紹<textarea name="welcome" maxlength="420">'+escapeUser(row.welcome)+'</textarea></label>')+
   '<label>開放方式<select name="mode">'+options+'</select></label><label>新訪客的授權期限<select name="days">'+durations+'</select></label>'+
   '<label>設定登島密碼<input name="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" placeholder="'+(row.password_hash?'留空保留目前密碼':'密碼登島才需要填寫')+'"></label><small>更換密碼、模式或期限會讓原有的密碼授權失效。選「僅島主」時會關閉訪客入口。</small>'+areas+
   '<button name="action" value="save">儲存設定</button></form></details>',status);
@@ -2953,7 +2957,7 @@ async function bearWorld(request,env,url){
   if(method!=='GET')return worldPage('航線不接受表單','',405);
   const id=sailing[1],row=await worldIsland(db,id);
   if(id!=='emerald'&&(!row||row.mode==='private'&&row.owner_key!==visitor))return worldPage('找不到這條航線',worldNavLink(harborDockPath,'回訪客碼頭'),404);
-  return worldPage('搭船前往 '+(row?.name||'翡翠灣 Emerald Bay'),worldVoyage(worldPath(id)),200,worldSceneHeaders);
+  return worldPage('搭船前往 '+(row?.name?userSource(row.name):'翡翠灣 Emerald Bay'),worldVoyage(worldPath(id)),200,worldSceneHeaders);
  }
  if(wardrobe)return worldWardrobe(request,env,url,visitor,validMember,isFounder);
  if(manage){
@@ -2998,7 +3002,7 @@ async function bearWorld(request,env,url){
   if(!isFounder)await worldRecordVisit(db,id,visitor);
   const [area,title,detail]=emeraldAreas[i];
   const illustration=area==='collection'?'<div class="world-art">'+jadeArt()+'</div>':worldCover();
-  const visitPortrait='<div class="world-id"><div class="world-avatar">'+memberAvatar(validMember,true)+'</div><p>'+escape(validMember.nickname)+' · '+memberLabel(member.member_no)+'</p></div>';
+  const visitPortrait='<div class="world-id"><div class="world-avatar">'+memberAvatar(validMember,true)+'</div><p>'+escapeUser(validMember.nickname)+' · '+memberLabel(member.member_no)+'</p></div>';
   return worldPage(title,illustration+visitPortrait+'<section class="world-panel"><p>'+detail+'</p></section>'+worldNavLink('/world/emerald','回翡翠灣碼頭'));
  }
  if(emerald&&isFounder&&method==='GET')return worldPage('翡翠灣 Emerald Bay',worldCover()+worldNavLink('/passport/island','進入原有翡翠灣 ↗')+' · '+worldNavLink('/world/manage/emerald','管理翡翠灣門禁 ↗')+
@@ -3019,7 +3023,7 @@ async function bearWorld(request,env,url){
   const mode=row?.mode||'private';
   const denied=grant?.method==='blocked'?'島主已撤銷這個島民證的登島權限。':mode==='private'?'島主目前沒有開放訪客。請島主在你的編號旁按「讓他登島」。':grant?.method==='invite'&&grant.expires_at<=Date.now()?'這份邀請已到期，請島主重新邀請。':'這個島民證還沒有收到邀請，請島主確認邀請的編號。';
   const identity='<p>目前登入：<strong>'+memberLabel(member.member_no)+'</strong> · '+worldNavLink('/passport?recover=1&next='+encodeURIComponent(path)+'#passport-recover','切換島民證')+'</p>';
-  return worldPage(emerald?'翡翠灣 Emerald Bay':row.name,worldError(message)+'<section class="world-panel"><h2>'+worldModes[mode]+'</h2>'+identity+
+  return worldPage(emerald?'翡翠灣 Emerald Bay':userSource(row.name),worldError(message)+'<section class="world-panel"><h2>'+worldModes[mode]+'</h2>'+identity+
    (mode==='password'&&grant?.method!=='blocked'?'<form method="post"><label>登島密碼<input type="password" name="password" required maxlength="128" autocomplete="off"></label><button name="action" value="password">驗證並登島</button></form>':'<p>'+denied+'</p>')+'</section>'+
    (emerald?worldCover():''),status,status===429?{'Retry-After':'900'}:{});
  }
@@ -3031,7 +3035,7 @@ async function bearWorld(request,env,url){
   return worldPage('翡翠灣 · 訪客區','<p class="notice">已取得登島授權 · '+memberLabel(member.member_no)+'</p>'+worldCover()+
    (extras?'<div class="world-grid">'+extras+'</div>':'<p>島主目前只開放碼頭入口，還沒有開放其他區域。</p>'));
  }
- return worldPage(row.name,worldCover()+'<div class="world-id"><div class="world-avatar">'+memberAvatar(validMember,true)+'</div><p>'+escape(validMember.nickname)+' · '+memberLabel(member.member_no)+'</p></div><section class="world-panel"><h2>島上介紹</h2><p>'+escape(row.welcome||'歡迎登島。')+'</p></section>'+
+ return worldPage(userSource(row.name),worldCover()+'<div class="world-id"><div class="world-avatar">'+memberAvatar(validMember,true)+'</div><p>'+escapeUser(validMember.nickname)+' · '+memberLabel(member.member_no)+'</p></div><section class="world-panel"><h2>島上介紹</h2><p>'+(row.welcome?escapeUser(row.welcome):'歡迎登島。')+'</p></section>'+
   (row.owner_key===visitor?worldNavLink('/world/manage','管理我的島嶼 ↗'):'<p class="notice">已登島，這次到訪會保存在登島紀錄。</p>'));
 }
 
@@ -3048,7 +3052,7 @@ async function harborDockServices(db,visitor,isFounder,env){
  return '<div class="hb-dock-services"><details><summary>其他航線與島嶼設定</summary>'+worldIslandDirectory(directory.results,visitor,true)+
   '<p><a class="hb-link" href="'+(isFounder?'/world/manage/emerald':'/world/manage')+'">'+(isFounder?'管理翡翠灣訪客':'管理我的島嶼')+' ↗</a></p>'+
   (ownerMap?'<a class="hb-link" href="'+ownerMap+'">回原本的 Atlas 島嶼地圖 ↗</a>':'')+'</details>'+
-  '<details id="visit-log"><summary>我的登島紀錄</summary>'+(visits.results.length?'<ul>'+visits.results.map(v=>'<li>'+escape(v.name)+' · '+passportDate(v.first_visit_at)+'</li>').join('')+'</ul>':'<p>搭船拜訪後，可以回這裡看走過的島。</p>')+'</details></div>';
+  '<details id="visit-log"><summary>我的登島紀錄</summary>'+(visits.results.length?'<ul>'+visits.results.map(v=>'<li>'+escapeUser(v.name)+' · '+passportDate(v.first_visit_at)+'</li>').join('')+'</ul>':'<p>搭船拜訪後，可以回這裡看走過的島。</p>')+'</details></div>';
 }
 const neighborPath='/islands/neighbors';
 const neighborPlaces=[
@@ -3119,15 +3123,15 @@ function neighborChatClient(target){
  const log=room.querySelector('[role="log"]'),form=room.querySelector('form'),topics=room.querySelector('.neighbor-topics'),input=form.elements.message;
  const labels={greet:'嗨！很高興認識你。',work:'想聽你分享生活或興趣。',place:'附近有什麼可以玩？'};
  let last='';
- function line(speaker,message,mine=false){
+ function line(speaker,message,mine=false,custom=false){
   const item=document.createElement('li'),label=document.createElement('b');
   label.textContent=speaker;
   if(mine)item.dataset.you='';
-  item.append(label,message);
+  if(custom){const content=document.createElement('span');content.setAttribute('translate','no');content.dataset.userContent='';content.textContent=message;item.append(label,content);}else item.append(label,message);
   log.append(item);
  }
- function reply(topic,message){
-  line('你',message,true);
+ function reply(topic,message,custom=false){
+  line('你',message,true,custom);
   const answers={
    greet:'嗨，我是 '+name+'，住在'+port+'。我在日常喜歡慢慢散步。要不要聊聊附近的風景？',
    work:(daily||place)+' 你最近有什麼喜歡的小事？',
@@ -3154,7 +3158,7 @@ function neighborChatClient(target){
    /工作|興趣|怎麼做|策略|mba|財務|運動|高爾夫|匹克球|球|攝影|咖啡|故事|經驗|work|hobby/i.test(text)?'work':
    /^(嗨|你好|哈囉|hi\b|hello\b)|你是誰|認識/i.test(text)?'greet':
    last&&/例子|為什麼|真的|怎麼|然後|下一步|我也|我想/i.test(text)?'follow':'other';
-  reply(topic,text);
+  reply(topic,text,true);
   input.value='';
  });
  form.hidden=false;
@@ -3396,7 +3400,7 @@ async function resortHome(request,env,url,visitor){
  if(!owner)return worldPage('找不到這間小屋','<a href="/world">回渡假村</a>',404);
  const shared=own?null:await env.DB.prepare('SELECT share_enabled FROM island_cabins WHERE visitor_key=?').bind(owner.visitor_key).first();
  const allowed=own||shared?.share_enabled===1,entrance=own?cabinPath:'/islands/cabins/'+code;
- const portrait=memberAvatar(profile,true),title=(own?'我的家門':owner.nickname+' 的家門');
+ const portrait=memberAvatar(profile,true),title=(own?'我的家門':userSource(owner.nickname)+' 的家門');
  const scene='<figure class="world-isometric"><div class="iso-stage" data-iso="porch" aria-label="'+escape(title)+'"><span hidden data-home-code="'+code+'"></span>'+resortPorchArt({tree:isoTree,house:isoHouse})+'<span class="iso-avatar" aria-hidden="true" style="--iso-x:49%;--iso-y:69%">'+portrait+'</span>'+(allowed?'<a class="iso-pin" data-resort-door href="'+entrance+'" style="--iso-x:51%;--iso-y:61%" data-x="51" data-y="54">'+(own?'走到門口，進屋 ↗':'走到門口，參觀客廳 ↗')+'</a>':'')+'</div><div class="iso-controls" hidden><span>點小徑散步，點家門進屋</span><nav aria-label="熊熊移動"><button type="button" data-move="left">←</button><button type="button" data-move="up">↑</button><button type="button" data-move="down">↓</button><button type="button" data-move="right">→</button></nav></div><figcaption class="iso-caption">門牌 '+code+' · 信箱與花園前的小徑</figcaption></figure>';
  return html('<style>'+worldSceneCss+resortStyles+'</style><section class="resort-porch"><nav class="resort-services"><a href="/world'+(own?'?at=home':'')+'">← 回渡假村</a><a href="/dock/cabin">回家</a><a href="/passport">我的護照</a></nav><h1>'+escape(title)+'</h1><p class="resort-door-info">'+(own?'原本的家具、房間與收藏都在，今天也可以什麼都不做。':allowed?'屋主已開放客廳參觀。私人臥室不開放；訪客不能修改家具。':'屋主尚未開放參觀，可以請屋主在小屋設定開啟。')+'</p>'+scene+'<p class="resort-help">這是各自探索的小屋空間，目前沒有即時共同在線功能。信箱目前只是外觀，不會傳送訊息。</p></section><script src="/world-scene.js?v=resort-v83" defer></script>',200,worldSceneHeaders,{title:escape(title)+'｜熊熊渡假村',brand:''});
 }
@@ -3432,7 +3436,7 @@ function publicHarbor(url,profile,credential,isFounder,invitations,dockServices)
  const dockPanel='<section class="hb-panel hb-dock-panel" id="dock-station" data-destination="'+dockStop+'" tabindex="-1"'+(initial===dockStop?'':' hidden')+'><span class="hb-kicker">Visitor Dock</span><h2>抵達碼頭</h2><p>歡迎來到熊熊渡假村。點地點就會慢慢走過去並進入；「回家」直接帶你進屋。</p><a class="hb-cta" href="/dock/square">到廣場打招呼 ↗</a><div class="resort-services"><a href="/world/emerald">私人島嶼入口</a></div>'+inbox+
   (profile?dockServices:'<a class="hb-cta" href="'+dockAccount.login+'">登入島民證 ↗</a> <a class="hb-link" href="'+dockAccount.join+'">領取島民證</a>')+'</section>';
  return html('<style>'+publicHarborCss+seaStyles+publicMapStyle+resortStyles+'</style><header class="hb-head"><div><span class="hb-kicker">Bear Atlas / Seaside Retreat</span><h1>熊熊渡假村</h1></div>'+
-  '<div class="hb-identity">'+(profile?'<a class="hb-passport" href="/passport" title="'+escape(profile.nickname)+' 的護照" aria-label="'+escape(profile.nickname)+' 的護照 '+memberLabel(credential.member_no)+'"><span class="hb-player-name">'+escape(profile.nickname)+'</span><small>'+memberLabel(credential.member_no)+'</small></a>':'<a class="hb-passport hb-join" href="'+join+'">新玩家登島 ↗</a><a class="hb-login" href="'+login+'">已有島民證？登入</a>')+'</div>'+
+  '<div class="hb-identity">'+(profile?'<a class="hb-passport" href="/passport" title="'+escapeUser(profile.nickname)+' 的護照" aria-label="'+escapeUser(profile.nickname)+' 的護照 '+memberLabel(credential.member_no)+'"><span class="hb-player-name">'+escapeUser(profile.nickname)+'</span><small>'+memberLabel(credential.member_no)+'</small></a>':'<a class="hb-passport hb-join" href="'+join+'">新玩家登島 ↗</a><a class="hb-login" href="'+login+'">已有島民證？登入</a>')+'</div>'+
   '<nav class="hb-account" aria-label="島嶼導覽"><a href="#dock-activities" aria-current="page">地圖</a><a href="'+neighborPath+'">找居民</a><a href="'+(profile?cabinPath:'/world/home')+'">回家</a>'+
   dockLink('碼頭 '+badge,'hb-dock-shortcut')+'</nav></header><p class="hb-town-intro">成年人的心靈寄託小宇宙。出門散步、喝杯咖啡，再沿著小徑回家。</p>'+harborWelcome(profile,credential?memberLabel(credential.member_no):'guest')+'<p class="hb-welcome-notice" role="status" data-hb-welcome-notice></p><div class="hb-layout" id="dock-activities"><figure class="hb-map resort-map"><div class="hb-stage" aria-label="熊熊渡假村園區地圖" data-public-harbor data-initial="'+initial+'" data-stops="'+escape(JSON.stringify(positions))+'" data-links="'+escape(JSON.stringify(links))+'" data-size="'+size.x+','+size.y+'">'+
   resortMapArt()+'<span class="hb-actor" aria-hidden="true" style="--x:'+positions[initial].x/size.x*100+'%;--y:'+positions[initial].y/size.y*100+'%">'+avatarSvg+'</span>'+

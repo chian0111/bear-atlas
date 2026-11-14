@@ -1,3 +1,7 @@
+import {harborNeighbors} from '../worker/harbor-neighbors.js';
+import {createI18nAudit} from './i18n-audit.mjs';
+import {writeFileSync} from 'node:fs';
+const i18nAudit=createI18nAudit();
 import {bedroomFromLegacy,bedroomProblem,loadBedroom,saveBedroom} from '../worker/bedroom.js';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
@@ -17,8 +21,8 @@ assert.equal(sql.prepare('SELECT nickname FROM island_passports WHERE visitor_ke
 const DB={prepare(query){const p=sql.prepare(query);function bind(...args){return{first:async()=>p.get(...args),all:async()=>({results:p.all(...args)}),run:async()=>({meta:p.run(...args)}),executeBatch:()=>p.columns().length?{results:p.all(...args)}:{meta:p.run(...args)},bind}}return bind();},
  async batch(statements){sql.exec('BEGIN');try{const results=statements.map(s=>s.executeBatch());sql.exec('COMMIT');return results;}catch(error){sql.exec('ROLLBACK');throw error;}}};
 const origin='https://guest.test',env={DB,SPORTS_RSVP_RELAY_KEY:'integration-test-local-only-secret-value'};
-const get=(path,cookie='')=>worker.fetch(new Request(origin+path,{headers:{Cookie:cookie}}),env);
-const post=(path,cookie,body,site=origin)=>worker.fetch(new Request(origin+path,{method:'POST',headers:{Cookie:cookie,Origin:site,'Sec-Fetch-Site':site===origin?'same-origin':'cross-site','Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(body)}),env);
+const get=async(path,cookie='')=>i18nAudit.response(await worker.fetch(new Request(origin+path,{headers:{Cookie:cookie}}),env),path);
+const post=async(path,cookie,body,site=origin)=>i18nAudit.response(await worker.fetch(new Request(origin+path,{method:'POST',headers:{Cookie:cookie,Origin:site,'Sec-Fetch-Site':site===origin?'same-origin':'cross-site','Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(body)}),env),path+' [POST]');
 const cookie=res=>res.headers.get('Set-Cookie').split(';')[0];
 const content=async(path,who,pattern,status=200)=>{const r=await get(path,who);assert.equal(r.status,status,path);assert.match(await r.text(),pattern,path)};
 async function signup(name,id,next='/world'){
@@ -53,7 +57,7 @@ console.log('One-time private reminder, native confirmation, private real creden
  assert.equal(sql.prepare('SELECT COUNT(*) n FROM island_passports').get().n,count);
  assert.deepEqual(sql.prepare('SELECT * FROM island_credentials WHERE visitor_key=?').get(key),before);
  const page=await (await get('/world',friend)).text();
- assert.ok(page.includes('class="hb-player-name">'+fields.nickname));
+ assert.ok(page.includes('class="hb-player-name"><span translate="no" data-user-content>'+fields.nickname));
  assert.ok(page.includes('title="'+fields.nickname+' 的護照"'));
  assert.ok(page.includes('data-guide-member="BEAR-0002"'));
  assert.ok(page.includes('data-hb-enter href="/dock/square"'));
@@ -283,7 +287,7 @@ for(const path of ['/world','/dock/square','/passport','/world/island/BEAR-0002'
  const h=await (await get(path,cookie(recovered))).text();
  assert.match(h,/fill="#bc786f"/,path);assert.match(h,/fill="#76917a"/,path);
 }
-await content('/passport',friend,/所屬島嶼：茶熊島/);
+await content('/passport',friend,/所屬島嶼：<span translate="no" data-user-content>茶熊島<\/span>/);
 assert.equal((await post('/world/wardrobe',friend,{slot:'5',action:'equip',...suit})).status,400);
 assert.equal((await post('/world/wardrobe',friend,{slot:'4',action:'equip',...suit},'https://evil.test')).status,403);
 const escapeProbe=await post('/passport?next=%2F%2Fevil.test',newBrowser,{action:'recover',recovery});
@@ -334,7 +338,7 @@ const decorated={theme:'rose',wall:'photo',desk:'coffee',corner:'golf',revision:
 assert.equal((await post(cabin,friend,decorated)).status,303);
 assert.equal(sql.prepare('SELECT revision FROM island_cabins WHERE visitor_key=?').get(friend.split('=')[1]).revision,2);
 const visitorRoom=await (await get('/islands/cabins/BEAR-0002',other)).text();
-assert.ok(visitorRoom.includes('小茶熊 的小屋')&&visitorRoom.includes('data-cabin-item="coffee"')&&visitorRoom.includes('data-cabin-item="photo"'));
+assert.ok(visitorRoom.includes('data-user-content>小茶熊</span> 的小屋')&&visitorRoom.includes('data-cabin-item="coffee"')&&visitorRoom.includes('data-cabin-item="photo"'));
 assert.ok(!visitorRoom.includes('name="revision"')&&!visitorRoom.includes('港灣調香章'));
 assert.equal((await post('/islands/cabins/BEAR-0002',other,decorated)).status,405);
 assert.equal((await post(cabin,other,{...decorated,revision:'0'})).status,400);
@@ -396,7 +400,7 @@ try{
   }
   assert.equal(seen.size,3);
  }
- const myMemories=await (await get('/dock/memories',friend)).text();assert.ok(myMemories.includes('小茶熊 的島嶼紀念冊')&&!myMemories.includes('Kitty 的島嶼紀念冊'));
+ const myMemories=await (await get('/dock/memories',friend)).text();assert.ok(myMemories.includes('data-user-content>小茶熊</span> 的島嶼紀念冊')&&!myMemories.includes('data-user-content>Kitty</span> 的島嶼紀念冊'));
  assert.equal((await get('/dock/memories?page=-1',friend)).status,400);
  assert.equal((await post('/dock/memories',friend,{})).status,405);
  await content('/dock/cabin',friend,/我的島嶼紀念冊/);
@@ -759,10 +763,13 @@ assert.ok((await (await get('/dock/career',friend)).text()).includes('海邊咖�
 const about=await (await get('/about')).text();assert.equal((about.match(/<figure class="resort-scene">/g)||[]).length,4);
 assert.match(nature,/TOWN \/ 05/);assert.ok(!nature.includes('看看漂流瓶'));assert.ok(!upgradedMap.includes('class="hb-bottle-pin"'));
 const cabin81=await (await get('/dock/cabin',friend)).text();assert.match(cabin81,/data-game-sheet="menu"/);assert.match(cabin81,/cabin-resort-return/);assert.ok(!cabin81.includes('叩叩！'));
-const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/<html lang="en">/);assert.match(englishAbout,/A home of your own, and a world to wander/);assert.ok(!englishAbout.includes('渡假村主要導覽'));assert.match(englishAbout,/href="\/about\?lang=en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
+const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/src="\/i18n\/runtime.js\?release=v84"/);assert.match(englishAbout,/有自己的家，也有可以走走的世界/);assert.match(englishAbout,/data-locale="en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
 console.log('49 distinct residents, WebGL fallback, five facility prototypes, nature garden and illustrated philosophy passed.');
 
 for(const [path,at]of [['/dock/career',1],['/dock/sports',5],['/world/nature',7],['/dock/cabin',11]]){const page=await (await get(path,friend)).text();assert.ok(page.includes('href="/world?at='+at+'"'),path);const map=await (await get('/world?at='+at,friend)).text();assert.ok(map.includes('data-initial="'+at+'"'));}
 assert.equal((await get('/world/home',friend)).headers.get('Location'),'/dock/cabin');
 for(const id of ['career','mba','finance','network'])assert.ok(!(await (await get('/dock/'+id,friend)).text()).includes('在這裡遇見居民'));
 console.log('Facility return positions retained, direct own-home entry and quiet leisure pages passed.');
+
+for(let district=0;district<harborNeighbors.length;district++)for(let slot=0;slot<harborNeighbors[district].length;slot++){const response=await get('/islands/neighbors/'+district+'-'+slot,friend);assert.equal(response.status,200);}
+if(process.env.I18N_AUDIT_REPORT){const report=i18nAudit.report();writeFileSync(process.env.I18N_AUDIT_REPORT,JSON.stringify(report,null,2)+'\n');console.log('I18N audit: '+report.htmlRoutes+' HTML routes; '+report.missing.length+' incomplete source strings.');assert.equal(report.missing.length,0,'Untranslated built-in strings; inspect the report.');}

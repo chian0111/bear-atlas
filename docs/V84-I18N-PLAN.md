@@ -1,6 +1,6 @@
 # V84 bilingual implementation — batch 1 checkpoint
 
-Status: development only; not a V84 release and not approved for production.
+Status: historical batch 1 plan. The completed implementation and remaining release gates are recorded in V84-ACCEPTANCE.md. Production remains V83.
 
 ## Verified baseline
 
