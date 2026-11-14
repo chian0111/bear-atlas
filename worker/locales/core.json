@@ -1,0 +1,160 @@
+{
+  "nav.map": {
+    "zh-TW": "地圖",
+    "en": "Map"
+  },
+  "nav.residents": {
+    "zh-TW": "找居民",
+    "en": "Residents"
+  },
+  "nav.home": {
+    "zh-TW": "回家",
+    "en": "Home"
+  },
+  "nav.dock": {
+    "zh-TW": "碼頭",
+    "en": "Dock"
+  },
+  "nav.label": {
+    "zh-TW": "渡假村主要導覽",
+    "en": "Retreat navigation"
+  },
+  "nav.passport": {
+    "zh-TW": "我的護照",
+    "en": "My Passport"
+  },
+  "nav.signin": {
+    "zh-TW": "島民登入",
+    "en": "Sign In"
+  },
+  "nav.about": {
+    "zh-TW": "關於 Bear Atlas · 創作理念",
+    "en": "About Bear Atlas"
+  },
+  "language.label": {
+    "zh-TW": "介面語言",
+    "en": "Interface language"
+  },
+  "language.changed": {
+    "zh-TW": "已切換為繁體中文",
+    "en": "Language changed to English"
+  },
+  "common.saved": {
+    "zh-TW": "已儲存",
+    "en": "Saved"
+  },
+  "common.save_failed": {
+    "zh-TW": "暫時無法儲存，請再試一次。",
+    "en": "We couldn't save just now. Please try again."
+  },
+  "common.cancel": {
+    "zh-TW": "取消",
+    "en": "Cancel"
+  },
+  "common.confirm": {
+    "zh-TW": "確認",
+    "en": "Confirm"
+  },
+  "cottage.welcome": {
+    "zh-TW": "歡迎回家，{name}",
+    "en": "Welcome home, {name}"
+  },
+  "cottage.title": {
+    "zh-TW": "我的秘密小屋",
+    "en": "My Cozy Cottage"
+  },
+  "cottage.sleep": {
+    "zh-TW": "準備睡覺",
+    "en": "Time to Rest"
+  },
+  "cottage.curtains_close": {
+    "zh-TW": "拉上窗簾",
+    "en": "Close the Curtains"
+  },
+  "visitors.visit": {
+    "zh-TW": "拜訪朋友",
+    "en": "Visit a Friend"
+  },
+  "history.legacy_wheel": {
+    "zh-TW": "一筆舊輪盤紀錄",
+    "en": "An earlier wheel result"
+  },
+  "residents.count": {
+    "zh-TW": "{count} 位",
+    "en": "{count} neighbours",
+    "pattern": "^(\\d+)\\s*位$",
+    "params": [
+      "count"
+    ]
+  },
+  "residents.chat_title": {
+    "zh-TW": "和 {name} 聊聊",
+    "en": "Chat with {name}",
+    "pattern": "^和 (.+) 聊聊$",
+    "params": [
+      "name"
+    ]
+  },
+  "residents.chat_page_title": {
+    "zh-TW": "和 {name} 聊聊｜熊熊 Atlas",
+    "en": "Chat with {name} | Bear Atlas",
+    "pattern": "^和 (.+) 聊聊｜熊熊 Atlas$",
+    "params": [
+      "name"
+    ]
+  },
+  "residents.back": {
+    "zh-TW": "← 回{place}的居民",
+    "en": "← Back to the neighbours in {place}",
+    "pattern": "^← 回(.+)的居民$",
+    "params": [
+      "place"
+    ]
+  },
+  "pagination.page": {
+    "zh-TW": "第 {current} / {total} 頁",
+    "en": "Page {current} / {total}",
+    "pattern": "^第 (\\d+) / (\\d+) 頁$",
+    "params": [
+      "current",
+      "total"
+    ]
+  },
+  "guide.step": {
+    "zh-TW": "第 {current} 步，共 {total} 步",
+    "en": "Step {current} of {total}",
+    "pattern": "^第 (\\d+) 步，共 (\\d+) 步$",
+    "params": [
+      "current",
+      "total"
+    ]
+  },
+  "cottage.owner_suffix": {
+    "zh-TW": "的小屋",
+    "en": "'s Cozy Cottage",
+    "pattern": "^\\s*的小屋$",
+    "params": []
+  },
+  "cottage.bedroom_suffix": {
+    "zh-TW": "的臥室",
+    "en": "'s Bedroom",
+    "pattern": "^\\s*的臥室$",
+    "params": []
+  },
+  "passport.owner_suffix": {
+    "zh-TW": "的護照",
+    "en": "'s Passport",
+    "pattern": "^\\s*的護照$",
+    "params": []
+  },
+  "memories.owner_suffix": {
+    "zh-TW": "的島嶼紀念冊",
+    "en": "'s Island Memories",
+    "pattern": "^\\s*的島嶼紀念冊$",
+    "params": []
+  },
+  "golf.direction_label": {
+    "zh-TW": "方向（0° 指向球洞）",
+    "en": "Direction (0° points toward the hole)"
+  }
+}

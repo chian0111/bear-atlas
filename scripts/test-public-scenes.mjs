@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {publicPlaceClient,publicPlaceMarkup,parkWaypoints} from '../worker/public-scenes.js';
+function run(kind,reduced=false){
+ const el=()=>({dataset:{},hidden:false,disabled:false,textContent:'',handlers:{},style:{setProperty(k,v){this[k]=v;}},classList:{v:new Set(),add(k){this.v.add(k);},remove(k){this.v.delete(k);},toggle(k,on){on?this.v.add(k):this.v.delete(k);}},addEventListener(k,fn){this.handlers[k]=fn;},setAttribute(k,v){this[k]=v;}});
+ const root=el(),npc=el(),panel=el(),motion=el(),stage=el(),play=el(),result=el(),card=el(),greet=el(),chat=el(),dismiss=el(),rest=el(),restState=el(),nodes={'[data-place-player]':el(),'[data-place-npc]':npc,'[data-place-npc-panel]':panel,'[data-place-motion]':motion,'.place-stage':stage,'[data-place-play]':play,'[data-place-result]':result,'[data-place-postcard]':card,'[data-place-greet]':greet,'[data-place-chat]':chat,'[data-place-dismiss]':dismiss,'[data-place-rest]':rest,'[data-place-rest-state]':restState};
+ root.dataset.publicPlace=kind;root.querySelector=k=>nodes[k];let raf,clock=0;const timers=[];globalThis.document={hidden:false,querySelector:()=>root};globalThis.window={addEventListener(){}};globalThis.matchMedia=()=>({matches:reduced,addEventListener(){}});globalThis.requestAnimationFrame=fn=>{raf=fn;return 1;};globalThis.cancelAnimationFrame=()=>{};globalThis.setTimeout=fn=>{timers.push(fn);return timers.length;};globalThis.clearTimeout=()=>{};
+ publicPlaceClient();const pump=()=>raf(clock+=100),position=()=>JSON.parse(npc.dataset.position);
+ const initial=position();for(let i=0;i<30;i++)pump();if(kind==='sports'&&!reduced)assert.notDeepEqual(position(),initial);else assert.deepEqual(position(),initial);
+ npc.handlers.click();const selected=position();for(let i=0;i<30;i++)pump();assert.deepEqual(position(),selected);assert.equal(npc.dataset.motion,'idle');assert.equal(panel.hidden,false);
+ greet.handlers.click();assert.ok(chat.textContent);stage.handlers.click({target:{closest:()=>null}});assert.equal(panel.hidden,true);
+ if(kind==='sports'&&!reduced){for(let i=0;i<1000;i++){pump();const p=position();assert.ok(p.x>=45&&p.x<=55&&p.y>=65&&p.y<=72);if(npc.dataset.motion==='idle')assert.ok(!npc.classList.v.has('walk'));}motion.handlers.click();const paused=position();for(let i=0;i<30;i++)pump();assert.deepEqual(position(),paused);}
+ if(kind==='english')for(let repeat=0;repeat<2;repeat++){play.handlers.click();while(timers.length)timers.shift()();assert.ok(result.textContent.includes(kind==='sports'?'完成':'讀完'));assert.equal(play.disabled,false);}
+ if(kind==='english'){assert.equal(card.hidden,false);assert.ok(card.textContent);}
+ rest.handlers.click();assert.ok(restState.textContent);assert.ok(nodes['[data-place-player]'].classList.v.has('stretching'));while(timers.length)timers.shift()();assert.ok(!nodes['[data-place-player]'].classList.v.has('stretching'));
+}
+run('sports');run('sports',true);run('english');
+const fake={tree:()=>'<g data-old-tree/>',house:()=>'<g data-old-house/>'};for(const kind of ['sports','english']){const html=publicPlaceMarkup(kind,'<svg data-player/>','<svg data-resident/>',fake);assert.ok(html.includes('data-old-tree')&&html.includes('data-old-house'));assert.equal((html.match(/data-place-npc /g)||[]).length,1);assert.ok(html.includes('data-place-npc-panel'));assert.ok(html.includes('data-player')&&html.includes('data-resident'));}
+assert.equal(parkWaypoints.length,4);console.log('Bounded NPC walk, dwell idle, click pause, blank dismissal, manual pause, reduced motion, repeatable station postcards, rest and reused assets passed.');

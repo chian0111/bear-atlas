@@ -1,0 +1,1 @@
+ALTER TABLE island_meetups ADD COLUMN revision INTEGER NOT NULL DEFAULT 0;
