@@ -1,0 +1,11 @@
+{
+  "repository": "chian0111/bear-atlas",
+  "mode": "connector-source-and-restorable-history",
+  "source_commit": "bf29c4261c21a3bbba6061851ed6caf46a294905",
+  "bundle": "sites-history.bundle",
+  "bundle_sha256": "3b10e7e096ac5cfbd0a9a8dfecf19eba1bdc2ac3f3756519f4976a3479869008",
+  "versions": 82,
+  "commits": 87,
+  "restore": "git clone sites-history.bundle bear-atlas-restored",
+  "note": "Original commits and version tags are inside the bundle. GitHub connector commits have separate SHAs."
+}

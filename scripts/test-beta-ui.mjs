@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const source=readFileSync(new URL('../worker/index.js',import.meta.url),'utf8');
+const fn=source.split('\n').find(line=>line.startsWith('function characterPreviewClient()'));
+const listeners={},windowListeners={},button={textContent:'領取島民證',disabled:false};
+const form={querySelector:k=>k==='[data-character-preview]'?{}:button,addEventListener:(key,fn)=>listeners[key]=fn,setAttribute(){},removeAttribute(){}};
+globalThis.document={querySelector:()=>form};globalThis.window={addEventListener:(key,fn)=>windowListeners[key]=fn};
+new Function('return ('+fn+')')()();
+let prevented=0;const event={preventDefault(){prevented++;}};
+listeners.submit(event);assert.equal(prevented,0);assert.ok(button.disabled);assert.match(button.textContent,/保存/);
+listeners.submit(event);assert.equal(prevented,1);
+windowListeners.pageshow();assert.equal(button.disabled,false);assert.equal(button.textContent,'領取島民證');
+listeners.submit(event);assert.equal(prevented,1);
+console.log('Profile submit preserves native first submission, blocks duplicates, and resets after back/forward navigation.');
