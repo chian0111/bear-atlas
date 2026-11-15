@@ -36,7 +36,7 @@ export default {async fetch(request,env){
  const response=path==='/about'&&request.method==='GET'?resortIdea():await app.fetch(request,env);
  if(!response.headers.get('Content-Type')?.includes('text/html'))return response;
  let profile=null,code='';try{const key=islanderOf(request);if(key){profile=await readPassportProfile(env.DB,key);if(profile){const row=await env.DB.prepare('SELECT member_no FROM island_credentials WHERE visitor_key=?').bind(key).first();if(row)code=memberLabel(row.member_no);}}}catch{}
- const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11,12].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/world/nomad'?12:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(request.method==='GET'&&response.status===200&&profile&&['/world','/dock/quests','/dock/cabin','/dock/square'].includes(path)){try{if(await adventureReady(env.DB))content=await adventureEnhance(content,path,new URL(request.url),env.DB,islanderOf(request));}catch{/* Keep existing scenes usable during an adventure outage. */}}if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v87'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v87" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
+ const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11,12].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/world/nomad'?12:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(request.method==='GET'&&response.status===200&&profile&&['/world','/islands','/dock/quests','/dock/cabin','/dock/square'].includes(path)){try{if(await adventureReady(env.DB))content=await adventureEnhance(content,path,new URL(request.url),env.DB,islanderOf(request));}catch{/* Keep existing scenes usable during an adventure outage. */}}if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v87.2'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v87.2" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
 }};
 
 const tokenPattern=/^[a-f0-9]{48}$/;
@@ -403,8 +403,9 @@ async function passportRoutes(request,env,url){
      await db.prepare('INSERT INTO island_passports(visitor_key,nickname,bear,outfit,joined_at) VALUES(?,?,?,?,?) ON CONFLICT(visitor_key) DO UPDATE SET nickname=excluded.nickname,bear=excluded.bear,outfit=excluded.outfit').bind(visitor,nickname,bear,outfit,Date.now()).run();
      if(profile&&outfit!==profile.outfit)await db.prepare('UPDATE bear_world_looks SET active_slot=NULL WHERE visitor_key=?').bind(visitor).run();
      const credential=await ensureCredential(db,visitor);
-     if(credential&&!credential.has_code)return showNewRecovery(env,visitor,credential,false,next);
-     return passportRedirect(visitor,next||'/passport');
+     if(!profile&&await adventureReady(db)&&await mapGuideReady(db))await db.prepare("INSERT INTO island_adventure_preferences(visitor_key,tour_status,tour_step,tour_auto) VALUES(?,'new',0,1) ON CONFLICT(visitor_key) DO NOTHING").bind(visitor).run();
+     if(credential&&!credential.has_code)return showNewRecovery(env,visitor,credential,false,next||(!profile?'/world':''));
+     return passportRedirect(visitor,next||(!profile?'/world':'/passport'));
     }
    }else message='無法辨識這項護照操作。';
   }else{
@@ -3618,6 +3619,7 @@ function harborArrivalClient(){
  try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))state=saved;}catch{}
  function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{}}
  function refreshGuide(){
+  if(guide.dataset.serverGuide==='true'){guide.hidden=true;restart.hidden=true;return;}
   const ready=guide.dataset.hasPassport==='true',done=ready&&state.met&&state.interacted;
   const active=manualStep??(ready?(state.met?2:1):0);
   guide.hidden=Boolean(state.dismissed||(done&&manualStep===null));
@@ -3859,8 +3861,19 @@ function recoveryReminderClient(){
 const adventureNpcRoster=[{id:'0-3',name:'Hugo'},{id:'5-4',name:'Liv'},{id:'7-4',name:'Ari'},{id:'0-4',name:'Emi'},{id:'0-5',name:'Felix'},{id:'0-0',name:'Clara'}];
 function adventureNpc(now=Date.now()){const day=Math.floor((now+28800000)/86400000);return adventureNpcRoster[((day%6)+6)%6];}
 async function adventureEnhance(content,path,url,db,key){
- const station=path==='/world'&&(!url.searchParams.has('at')||url.searchParams.get('at')==='9')?adventureStations[0]:adventureStations.find(s=>s.path===path);
- const pref=await adventurePreference(db,key);let block='';
+ let station=path==='/world'&&(!url.searchParams.has('at')||url.searchParams.get('at')==='9')?adventureStations[0]:adventureStations.find(s=>s.path===path);
+ let pref=await adventurePreference(db,key);let block='';
+ const mapPage=path==='/world'||path==='/islands';
+ if(mapPage&&await mapGuideReady(db)){
+  if(pref.tour_auto&&pref.tour_status==='new'){
+   await db.prepare("UPDATE island_adventure_preferences SET tour_status='active',tour_auto=0 WHERE visitor_key=? AND tour_status='new'").bind(key).run();pref=await adventurePreference(db,key);
+  }
+  content=content.replace('<details class="hb-welcome"',mapGuideMarkup(pref)+'<details class="hb-welcome" data-server-guide="true"');
+  if(pref.tour_status==='active'||pref.tour_replay)content=content.replace('data-public-harbor','data-tour-stop="'+mapGuideStops[pref.tour_step||0]+'" data-public-harbor');
+  if(station?.id==='dock')block+='<div class="adventure">'+adventureForm('station',await adventureIssue(db,key,'dock'),'向港口揮揮手','<input type="hidden" name="scene" value="dock">')+'</div>';
+  station=null;
+ }
+
  if(station){const token=await adventureIssue(db,key,station.id);block='<details class="adventure"'+(pref.tour_status==='active'||pref.tour_replay?' open':'')+'><summary>和 Ari 探索這裡</summary><p>'+station.label+'</p>'+adventureForm('station',token,station.action,'<input type="hidden" name="scene" value="'+station.id+'">')+'<a href="/dock/adventure">冒險手帳</a></details>';block+=adventureGuideNav(station,pref);if(url.searchParams.has('adventure'))block+='<p class="adventure" role="status">這次互動已保存，可以到手帳查看進度。</p>';}
  if(path==='/world'||path==='/dock/quests'||path==='/dock/cabin')block+='<div class="adventure"><a href="/dock/adventure">冒險手帳</a> <a href="/world/forest">雪松森林</a> <a href="/world/beach">貝殼海灘</a></div>';
  if(path==='/dock/cabin'){
@@ -3887,10 +3900,22 @@ async function adventureRoute(request,env,url){
   if(url.pathname!=='/dock/adventure')return page('<p>請使用頁面上的互動。</p>',405);
   const form=await dockForm(request,url,1500);if(!form.fields)return page(dockError(form.error),form.status);
   const f=form.fields,action=f.get('action');
-  if([...f.keys()].some(k=>!['action','token','scene','quest','enabled','choice','period'].includes(k))||[...f.keys()].some(k=>f.getAll(k).length!==1))return page('<p>請使用頁面上的互動。</p>',400);
+  if([...f.keys()].some(k=>!['action','token','scene','quest','enabled','choice','period','step'].includes(k))||[...f.keys()].some(k=>f.getAll(k).length!==1))return page('<p>請使用頁面上的互動。</p>',400);
+  if(typeof action==='string'&&action.startsWith('map-tour-')){
+   if(!await mapGuideReady(db))return page('<p>冒險功能暫時無法使用，原本的資料仍保留。</p>',503);
+   const pref=await adventurePreference(db,key),step=Number(f.get('step'));
+   if(!['map-tour-next','map-tour-prev','map-tour-finish'].includes(action)||!/^[0-4]$/.test(f.get('step')||'')||step!==(pref.tour_step||0)||!(pref.tour_status==='active'||pref.tour_replay))return page('<p>互動已更新，請回到場景再試。</p><a href="/world">回渡假村</a>',409);
+   const target=action==='map-tour-prev'?Math.max(0,step-1):Math.min(4,step+1);
+   if(action==='map-tour-finish'){
+    if(step!==4)return page('<p>請使用頁面上的互動。</p>',400);
+    await db.prepare("UPDATE island_adventure_preferences SET tour_status='complete',tour_replay=0 WHERE visitor_key=? AND tour_step=?").bind(key,step).run();return dockRedirect('/world#island-tour');
+   }
+   await db.prepare('UPDATE island_adventure_preferences SET tour_step=? WHERE visitor_key=? AND tour_step=?').bind(target,key,step).run();return dockRedirect('/world?at='+mapGuideStops[target]+'#island-tour');
+  }
   if(action==='tour-start'||action==='tour-skip'){
    await db.prepare('INSERT INTO island_adventure_preferences(visitor_key,tour_status,tour_replay) VALUES(?,?,?) ON CONFLICT(visitor_key) DO UPDATE SET tour_replay=excluded.tour_replay,tour_status=CASE WHEN island_adventure_preferences.tour_status=\'complete\' THEN \'complete\' ELSE excluded.tour_status END').bind(key,action==='tour-start'?'active':'skipped',action==='tour-start'?1:0).run();
-   return dockRedirect(action==='tour-start'?'/world?at=9':'/world');
+   if(await mapGuideReady(db)&&action==='tour-start')await db.prepare('UPDATE island_adventure_preferences SET tour_step=0 WHERE visitor_key=?').bind(key).run();
+   return dockRedirect(action==='tour-start'?'/world?at=9#island-tour':'/world');
   }
   if(action==='npc-setting'){
    if(!['0','1'].includes(f.get('enabled')))return page('<p>請使用頁面上的互動。</p>',400);
@@ -3937,7 +3962,7 @@ async function adventureRoute(request,env,url){
  const pref=await adventurePreference(db,key),progress=await adventureProgress(db,key,now),visit=await db.prepare('SELECT * FROM island_adventure_visits WHERE visitor_key=? AND day=?').bind(key,day).first();
  let body='<h1>冒險手帳</h1><time datetime="'+day+'">'+day+'</time><p>Ari 陪你認識島上五個角落，約五分鐘。隨時可跳過，不影響自由探索。</p>';
  if(url.searchParams.has('feedback'))body+='<p role="status">進度與收藏已保存，重複操作不會重複發獎。</p>';
- body+='<nav><a href="/world">回渡假村</a><a href="/dock/quests">居民委託</a><a href="/dock/memories">原有紀念冊</a><a href="/dock/events">本週島上故事</a></nav><h2>五分鐘導覽</h2>'+adventureForm('tour-start','',pref.tour_status==='complete'?'重新觀看導覽':'開始或繼續導覽')+adventureForm('tour-skip','','跳過導覽，自由探索')+'<ol>'+adventureStations.map(s=>'<li><a href="'+s.path+'">'+s.label+'</a></li>').join('')+'</ol><p>可以回到任何一站；已完成的進度會保留。</p>';
+ body+='<nav><a href="/world#island-tour">地圖新手導覽</a><a href="/world">回渡假村</a><a href="/dock/quests">居民委託</a><a href="/dock/memories">原有紀念冊</a><a href="/dock/events">本週島上故事</a></nav><h2>五分鐘導覽</h2>'+adventureForm('tour-start','',pref.tour_status==='complete'?'重新觀看導覽':'開始或繼續導覽')+adventureForm('tour-skip','','跳過導覽，自由探索')+'<ol>'+adventureStations.map(s=>'<li><a href="'+s.path+'">'+s.label+'</a></li>').join('')+'</ol><p>可以回到任何一站；已完成的進度會保留。</p>';
  for(const q of progress){if(q.kind==='hidden'&&!q.complete)continue;body+='<article><h2>'+q.title+'</h2><p>'+q.note+'</p><p>'+q.done+' / '+q.events.length+'</p><p>'+q.reward+'</p>'+(q.claimed?'<p>已收進冒險收藏</p>'+memoryArt(q.reward):q.complete?adventureForm('claim','','收下紀念卡','<input type="hidden" name="quest" value="'+q.id+'"><input type="hidden" name="period" value="'+q.period+'">'):'<p>自由探索，慢慢完成就好。</p>')+'</article>';}
  body+='<h2>朋友來敲門</h2><p>每天最多一位新朋友，不會自動跳出打擾。稍後會安靜一小時；拒絕不影響友情或獎勵。</p>'+adventureForm('npc-setting','',pref.npc_enabled?'關閉 NPC 拜訪':'開啟 NPC 拜訪','<input type="hidden" name="enabled" value="'+(pref.npc_enabled?'0':'1')+'">');
  const hidden='<input type="hidden" name="period" value="'+day+'">';
@@ -3959,4 +3984,20 @@ function adventureGuideNav(station,pref){
  if(pref.tour_status!=='active'&&!pref.tour_replay)return '';
  const i=adventureStations.indexOf(station),previous=adventureStations[i-1],next=adventureStations[i+1];
  return '<nav class="adventure">'+(previous?'<a href="'+previous.path+'">← 上一站</a>':'')+(next?'<a href="'+next.path+'">下一站 →</a>':'<a href="/dock/adventure">冒險手帳</a>')+'</nav>';
+}
+const mapGuideStops=[9,1,11,7,7];
+const mapGuideNotes=[
+ '歡迎來到島上！我是 Ari。港口是出發與接朋友的地方，先在地圖上認識你的新生活。',
+ '榕樹廣場可以認識居民、打招呼和找活動。點地圖上的居民，就能聊聊。',
+ '這裡是你的小屋入口。家具、服裝與收藏都會跟著你的島民證保存。',
+ '從自然休憩區走進雪松森林，可以觀察動物；錯過時段也有補遇步道。',
+ '貝殼海灘適合聽海放空。現在已認識五個角落，接著想去哪裡，由你決定。'
+];
+async function mapGuideReady(db){try{await db.prepare('SELECT tour_step,tour_auto FROM island_adventure_preferences LIMIT 0').all();return true;}catch{return false;}}
+function mapGuideMarkup(pref){
+ const active=pref.tour_status==='active'||pref.tour_replay,step=pref.tour_step||0,station=adventureStations[step];
+ const css='<style>.map-welcome{margin:12px 0 18px;padding:16px;border:1px solid #b8c8aa;border-radius:18px;background:#f5f1df;color:#29483c}.map-welcome header{display:flex;gap:12px;align-items:center}.map-welcome header svg{width:64px;height:76px;flex:none}.map-welcome h2{font-size:1.12rem;margin:4px 0}.map-welcome p{line-height:1.7}.map-welcome nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.map-welcome form{margin:0}.map-welcome button,.map-welcome a{min-height:44px;padding:8px 13px;border:1px solid #b8c8aa;border-radius:12px;background:#e4ecd8;font:inherit}main .map-welcome a:link,main .map-welcome a:visited{color:#29483c;text-decoration:none}.map-welcome summary{cursor:pointer;min-height:44px;font-weight:700}.map-welcome :focus-visible{outline:3px solid #54734b;outline-offset:2px}.hb-stage[data-tour-stop="9"] [data-stop="9"],.hb-stage[data-tour-stop="1"] [data-stop="1"],.hb-stage[data-tour-stop="11"] [data-stop="11"],.hb-stage[data-tour-stop="7"] [data-stop="7"]{outline:4px solid #c28c4e;outline-offset:3px;background:#fff3cf}@media(max-width:600px){.map-welcome{padding:12px}.map-welcome header svg{width:48px;height:58px}.map-welcome nav>*{flex:1 1 auto}.map-welcome button{width:100%}}</style>';
+ if(!active)return css+'<details id="island-tour" class="map-welcome" data-map-guide="closed"><summary>地圖新手導覽</summary><p>想再認識島上的角落嗎？Ari 會在地圖上陪你走一遍。</p>'+adventureForm('tour-start','','在地圖重新看導覽')+'</details>';
+ const control=(action,label)=>adventureForm(action,'',label,'<input type="hidden" name="step" value="'+step+'">');
+ return css+'<section id="island-tour" class="map-welcome" data-map-guide="active" data-map-guide-step="'+step+'" aria-label="地圖新手導覽"><header>'+neighborAvatar(7,4,harborNeighbors[7][4][2])+'<div><small>Ari · '+(step+1)+' / 5</small><h2>'+station.label+'</h2></div></header><p>'+mapGuideNotes[step]+'</p><nav>'+(step>0?control('map-tour-prev','← 上一步'):'')+control(step===4?'map-tour-finish':'map-tour-next',step===4?'完成導覽，自由探索':'下一步 →')+adventureForm('tour-skip','','跳過導覽，自由探索')+'<a href="'+station.path+'">去這裡看看</a></nav></section>';
 }

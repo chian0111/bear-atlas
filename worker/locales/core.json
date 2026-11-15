@@ -784,5 +784,53 @@
   "adventure.incomplete": {
     "zh-TW": "任務尚未完成，請繼續探索。",
     "en": "This quest is not complete yet. Keep exploring at your own pace."
+  },
+  "mapGuide.0": {
+    "zh-TW": "地圖新手導覽",
+    "en": "Map welcome tour"
+  },
+  "mapGuide.1": {
+    "zh-TW": "想再認識島上的角落嗎？Ari 會在地圖上陪你走一遍。",
+    "en": "Would you like another look around? Ari will guide you on the map."
+  },
+  "mapGuide.2": {
+    "zh-TW": "在地圖重新看導覽",
+    "en": "Replay the tour on the map"
+  },
+  "mapGuide.3": {
+    "zh-TW": "← 上一步",
+    "en": "← Previous"
+  },
+  "mapGuide.4": {
+    "zh-TW": "下一步 →",
+    "en": "Next →"
+  },
+  "mapGuide.5": {
+    "zh-TW": "完成導覽，自由探索",
+    "en": "Finish the tour and explore freely"
+  },
+  "mapGuide.6": {
+    "zh-TW": "去這裡看看",
+    "en": "Visit this place"
+  },
+  "mapGuide.7": {
+    "zh-TW": "歡迎來到島上！我是 Ari。港口是出發與接朋友的地方，先在地圖上認識你的新生活。",
+    "en": "Welcome to the island! I'm Ari. The harbor is where journeys begin and friends arrive. Let's explore your new life on the map."
+  },
+  "mapGuide.8": {
+    "zh-TW": "榕樹廣場可以認識居民、打招呼和找活動。點地圖上的居民，就能聊聊。",
+    "en": "Meet residents, say hello and find activities in Banyan Square. Tap a resident on the map to chat."
+  },
+  "mapGuide.9": {
+    "zh-TW": "這裡是你的小屋入口。家具、服裝與收藏都會跟著你的島民證保存。",
+    "en": "Here is the entrance to your cottage. Your furniture, clothes and keepsakes stay with your resident passport."
+  },
+  "mapGuide.10": {
+    "zh-TW": "從自然休憩區走進雪松森林，可以觀察動物；錯過時段也有補遇步道。",
+    "en": "Follow the nature area into Cedar Woods to observe animals. The catch-up trail helps you meet them at other times."
+  },
+  "mapGuide.11": {
+    "zh-TW": "貝殼海灘適合聽海放空。現在已認識五個角落，接著想去哪裡，由你決定。",
+    "en": "Shell Beach is a place to enjoy the waves. Now that you know five island corners, choose where to go next."
   }
 }

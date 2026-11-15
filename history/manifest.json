@@ -1,18 +1,30 @@
 {
   "repository": "chian0111/bear-atlas",
   "mode": "connector-source-and-restorable-history-chain",
-  "source_commit": "e704c884b15b2f09b4c8f57c0b7f832a83d0a69f",
+  "source_commit": "4510d668c592f9b570e8bdb703750bd6f2bdb73f",
   "bundle": "sites-history.bundle",
   "bundle_sha256": "14b653a64b6b80523c213fefe4a531e1a4e789b39a70846196be72be22e9d4e7",
   "base_source_commit": "168c17f2edb9d6e7990d17af097ba15cb4306a72",
-  "update_bundle": "v87.1-update.bundle",
-  "update_bundle_sha256": "bd23ff12828a04fd202b7c7dbe89f6fb6f8173a103c9bd5c441546bf863469d6",
-  "versions": 90,
-  "commits": 125,
+  "versions": 91,
+  "commits": 127,
   "restore": [
     "git clone sites-history.bundle restored",
     "git -C restored fetch /absolute/path/v87.1-update.bundle HEAD",
+    "git -C restored merge --ff-only FETCH_HEAD",
+    "git -C restored fetch /absolute/path/v87.2-update.bundle HEAD",
     "git -C restored merge --ff-only FETCH_HEAD"
   ],
-  "note": "The unchanged full bundle plus this verified incremental bundle preserve source history. Connector snapshot commits use separate SHAs."
+  "note": "The unchanged full bundle plus this verified incremental bundle preserve source history. Connector snapshot commits use separate SHAs.",
+  "update_bundles": [
+    {
+      "path": "v87.1-update.bundle",
+      "sha256": "bd23ff12828a04fd202b7c7dbe89f6fb6f8173a103c9bd5c441546bf863469d6",
+      "requires": "168c17f2edb9d6e7990d17af097ba15cb4306a72"
+    },
+    {
+      "path": "v87.2-update.bundle",
+      "sha256": "d2656dee6758f0902a8bf1d7cd9944945060fa995b9c19eb7c9fe933ae8bafa5",
+      "requires": "e704c884b15b2f09b4c8f57c0b7f832a83d0a69f"
+    }
+  ]
 }

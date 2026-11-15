@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync,readdirSync} from 'node:fs';
-import worker from '../worker/index.js';
+const worker=(await import(process.env.ADVENTURE_BUILD==='1'?'../dist/server/index.js':'../worker/index.js')).default;
 import {adventureDay,adventureWildlife,adventureGreeting,adventureIssue,adventureRecord,adventureClaim,adventureProgress,adventureStations} from '../worker/adventure.js';
 import {createI18nAudit} from './i18n-audit.mjs';
 const sql=new DatabaseSync(':memory:');sql.exec('PRAGMA foreign_keys=ON');
@@ -27,7 +27,7 @@ assert.equal((await post({action:'claim',quest:'unknown'})).status,400);assert.e
 assert.equal((await post({action:'claim',quest:'welcome'})).status,409);assert.equal(count('island_adventure_rewards'),0);
 await post({action:'tour-start'});
 for(const station of adventureStations){
- const text=await html(station.path),t=token(text);assert.ok(t,station.path);assert.match(text,/和 Ari 探索這裡|沿雪松小徑散步|坐在木棧道聽海/);
+ const text=await html(station.path),t=token(text);assert.ok(t,station.path);assert.match(text,/和 Ari 探索這裡|向港口揮揮手|沿雪松小徑散步|坐在木棧道聽海/);
  assert.equal((await post({action:'station',scene:station.id,token:t},other)).status,409);
  assert.equal((await post({action:'station',scene:station.id,token:t})).status,303);
  assert.equal((await post({action:'station',scene:station.id,token:t})).status,409);
@@ -64,5 +64,23 @@ await html('/dock/adventure');
 // A retired daily keepsake remains readable after the date changes.
  sql.prepare('INSERT INTO island_adventure_rewards VALUES(?,?,?,?)').run(key,'daily','2026-01-01',1);assert.match(await html('/dock/adventure'),/2026-01-01/);
  sql.exec('ALTER TABLE island_adventure_actions RENAME TO unavailable_fixture');assert.equal((await get('/dock/adventure')).status,503);assert.equal((await get('/world')).status,200);sql.exec('ALTER TABLE unavailable_fixture RENAME TO island_adventure_actions');
+ // New registration enters the actual map with account-persisted guide, not the journal.
+ const freshKey='c'.repeat(48);
+ const registered=await post({nickname:'Map newcomer',bear:'rabbit',outfit:'picnic'},freshKey,'/passport');assert.equal(registered.status,200);assert.match(await registered.text(),/action="\/world"/);
+ assert.equal(sql.prepare('SELECT tour_auto FROM island_adventure_preferences WHERE visitor_key=?').get(freshKey).tour_auto,1);
+ const landing=await(await get('/world',freshKey)).text();assert.match(landing,/data-map-guide="active" data-map-guide-step="0"/);assert.ok(landing.indexOf('id="island-tour"')<landing.indexOf('class="hb-layout"'));assert.match(landing,/data-server-guide="true"/);assert.match(landing,/data-tour-stop="9"/);
+ assert.equal((await post({action:'map-tour-finish',step:'0'},freshKey)).status,400);
+ await post({action:'map-tour-next',step:'0'},freshKey);assert.match(await(await get('/islands',freshKey)).text(),/data-map-guide-step="1"/);
+ assert.equal((await post({action:'map-tour-next',step:'0'},freshKey)).status,409);
+ await post({action:'map-tour-prev',step:'1'},freshKey);assert.equal(sql.prepare('SELECT tour_step FROM island_adventure_preferences WHERE visitor_key=?').get(freshKey).tour_step,0);
+ await post({action:'tour-skip'},freshKey);assert.match(await(await get('/world',freshKey)).text(),/data-map-guide="closed"/);
+ await post({action:'tour-start'},freshKey);
+ for(let step=0;step<4;step++)assert.equal((await post({action:'map-tour-next',step:String(step)},freshKey)).status,303);
+ assert.equal((await post({action:'map-tour-finish',step:'4'},freshKey)).status,303);
+ assert.equal(sql.prepare('SELECT tour_status FROM island_adventure_preferences WHERE visitor_key=?').get(freshKey).tour_status,'complete');
+ assert.equal(sql.prepare('SELECT count(*) n FROM island_adventure_rewards WHERE visitor_key=?').get(freshKey).n,0);
+ await post({action:'tour-start'},freshKey);assert.match(await(await get('/world',freshKey)).text(),/data-map-guide-step="0"/);
+ assert.equal(sql.prepare('SELECT tour_status FROM island_adventure_preferences WHERE visitor_key=?').get(freshKey).tour_status,'complete');
+ await post({action:'tour-skip'},freshKey);await post({nickname:'Map newcomer edited',bear:'rabbit',outfit:'picnic'},freshKey,'/passport');assert.equal(sql.prepare('SELECT tour_auto FROM island_adventure_preferences WHERE visitor_key=?').get(freshKey).tour_auto,0);
  const missing=audit.report().missing;assert.deepEqual(missing,[]);
 console.log('V87 PASS: legacy identities, two-account isolation, origin/forgery/replay/expiry guards, atomic retry, five scenes, Taipei rollover, daily/one-time rewards, greeting safety/rate limit, bounded NPC visit/off/later/chat, save/readback and bilingual HTML.');
