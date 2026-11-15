@@ -1,10 +1,10 @@
 // Explicit release phase; no date-based unlocks or player-data writes.
-export const nomadSite=Object.freeze({phase:'structure',bounds:Object.freeze({left:414,right:530,top:164,bottom:215}),approach:Object.freeze({x:470,y:240})});
-export function nomadBuildModel(phase='structure'){
- if(!['construction','structure'].includes(phase))throw Error('Unsupported Nomad House phase');
+export const nomadSite=Object.freeze({phase:'open',bounds:Object.freeze({left:414,right:530,top:164,bottom:215}),approach:Object.freeze({x:470,y:240})});
+export function nomadBuildModel(phase='open'){
+ if(!['construction','structure','open'].includes(phase))throw Error('Unsupported Nomad House phase');
  const boxes=[],roof=[],palms=[];
  const add=(x,y,w,d,h,color,base=9)=>boxes.push({x,y,w,d,h,color,base});
- if(phase==='structure'){
+ if(phase==='structure'||phase==='open'){
   add(472,190,65,61,5,'ba9565');add(472,190,64,60,1,'d1b286',14);
   for(let i=-3;i<=3;i++)add(472+i*7,190,1,59,.5,'ad8e62',15);
   // Screen-space centers follow the same projection as existing buildings.
@@ -12,17 +12,19 @@ export function nomadBuildModel(phase='structure'){
   add(452,181,48,3,3,'cbb077',56);add(492,181,3,48,3,'cbb077',56);
   add(452,200,3,48,3,'bda06a',56);add(492,200,48,3,3,'bda06a',56);
   // One finished thatch slope, one exposed bamboo roof frame.
-  roof.push({x:472,y:190,base:59,width:72,depth:66,rise:18});
+  roof.push({x:472,y:190,base:59,width:72,depth:66,rise:18,complete:phase==='open'});
   // A walkway is visible but remains closed at the existing fence.
   for(let i=0;i<3;i++)add(472,218+i*6,13,8,2,'c7a77a',7);
   // Staged rattan seating: wrapped seat and an unfinished shared table.
   add(481,194,22,12,3,'d8bc8c',28);for(const dx of[-7,7])add(481+dx,194,2,7,16,'a89163',12);
   for(const[x,y]of[[452,199],[496,193]]){add(x,y,11,10,3,'c2a273',22);add(x-3,y-2,11,2,10,'ddc292',25);add(x,y,2,2,10,'9f8b61',12);}
+  if(phase==='structure'){
   // Scaffolding and cross rails stay inside the original parcel.
   for(const[x,y]of[[424,188],[444,178],[444,198],[464,188]])add(x,y,2,2,55,'9b9375');
   for(const level of[28,47]){add(434,183,28,2,2,'c0b597',level);add(434,193,2,28,2,'b4aa8b',level);}
   add(434,188,24,20,2,'c9ba98',31);
   for(let i=0;i<4;i++)add(513,198,17,3,2,'c5a077',9+i*2);
+  }
   palms.push({x:417,y:192,height:44},{x:524,y:194,height:47});
  }
  return {phase,boxes,roof,palms};
@@ -46,7 +48,8 @@ main:has(.nomad-copy){width:min(100%,900px)}.nomad-preview figcaption{padding:10
 @media(prefers-reduced-motion:reduce){.nomad-arm{animation:none}}
 `;
 export function nomadConstructionArt(portrait='',phase=nomadSite.phase){
- if(!['construction','structure'].includes(phase))throw Error('Unsupported Nomad House phase');
+ if(!['construction','structure','open'].includes(phase))throw Error('Unsupported Nomad House phase');
+ if(phase==='open')return nomadStructureArt().replace('data-nomad-structure="bamboo-frame"','data-nomad-parcel="open"').replace(/<g data-nomad-scaffold[\s\S]*?<\/g>/,'');
  const art= `<g data-nomad-parcel="construction"><ellipse cx="474" cy="202" rx="63" ry="24" fill="#53694d" opacity=".18"/><path d="m414 190 58-28 58 28-58 28z" fill="#c9ad7d"/><path d="m414 190 58 28 58-28v6l-58 28-58-28z" fill="#a78a61"/>
  <g stroke="#a98a60" stroke-width="3" fill="none"><path d="M416 187v-15m28 1v-15m28 1v-15m29 29v-15m27 29v-15M416 177l56-27 56 27M416 183l56-27 56 27"/></g>
  <g fill="#b49166"><path d="m483 186 23-11 14 7-23 12z"/><path d="m483 190 23-11 14 7-23 12z"/></g><g stroke="#7e9a69" stroke-width="3"><path d="m481 202 25-12m-22 16 25-12m-22 16 25-12"/></g><path d="m447 202 13-13 17 15-15 7z" fill="#b4aa90"/><path d="m503 200 11-5 10 5v8l-11 5-10-5z" fill="#a76d52"/><path d="M507 198v-5h9v4" fill="none" stroke="#735e49" stroke-width="2"/>
@@ -59,7 +62,7 @@ export function nomadConstructionArt(portrait='',phase=nomadSite.phase){
 export function nomadPreview(){
  return `<svg viewBox="0 0 760 430" role="img" data-i18n-aria-label="nomad.preview" aria-label="Nomad House 建築概念預覽"><rect width="760" height="430" fill="#c2d7c4"/><path d="m57 250 325-159 322 158-325 163z" fill="#afc09c"/><path d="m174 254 208-101 207 101v15L382 371 174 269z" fill="#9e805a"/><path d="m174 254 208-101 207 101-207 102z" fill="#d0ad7d"/><g stroke="#eed2a0" stroke-width="2">${Array.from({length:9},(_,i)=>`<path d="m${192+i*21} ${254-i*10} 190 95"/>`).join('')}</g><g stroke="#b18c56" stroke-width="10"><path d="M220 260V157M380 335V232M542 261V158M380 181V87"/></g><path d="m168 162 213-108 212 108-213 110z" fill="#aa9969"/><path d="m168 162 212 110v12L168 174zm212 110 213-110v12L380 284" fill="#8e8155"/><path d="m185 161 196-94 194 94-195 100z" fill="#b9a879"/><g stroke="#d3bd87" stroke-width="3">${Array.from({length:9},(_,i)=>`<path d="m${205+i*20} ${151-i*9} 170 94"/>`).join('')}</g><path d="m288 272 92-45 92 45-92 46z" fill="#e0c89d"/><path d="M300 278v36m162-36v36" stroke="#88764f" stroke-width="6"/><path d="m350 268 26-13 22 11-25 13v-16l25-12" fill="#7f9c8d" stroke="#596e60" stroke-width="2"/><g fill="#6f936b">${[[145,246],[588,248],[520,329],[262,316]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="24" ry="12"/><path d="M${x} ${y}q-45-67 0-23 45-44 0 23"/>`).join('')}</g></svg>`;
 }
-export function nomadMarkup(portrait=''){
+export function nomadMarkup(portrait='',phase='structure'){
  const t=(key,zh,tag='p')=>`<${tag} data-i18n="nomad.${key}">${zh}</${tag.split(" ")[0]}>`;
- return `<style>${nomadStyles}</style><section class="nomad-copy" data-nomad-phase="${nomadSite.phase}"><small>BEAR ATLAS · V86.2</small>${t('title','Nomad House｜熊熊遊牧工作屋','h1')}<a href="/world?at=12" data-i18n="nomad.back">← 回施工告示旁</a>${t('structureStatus','屋架施工中 · 尚未開放入內','p class="nomad-status"')}<figure class="nomad-preview nomad-progress"><svg viewBox="390 85 165 155" role="img" data-i18n-aria-label="nomad.progressImage" aria-label="Nomad House 屋架施工進度"><rect x="390" y="85" width="165" height="155" fill="#cadcc1"/>${nomadConstructionArt()}</svg><figcaption data-i18n="nomad.progressCaption">竹屋架與部分茅草屋頂已成形，木平台、藤椅與熱帶綠植正在準備中。</figcaption></figure>${t('progressSafety','步道已連接至施工告示；圍籬內仍在施工，尚未公布開幕日期。')}<details><summary data-i18n="nomad.futureConcept">看看未來空間概念</summary><figure class="nomad-preview">${nomadPreview()}<figcaption data-i18n="nomad.concept">建築概念預覽；四個生活區域尚未開放。</figcaption></figure></details>${t('intro','即使需要工作，也可以在一個溫暖、自在的小世界裡完成。烏布雨林的自然感，與長谷共享工作的自在節奏。')}${t('safe','請留在木圍籬外的步道。工程熊熊正在整理竹材與木平台。')}<div class="nomad-zones">${[['work','Work Lounge｜共享工作區','竹木長桌、藤椅與筆電。以後可以在這裡工作或閱讀。'],['coffee','Coffee Corner｜咖啡角落','一杯虛擬咖啡，陪你放慢腳步。'],['deck','Slow Deck｜放空露台','海風、躺椅與綠植，留一個不用努力的角落。'],['focus','Focus Nook｜專注角落','安靜工作或閱讀；可選的陪伴計時將於後續階段加入。']].map(([key,title,copy])=>`<article>${t(key,title,'h2')}${t(key+'Copy',copy)}</article>`).join('')}</div>${t('promise','這裡不需要打卡、排名或完成任務。你也可以只是來待一會。')}</section>`;
+ return `<style>${nomadStyles}</style><section class="nomad-copy" data-nomad-phase="${phase}"><small>BEAR ATLAS · V86.2</small>${t('title','Nomad House｜熊熊遊牧工作屋','h1')}<a href="/world?at=12" data-i18n="nomad.back">← 回施工告示旁</a>${t('structureStatus','屋架施工中 · 尚未開放入內','p class="nomad-status"')}<figure class="nomad-preview nomad-progress"><svg viewBox="390 85 165 155" role="img" data-i18n-aria-label="nomad.progressImage" aria-label="Nomad House 屋架施工進度"><rect x="390" y="85" width="165" height="155" fill="#cadcc1"/>${nomadConstructionArt('',phase)}</svg><figcaption data-i18n="nomad.progressCaption">竹屋架與部分茅草屋頂已成形，木平台、藤椅與熱帶綠植正在準備中。</figcaption></figure>${t('progressSafety','步道已連接至施工告示；圍籬內仍在施工，尚未公布開幕日期。')}<details><summary data-i18n="nomad.futureConcept">看看未來空間概念</summary><figure class="nomad-preview">${nomadPreview()}<figcaption data-i18n="nomad.concept">建築概念預覽；四個生活區域尚未開放。</figcaption></figure></details>${t('intro','即使需要工作，也可以在一個溫暖、自在的小世界裡完成。烏布雨林的自然感，與長谷共享工作的自在節奏。')}${t('safe','請留在木圍籬外的步道。工程熊熊正在整理竹材與木平台。')}<div class="nomad-zones">${[['work','Work Lounge｜共享工作區','竹木長桌、藤椅與筆電。以後可以在這裡工作或閱讀。'],['coffee','Coffee Corner｜咖啡角落','一杯虛擬咖啡，陪你放慢腳步。'],['deck','Slow Deck｜放空露台','海風、躺椅與綠植，留一個不用努力的角落。'],['focus','Focus Nook｜專注角落','安靜工作或閱讀；可選的陪伴計時將於後續階段加入。']].map(([key,title,copy])=>`<article>${t(key,title,'h2')}${t(key+'Copy',copy)}</article>`).join('')}</div>${t('promise','這裡不需要打卡、排名或完成任務。你也可以只是來待一會。')}</section>`;
 }

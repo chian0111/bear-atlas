@@ -1,3 +1,4 @@
+import {nomadSeats,nomadResidents,nomadProject,nomadTransition,nomadNpcTask,nomadLivingMarkup,nomadLivingClient} from './nomad-living.js';
 import {nomadSite,nomadBuildModel,nomadStyles,nomadConstructionArt,nomadMarkup} from './nomad-house.js';
 import {sportsVenueModel,sportsVenueClient} from './sports-venues.js';
 import {i18nRuntime,i18nProtectHtml} from './i18n.js';
@@ -34,7 +35,7 @@ export default {async fetch(request,env){
  const response=path==='/about'&&request.method==='GET'?resortIdea():await app.fetch(request,env);
  if(!response.headers.get('Content-Type')?.includes('text/html'))return response;
  let profile=null,code='';try{const key=islanderOf(request);if(key){profile=await readPassportProfile(env.DB,key);if(profile){const row=await env.DB.prepare('SELECT member_no FROM island_credentials WHERE visitor_key=?').bind(key).first();if(row)code=memberLabel(row.member_no);}}}catch{}
- const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11,12].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/world/nomad'?12:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v86.2'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v86.2" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
+ const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11,12].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/world/nomad'?12:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v86.3'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v86.3" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
 }};
 
 const tokenPattern=/^[a-f0-9]{48}$/;
@@ -149,7 +150,13 @@ function renderInvite(row,reply,notice='',status=200,profile=null,path=''){
 const app={async fetch(request,env){
  const url=new URL(request.url), path=url.pathname;
  try{
-  if(path==='/world/nomad'&&request.method==='GET')return html(nomadMarkup(fullBody(neighborAvatar(1,0,harborNeighbors[1][0][2]))),200,worldSceneHeaders,{title:'Nomad House | Bear Atlas',brand:''});
+  if(path==='/world/nomad'&&request.method==='GET'){
+   const profile=islanderOf(request)?await readPassportProfile(env.DB,islanderOf(request)):null;
+   const portrait=fullBody(profile?memberAvatar(profile,true):avatar('honey','explorer'));
+   const residents=nomadResidents.map(slot=>{const[d,i]=slot.id.split('-').map(Number),row=harborNeighbors[d][i];return {name:escapeUser(row[0]),portrait:fullBody(neighborAvatar(d,i,row[2]))};});
+   return html(nomadLivingMarkup(portrait,residents),200,worldSceneHeaders,{title:'Nomad House | Bear Atlas',brand:''});
+  }
+  if(path==='/nomad-life.js'&&request.method==='GET')return new Response(nomadProject.toString()+';'+nomadTransition.toString()+';'+nomadNpcTask.toString()+';('+nomadLivingClient.toString()+')(nomadProject,nomadTransition,nomadNpcTask);',{headers:{...headers,'Content-Type':'application/javascript; charset=utf-8','Cache-Control':'public, max-age=300'}});
   if(path==='/world/nature'&&request.method==='GET')return naturePage(islanderOf(request)?await readPassportProfile(env.DB,islanderOf(request)):null);
   if(path==='/api/organizer')return await admin(request,env);
   if(path==='/api/organizer-relay')return await organizerRelay(request,env);
@@ -3422,7 +3429,7 @@ function publicHarbor(url,profile,credential,isFounder,invitations,dockServices)
  {i:1,n:'02',name:'海邊生活街',hint:'喝杯咖啡、逛市集，或翻一本喜歡的書',to:'/dock/career',cta:'走進咖啡館'},
  {i:5,n:'03',name:'運動俱樂部',hint:'海風裡的果嶺與伸展平台。自由練習，不用比賽或打卡',to:'/dock/sports',cta:'去果嶺練一球'},
  {i:11,n:'04',name:'我的小屋',hint:profile?'你原本的小屋與布置都在。走近家門，就能進屋休息':'先領取島民證，就能回到自己的小屋',to:'/dock/cabin',cta:'回家休息'},
- {i:12,n:'06',name:'Nomad House｜施工中',hint:'熱帶共享工作屋正在準備中。先看看建築概念，開幕日期尚未公布',to:'/world/nomad',cta:'查看施工告示與預覽'},
+ {i:12,n:'06',name:'Nomad House｜遊牧工作屋',hint:'熱帶工作屋開門了。找個座位工作、閱讀、喝咖啡，或在露台放空',to:'/world/nomad',cta:'走進 Nomad House'},
  {i:7,n:'05',name:'自然休憩區',hint:'沿著海岸走走，在花園長椅上休息，或到安靜的小島整理心情',to:'/world/nature',cta:'走進海岸花園'}];
  const services={1:'<div class="resort-services"><a href="/dock/mba">山丘書屋</a><a href="/dock/finance">潮汐市集</a><a href="/dock/square">榕樹廣場</a></div>',7:'<div class="resort-services"><a href="/dock/bottles" data-sea-open>漂流瓶接力</a></div>'};
  const dockLink=(text,cls='')=>'<a'+(cls?' class="'+cls+'"':'')+' href="'+harborDockPath+'" data-stop="'+dockStop+'"'+(initial===dockStop?' aria-current="true"':'')+'>'+text+'</a>';

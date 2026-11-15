@@ -620,6 +620,15 @@
       "deployment_id": "appgdep_6af91714edd48191ac852c4ff618861a",
       "deployment_status": "succeeded",
       "archive_sha256": "sha256:663bc820a5a72fe1bce808378ffa77caae9ca923f34799c11f857345f03f8aa5"
+    },
+    {
+      "version": 88,
+      "product_release": "V86.3",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_4e53d29204948191b2d6fc0ac1c3cc2c",
+      "commit": "d30147b1a65181b2e537c5bb2c4bf017c3232d31",
+      "deployment_id": "appgdep_6af9203389d48191b59c31ae511bcfdc",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:59a0e98d2053e37dc05c12324b8c101a149ed90cf6caf5571a9868700cc6f650"
     }
   ],
   "candidates": [
@@ -648,6 +657,20 @@
         "desktop Safari",
         "mobile touch/performance",
         "visual no-WebGL pass"
+      ]
+    },
+    {
+      "release": "V86.3",
+      "branch": "feature/v86-nomad-house",
+      "base_source_commit": "be892f5d79d53e960b9652f71ec82dfcd4b63b77",
+      "status": "deployed",
+      "deployment_id": "appgdep_6af9203389d48191b59c31ae511bcfdc",
+      "report": "docs/V86.3-ACCEPTANCE.md",
+      "remaining_limits": [
+        "actual iPhone Safari",
+        "desktop Safari",
+        "mobile touch/performance",
+        "real device background/BFCache audio"
       ]
     }
   ]

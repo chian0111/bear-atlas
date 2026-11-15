@@ -292,5 +292,169 @@
   "nomad.futureConcept": {
     "zh-TW": "看看未來空間概念",
     "en": "Explore the future space concept"
+  },
+  "nomadLive.title": {
+    "zh-TW": "Nomad House｜熊熊遊牧工作屋",
+    "en": "Nomad House | Tropical Coworking Retreat"
+  },
+  "nomadLive.welcome": {
+    "zh-TW": "工作、閱讀，或只是和大家待在一起。今天不需要完成任何事。",
+    "en": "Work, read, or simply share a little space. There is nothing you have to finish today."
+  },
+  "nomadLive.back": {
+    "zh-TW": "← 回渡假村",
+    "en": "← Back to the retreat"
+  },
+  "nomadLive.zones": {
+    "zh-TW": "四個生活區域",
+    "en": "Four living areas"
+  },
+  "nomadLive.work": {
+    "zh-TW": "共享工作區",
+    "en": "Work Lounge"
+  },
+  "nomadLive.coffee": {
+    "zh-TW": "咖啡角落",
+    "en": "Coffee Corner"
+  },
+  "nomadLive.deck": {
+    "zh-TW": "放空露台",
+    "en": "Slow Deck"
+  },
+  "nomadLive.focus": {
+    "zh-TW": "專注角落",
+    "en": "Focus Nook"
+  },
+  "nomadLive.panHelp": {
+    "zh-TW": "手機可左右滑動場景，或使用區域按鈕找到座位。",
+    "en": "On mobile, swipe across the scene or use the area buttons to find a seat."
+  },
+  "nomadLive.scene": {
+    "zh-TW": "熱帶共享工作屋場景",
+    "en": "Tropical coworking retreat scene"
+  },
+  "nomadLive.seat0": {
+    "zh-TW": "工作座位 A",
+    "en": "Work seat A"
+  },
+  "nomadLive.seat1": {
+    "zh-TW": "工作座位 B",
+    "en": "Work seat B"
+  },
+  "nomadLive.seat2": {
+    "zh-TW": "咖啡藤椅",
+    "en": "Coffee chair"
+  },
+  "nomadLive.seat3": {
+    "zh-TW": "露台躺椅",
+    "en": "Deck lounger"
+  },
+  "nomadLive.seat4": {
+    "zh-TW": "安靜座位",
+    "en": "Quiet seat"
+  },
+  "nomadLive.quiet": {
+    "zh-TW": "減少動畫與聲音",
+    "en": "Reduce motion and sound"
+  },
+  "nomadLive.soundOff": {
+    "zh-TW": "環境音：關閉",
+    "en": "Ambient sound: off"
+  },
+  "nomadLive.soundOn": {
+    "zh-TW": "環境音：開啟",
+    "en": "Ambient sound: on"
+  },
+  "nomadLive.choose": {
+    "zh-TW": "選一個空位，慢慢坐下。",
+    "en": "Choose an empty seat and settle in."
+  },
+  "nomadLive.working": {
+    "zh-TW": "工作",
+    "en": "Working"
+  },
+  "nomadLive.reading": {
+    "zh-TW": "閱讀",
+    "en": "Reading"
+  },
+  "nomadLive.resting": {
+    "zh-TW": "休息",
+    "en": "Resting"
+  },
+  "nomadLive.stretching": {
+    "zh-TW": "伸展",
+    "en": "Stretching"
+  },
+  "nomadLive.daydreaming": {
+    "zh-TW": "放空",
+    "en": "Daydreaming"
+  },
+  "nomadLive.leave": {
+    "zh-TW": "起身離開座位",
+    "en": "Leave the seat"
+  },
+  "nomadLive.stroll": {
+    "zh-TW": "沿著走道散步",
+    "en": "Stroll along the aisle"
+  },
+  "nomadLive.workNote": {
+    "zh-TW": "竹屋頂下的長桌留著筆電與書本。點空位坐下，再選想做的事。",
+    "en": "Laptops and books await beneath the bamboo roof. Choose an empty seat, then do what feels right."
+  },
+  "nomadLive.coffeeNote": {
+    "zh-TW": "沿用海邊咖啡館的虛擬飲品。先取一杯，想喝時再喝一口。",
+    "en": "Enjoy the same virtual drinks as the seaside cafe. Pick a cup and take a sip whenever you like."
+  },
+  "nomadLive.deckNote": {
+    "zh-TW": "木露台、藤椅與小水景，陪你伸個懶腰，或什麼都不想。",
+    "en": "A timber deck, rattan chairs and gentle water. Stretch a little or let your mind wander."
+  },
+  "nomadLive.focusNote": {
+    "zh-TW": "獨立座位適合安靜工作或閱讀。可以開啟「減少動畫與聲音」。",
+    "en": "An individual seat for quiet work or reading. Turn on Reduce motion and sound for less distraction."
+  },
+  "nomadLive.drinks": {
+    "zh-TW": "選擇虛擬飲品",
+    "en": "Choose a virtual drink"
+  },
+  "nomadLive.neighbours": {
+    "zh-TW": "今天在這裡的居民",
+    "en": "Neighbours sharing the space"
+  },
+  "nomadLive.drawing": {
+    "zh-TW": "畫圖",
+    "en": "Drawing"
+  },
+  "nomadLive.drinking": {
+    "zh-TW": "喝咖啡",
+    "en": "Having coffee"
+  },
+  "nomadLive.thinking": {
+    "zh-TW": "思考",
+    "en": "Thinking"
+  },
+  "nomadLive.walking": {
+    "zh-TW": "沿著走道慢慢走…",
+    "en": "Taking a gentle walk along the aisle…"
+  },
+  "nomadLive.quietSound": {
+    "zh-TW": "安靜模式已開啟；環境音保持關閉。",
+    "en": "Quiet mode is on; ambient sound stays off."
+  },
+  "nomadLive.audioUnavailable": {
+    "zh-TW": "目前無法播放環境音，你仍可以安靜地待著。",
+    "en": "Ambient sound is unavailable. You can still enjoy the quiet."
+  },
+  "nomad.openMap": {
+    "zh-TW": "Nomad House｜遊牧工作屋",
+    "en": "Nomad House | Coworking Retreat"
+  },
+  "nomad.openHint": {
+    "zh-TW": "熱帶工作屋開門了。找個座位工作、閱讀、喝咖啡，或在露台放空",
+    "en": "The tropical retreat is open. Find a seat to work, read or have a coffee, or unwind on the deck"
+  },
+  "nomad.openCta": {
+    "zh-TW": "走進 Nomad House",
+    "en": "Enter Nomad House"
   }
 }

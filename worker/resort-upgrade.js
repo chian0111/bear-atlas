@@ -72,9 +72,11 @@ export function resort3dClient(nomadModelFactory){
  // Nomad House shares the native projected scene and fixed northern parcel.
  path([675,280],[510,230]);path([510,230],[470,240]);
  shadow(472,190,58);box(472,190,66,66,2,'c8af80',7);
+ const nomadPhase=stage.dataset.nomadPhase||'construction';
+ if(nomadPhase!=='open'){
  for(const[x,y]of[[420,190],[444,178],[472,165],[500,178],[524,190],[500,202],[472,215],[444,202]]){box(x,y,3,3,19,'ac8c61',8);}
  for(let i=0;i<5;i++){box(420+i*11,190+i*5,16,2,4,'c8a575',17);box(472+i*10,215-i*5,2,16,4,'c8a575',17);}
- const nomadPhase=stage.dataset.nomadPhase||'construction';
+ }
  if(nomadPhase==='construction'){
  box(444,187,26,17,6,'555f50',8);box(443,183,19,15,12,'e3b64b',13);box(440,180,12,12,17,'edc357',22);box(439,184,8,2,10,'79988b',27);
  // Excavator arm uses the shared SVG overlay for a low-cost slow movement.
@@ -86,8 +88,9 @@ export function resort3dClient(nomadModelFactory){
  for(const r of building.roof){
   const o=point(r.x,r.y,r.base),w=r.width/2,d=r.depth/2,p=(x,h,z)=>[o[0]+x,o[1]+h,o[2]+z];layer=r.y+.2;
   tri(p(0,r.rise,-d),p(0,r.rise,d),p(w,0,d),'c3ae79',1.05);tri(p(0,r.rise,-d),p(w,0,d),p(w,0,-d),'c3ae79',.95);
-  // Bamboo rafters remain exposed on the unfinished slope.
-  for(let z=-d;z<=d;z+=8){const a=p(-w,0,z),b=p(0,r.rise,z);tri(a,[a[0]+1.5,a[1],a[2]],b,'d5b77d');tri([a[0]+1.5,a[1],a[2]],[b[0]+1.5,b[1],b[2]],b,'d5b77d');}
+  if(r.complete){tri(p(-w,0,-d),p(-w,0,d),p(0,r.rise,d),'c3ae79',.85);tri(p(-w,0,-d),p(0,r.rise,d),p(0,r.rise,-d),'c3ae79',.9);}
+  // Bamboo rafters remain exposed only on the unfinished slope.
+  if(!r.complete)for(let z=-d;z<=d;z+=8){const a=p(-w,0,z),b=p(0,r.rise,z);tri(a,[a[0]+1.5,a[1],a[2]],b,'d5b77d');tri([a[0]+1.5,a[1],a[2]],[b[0]+1.5,b[1],b[2]],b,'d5b77d');}
   for(let z=-d;z<=d;z+=5){const a=p(0,r.rise,z),b=p(w,0,z);tri(a,b,[b[0],b[1]+.7,b[2]+1],'daca92',.9);}
  }
  for(const palm of building.palms){
