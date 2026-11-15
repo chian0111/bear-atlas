@@ -272,5 +272,25 @@
   "nomad.cta": {
     "zh-TW": "查看施工告示與預覽",
     "en": "View construction sign and preview"
+  },
+  "nomad.structureStatus": {
+    "zh-TW": "屋架施工中 · 尚未開放入內",
+    "en": "Structure taking shape · Not open for entry"
+  },
+  "nomad.progressImage": {
+    "zh-TW": "Nomad House 屋架施工進度",
+    "en": "Nomad House structural construction progress"
+  },
+  "nomad.progressCaption": {
+    "zh-TW": "竹屋架與部分茅草屋頂已成形，木平台、藤椅與熱帶綠植正在準備中。",
+    "en": "The bamboo frame and partial thatch roof are taking shape. A timber deck, rattan seating and tropical plants are being prepared."
+  },
+  "nomad.progressSafety": {
+    "zh-TW": "步道已連接至施工告示；圍籬內仍在施工，尚未公布開幕日期。",
+    "en": "The path leads to the construction sign. Work continues inside the fence; no opening date has been announced."
+  },
+  "nomad.futureConcept": {
+    "zh-TW": "看看未來空間概念",
+    "en": "Explore the future space concept"
   }
 }

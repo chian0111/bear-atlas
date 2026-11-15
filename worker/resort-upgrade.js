@@ -47,7 +47,7 @@ export function upgradeClient(){
  const rest=document.querySelector('[data-nature-rest]');if(rest)rest.addEventListener('click',()=>{const panel=document.querySelector('.resort-scene');const seated=panel.classList.toggle('is-nature-seated');document.querySelector('[data-nature-status]').textContent=seated?'你坐上面海長椅，腳步停下，看看海風。':'你起身伸個懶腰，想散步時再出發。';rest.textContent=seated?'起身散步':'再坐一會';rest.setAttribute('aria-pressed',String(seated));panel.dataset.posture=seated?'sitting':'standing';panel.querySelector('figcaption').textContent=seated?'坐在長椅上，讓海風陪你休息。':'已經起身，沿著木棧道慢慢走。';});
  const dialog=document.querySelector('[data-facility-dialog]');if(dialog){let trigger,timer;const scene=dialog.querySelector('[data-facility-scene]'),title=dialog.querySelector('h2'),status=dialog.querySelector('[data-facility-status]'),play=dialog.querySelector('[data-facility-play]');document.querySelectorAll('[data-facility]').forEach(button=>button.addEventListener('click',()=>{trigger=button;const id=button.dataset.facility;dialog.dataset.kind=id;title.textContent=button.querySelector('strong').textContent;scene.replaceChildren(document.querySelector('[data-facility-template="'+id+'"]').content.cloneNode(true));dialog.querySelector('[data-facility-note]').textContent=id==='pool'?'沿著池緣看看海，或輕輕入水，留一點時間給自己。':id==='gym'?'面海的木質健身房。試試跑步機的輕鬆動作，隨時可以休息。':'看看球網、場線與海風，試一段短暫的擊球動作。完整對打尚未開放。';status.textContent='';play.disabled=false;dialog.classList.remove('is-active');dialog.showModal();}));dialog.querySelector('[data-facility-close]').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{clearTimeout(timer);dialog.classList.remove('is-active');trigger?.focus();});play.addEventListener('click',()=>{dialog.classList.remove('is-active');void dialog.offsetWidth;dialog.classList.add('is-active');play.disabled=true;status.textContent=dialog.dataset.kind==='pool'?'輕輕入水，漂浮一會。':'跟著自己的步調，輕鬆動一動…';timer=setTimeout(()=>{dialog.classList.remove('is-active');play.disabled=false;status.textContent='這次體驗完成，可以再試一次。';},3200);});}
 }
-export function resort3dClient(){
+export function resort3dClient(nomadModelFactory){
  const canvas=document.querySelector('[data-resort-3d]');if(!canvas)return;let gl;try{gl=canvas.getContext('webgl',{alpha:true,antialias:true,preserveDrawingBuffer:false});}catch{}const ctx=gl?null:canvas.getContext('2d');if(!gl&&!ctx)return;
  const stage=canvas.parentElement,vs='attribute vec3 p;attribute vec3 c;attribute float sway;uniform float time;varying vec3 color;void main(){vec3 q=p;q.x+=sin(time+p.z*.025)*sway*2.0;float x=470.0+(q.x-q.z)*0.866;float y=300.0+(q.x+q.z)*0.42-p.y*0.85;gl_Position=vec4(x/470.0-1.0,1.0-y/304.0,-((p.x+p.z)*0.42+p.y*0.05)/1000.0,1.0);color=c;}',fs='precision mediump float;varying vec3 color;void main(){gl_FragColor=vec4(color,1.0);}';
  const shader=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s)||'shader');return s;};let program;if(gl)try{program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vs));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS)){canvas.dataset.renderStatus='link-error';return;}}catch(e){canvas.dataset.renderStatus=String(e.message).slice(0,180);return;}if(gl)gl.useProgram(program);const vertices=[],colors=[],weights=[],faces=[];let layer=0,wind=0;
@@ -74,10 +74,28 @@ export function resort3dClient(){
  shadow(472,190,58);box(472,190,66,66,2,'c8af80',7);
  for(const[x,y]of[[420,190],[444,178],[472,165],[500,178],[524,190],[500,202],[472,215],[444,202]]){box(x,y,3,3,19,'ac8c61',8);}
  for(let i=0;i<5;i++){box(420+i*11,190+i*5,16,2,4,'c8a575',17);box(472+i*10,215-i*5,2,16,4,'c8a575',17);}
+ const nomadPhase=stage.dataset.nomadPhase||'construction';
+ if(nomadPhase==='construction'){
  box(444,187,26,17,6,'555f50',8);box(443,183,19,15,12,'e3b64b',13);box(440,180,12,12,17,'edc357',22);box(439,184,8,2,10,'79988b',27);
  // Excavator arm uses the shared SVG overlay for a low-cost slow movement.
  for(let i=0;i<4;i++)box(503,187,23,4,3,'c5a077',8+i*3);
  box(507,202,12,9,7,'a76d52',8);box(466,203,18,14,5,'b0a890',8);box(471,229,3,3,20,'8f7852',7);box(471,228,27,3,14,'f1dfb6',24);
+ }else if(nomadModelFactory){
+ const building=nomadModelFactory(nomadPhase);
+ for(const b of building.boxes)box(b.x,b.y,b.w,b.d,b.h,b.color,b.base);
+ for(const r of building.roof){
+  const o=point(r.x,r.y,r.base),w=r.width/2,d=r.depth/2,p=(x,h,z)=>[o[0]+x,o[1]+h,o[2]+z];layer=r.y+.2;
+  tri(p(0,r.rise,-d),p(0,r.rise,d),p(w,0,d),'c3ae79',1.05);tri(p(0,r.rise,-d),p(w,0,d),p(w,0,-d),'c3ae79',.95);
+  // Bamboo rafters remain exposed on the unfinished slope.
+  for(let z=-d;z<=d;z+=8){const a=p(-w,0,z),b=p(0,r.rise,z);tri(a,[a[0]+1.5,a[1],a[2]],b,'d5b77d');tri([a[0]+1.5,a[1],a[2]],[b[0]+1.5,b[1],b[2]],b,'d5b77d');}
+  for(let z=-d;z<=d;z+=5){const a=p(0,r.rise,z),b=p(w,0,z);tri(a,b,[b[0],b[1]+.7,b[2]+1],'daca92',.9);}
+ }
+ for(const palm of building.palms){
+  shadow(palm.x,palm.y,13);box(palm.x,palm.y,3,3,palm.height,'ad9569',9);const o=point(palm.x,palm.y,9+palm.height);wind=.6;layer=palm.y+1;
+  for(let i=0;i<6;i++){const a=i*Math.PI/3,b=a+.4;tri(o,[o[0]+Math.cos(a)*20,o[1]-9,o[2]+Math.sin(a)*20],[o[0]+Math.cos(b)*12,o[1]-4,o[2]+Math.sin(b)*12],'739a70',.85+(i%2)*.12);}wind=0;
+ }
+ box(471,229,3,3,20,'8f7852',7);box(471,228,27,3,14,'f1dfb6',24);
+ }
  const bind=(name,data,components=3)=>{const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW);const p=gl.getAttribLocation(program,name);gl.enableVertexAttribArray(p);gl.vertexAttribPointer(p,components,gl.FLOAT,false,0,0);};if(gl){bind('p',vertices);bind('c',colors);bind('sway',weights,1);gl.enable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);}faces.sort((a,b)=>a.layer-b.layer);
  let renderTime=0;function draw(){const started=performance.now();const dpr=Math.min(devicePixelRatio||1,1.7),w=Math.round(stage.clientWidth*dpr),h=Math.round(stage.clientHeight*dpr);if(!w||!h)return;if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;if(gl){gl.uniform1f(gl.getUniformLocation(program,'time'),renderTime);gl.viewport(0,0,w,h);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,vertices.length/3);}else{ctx.setTransform(w/940,0,0,h/608,0,0);ctx.clearRect(0,0,940,608);for(const f of faces){ctx.beginPath();f.points.forEach((p,i)=>{const x=470+(p[0]+Math.sin(renderTime+p[2]*.025)*(f.wind||0)*2-p[2])*.866,y=300+(p[0]+p[2])*.42-p[1]*.85;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle='rgb('+f.color.join(',')+')';ctx.fill();}}stage.setAttribute('data-3d-ready','true');canvas.dataset.renderStatus=gl?'webgl-3d':'canvas-3d';canvas.dataset.drawMs=(performance.now()-started).toFixed(1);}
  const motion=matchMedia('(prefers-reduced-motion: reduce)');let animation=0,last=0,inView=true;const animate=now=>{if(!motion.matches&&!document.hidden&&inView&&stage.closest('figure')?.dataset.paused!=='true'&&now-last>125){last=now;renderTime=now/1800;draw();}animation=requestAnimationFrame(animate);};animation=requestAnimationFrame(animate);const visibility=new IntersectionObserver(es=>inView=es[0].isIntersecting);visibility.observe(stage);

@@ -763,7 +763,7 @@ assert.ok((await (await get('/dock/career',friend)).text()).includes('海邊咖�
 const about=await (await get('/about')).text();assert.equal((about.match(/<figure class="resort-scene">/g)||[]).length,4);
 assert.match(nature,/TOWN \/ 05/);assert.ok(!nature.includes('看看漂流瓶'));assert.ok(!upgradedMap.includes('class="hb-bottle-pin"'));
 const cabin81=await (await get('/dock/cabin',friend)).text();assert.match(cabin81,/data-game-sheet="menu"/);assert.match(cabin81,/cabin-resort-return/);assert.ok(!cabin81.includes('叩叩！'));
-const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/src="\/i18n\/runtime.js\?release=v86\.1"/);assert.match(englishAbout,/有自己的家，也有可以走走的世界/);assert.match(englishAbout,/data-locale="en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
+const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/src="\/i18n\/runtime.js\?release=v86\.2"/);assert.match(englishAbout,/有自己的家，也有可以走走的世界/);assert.match(englishAbout,/data-locale="en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
 console.log('49 distinct residents, WebGL fallback, five facility prototypes, nature garden and illustrated philosophy passed.');
 
 for(const [path,at]of [['/dock/career',1],['/dock/sports',5],['/world/nature',7],['/dock/cabin',11]]){const page=await (await get(path,friend)).text();assert.ok(page.includes('href="/world?at='+at+'"'),path);const map=await (await get('/world?at='+at,friend)).text();assert.ok(map.includes('data-initial="'+at+'"'));}
@@ -771,7 +771,7 @@ assert.equal((await get('/world/home',friend)).headers.get('Location'),'/dock/ca
 for(const id of ['career','mba','finance','network'])assert.ok(!(await (await get('/dock/'+id,friend)).text()).includes('在這裡遇見居民'));
 console.log('Facility return positions retained, direct own-home entry and quiet leisure pages passed.');
 
-for(const who of ['',friend]){const before=sql.prepare('SELECT count(*) n FROM island_passports').get().n;const page=await (await get('/world/nomad',who)).text();assert.match(page,/data-nomad-phase="construction"/);assert.match(page,/nomad.focusCopy/);assert.ok(!page.includes('data-focus-start'));assert.equal(sql.prepare('SELECT count(*) n FROM island_passports').get().n,before);assert.match(await (await get('/world?at=12',who)).text(),/data-initial="12"/);}
-console.log('V86.1 guest/member construction preview, return stop, no premature interactions and unchanged identity count passed.');
+for(const who of ['',friend]){const before=sql.prepare('SELECT count(*) n FROM island_passports').get().n;const page=await (await get('/world/nomad',who)).text();assert.match(page,/data-nomad-phase="structure"/);assert.match(page,/nomad.focusCopy/);assert.ok(!page.includes('data-focus-start'));assert.equal(sql.prepare('SELECT count(*) n FROM island_passports').get().n,before);assert.match(await (await get('/world?at=12',who)).text(),/data-initial="12"/);}
+console.log('V86.2 guest/member construction preview, return stop, no premature interactions and unchanged identity count passed.');
 for(let district=0;district<harborNeighbors.length;district++)for(let slot=0;slot<harborNeighbors[district].length;slot++){const response=await get('/islands/neighbors/'+district+'-'+slot,friend);assert.equal(response.status,200);}
 if(process.env.I18N_AUDIT_REPORT){const report=i18nAudit.report();writeFileSync(process.env.I18N_AUDIT_REPORT,JSON.stringify(report,null,2)+'\n');console.log('I18N audit: '+report.htmlRoutes+' HTML routes; '+report.missing.length+' incomplete source strings.');assert.equal(report.missing.length,0,'Untranslated built-in strings; inspect the report.');}
