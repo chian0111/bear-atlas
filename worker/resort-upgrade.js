@@ -68,6 +68,16 @@ export function resort3dClient(){
  for(let i=0;i<40;i++){const x=155+(i*83)%590,y=190+(i*47)%245;box(x,y,2,5,.5,i%2?'abbc95':'c5cba8',5);}
  for(let i=0;i<9;i++)box(458,487+i*5,24,1,.7,'a68c69',5);
  const flag=point(743,243,54);wind=.7;layer=244;tri(flag,[flag[0]+18,flag[1]-5,flag[2]],[flag[0],flag[1]-11,flag[2]],'e7c1a2');wind=0;
+
+ // Nomad House shares the native projected scene and fixed northern parcel.
+ path([675,280],[510,230]);path([510,230],[470,240]);
+ shadow(472,190,58);box(472,190,66,66,2,'c8af80',7);
+ for(const[x,y]of[[420,190],[444,178],[472,165],[500,178],[524,190],[500,202],[472,215],[444,202]]){box(x,y,3,3,19,'ac8c61',8);}
+ for(let i=0;i<5;i++){box(420+i*11,190+i*5,16,2,4,'c8a575',17);box(472+i*10,215-i*5,2,16,4,'c8a575',17);}
+ box(444,187,26,17,6,'555f50',8);box(443,183,19,15,12,'e3b64b',13);box(440,180,12,12,17,'edc357',22);box(439,184,8,2,10,'79988b',27);
+ // Excavator arm uses the shared SVG overlay for a low-cost slow movement.
+ for(let i=0;i<4;i++)box(503,187,23,4,3,'c5a077',8+i*3);
+ box(507,202,12,9,7,'a76d52',8);box(466,203,18,14,5,'b0a890',8);box(471,229,3,3,20,'8f7852',7);box(471,228,27,3,14,'f1dfb6',24);
  const bind=(name,data,components=3)=>{const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW);const p=gl.getAttribLocation(program,name);gl.enableVertexAttribArray(p);gl.vertexAttribPointer(p,components,gl.FLOAT,false,0,0);};if(gl){bind('p',vertices);bind('c',colors);bind('sway',weights,1);gl.enable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);}faces.sort((a,b)=>a.layer-b.layer);
  let renderTime=0;function draw(){const started=performance.now();const dpr=Math.min(devicePixelRatio||1,1.7),w=Math.round(stage.clientWidth*dpr),h=Math.round(stage.clientHeight*dpr);if(!w||!h)return;if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;if(gl){gl.uniform1f(gl.getUniformLocation(program,'time'),renderTime);gl.viewport(0,0,w,h);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,vertices.length/3);}else{ctx.setTransform(w/940,0,0,h/608,0,0);ctx.clearRect(0,0,940,608);for(const f of faces){ctx.beginPath();f.points.forEach((p,i)=>{const x=470+(p[0]+Math.sin(renderTime+p[2]*.025)*(f.wind||0)*2-p[2])*.866,y=300+(p[0]+p[2])*.42-p[1]*.85;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle='rgb('+f.color.join(',')+')';ctx.fill();}}stage.setAttribute('data-3d-ready','true');canvas.dataset.renderStatus=gl?'webgl-3d':'canvas-3d';canvas.dataset.drawMs=(performance.now()-started).toFixed(1);}
  const motion=matchMedia('(prefers-reduced-motion: reduce)');let animation=0,last=0,inView=true;const animate=now=>{if(!motion.matches&&!document.hidden&&inView&&stage.closest('figure')?.dataset.paused!=='true'&&now-last>125){last=now;renderTime=now/1800;draw();}animation=requestAnimationFrame(animate);};animation=requestAnimationFrame(animate);const visibility=new IntersectionObserver(es=>inView=es[0].isIntersecting);visibility.observe(stage);

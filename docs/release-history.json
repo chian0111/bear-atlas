@@ -603,5 +603,20 @@
       "deployment_status": "succeeded",
       "archive_sha256": "sha256:9ab2e94d5234122892f627c29fd8f2c8e7912e35cac22bce2fa785f4c628e528"
     }
+  ],
+  "candidates": [
+    {
+      "release": "V86.1",
+      "branch": "feature/v86-nomad-house",
+      "base_source_commit": "a027cb2b62881a887c62d4987fb5797e33441ab6",
+      "status": "candidate-not-deployed",
+      "deployment_id": null,
+      "remaining_gates": [
+        "iPhone Safari",
+        "desktop Safari",
+        "mobile touch and performance"
+      ],
+      "report": "docs/V86.1-ACCEPTANCE.md"
+    }
   ]
 }

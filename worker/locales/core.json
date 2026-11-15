@@ -196,5 +196,81 @@
   "sports.detail_5": {
     "zh-TW": "跟著自己的步調，輕鬆動一動…",
     "en": "Move gently, at your own pace…"
+  },
+  "nomad.title": {
+    "zh-TW": "Nomad House｜熊熊遊牧工作屋",
+    "en": "Nomad House | Tropical Coworking Retreat"
+  },
+  "nomad.back": {
+    "zh-TW": "← 回施工告示旁",
+    "en": "← Back to the construction sign"
+  },
+  "nomad.status": {
+    "zh-TW": "施工中 · 尚未公布開幕日期",
+    "en": "Under construction · Opening date not announced"
+  },
+  "nomad.preview": {
+    "zh-TW": "Nomad House 建築概念預覽",
+    "en": "Nomad House architectural concept preview"
+  },
+  "nomad.concept": {
+    "zh-TW": "建築概念預覽；四個生活區域尚未開放。",
+    "en": "Architectural concept preview; the four living areas are not open yet."
+  },
+  "nomad.intro": {
+    "zh-TW": "即使需要工作，也可以在一個溫暖、自在的小世界裡完成。烏布雨林的自然感，與長谷共享工作的自在節奏。",
+    "en": "Even when work calls, you can do it in a warm little world. Inspired by the greenery of Ubud and the easy coworking rhythm of Canggu."
+  },
+  "nomad.safe": {
+    "zh-TW": "請留在木圍籬外的步道。工程熊熊正在整理竹材與木平台。",
+    "en": "Please stay on the path outside the wooden fence. Our builder is preparing bamboo and a timber deck."
+  },
+  "nomad.work": {
+    "zh-TW": "Work Lounge｜共享工作區",
+    "en": "Work Lounge"
+  },
+  "nomad.workCopy": {
+    "zh-TW": "竹木長桌、藤椅與筆電。以後可以在這裡工作或閱讀。",
+    "en": "Bamboo tables, rattan chairs and laptops. A future spot to work or read."
+  },
+  "nomad.coffee": {
+    "zh-TW": "Coffee Corner｜咖啡角落",
+    "en": "Coffee Corner"
+  },
+  "nomad.coffeeCopy": {
+    "zh-TW": "一杯虛擬咖啡，陪你放慢腳步。",
+    "en": "A virtual coffee to help you slow down."
+  },
+  "nomad.deck": {
+    "zh-TW": "Slow Deck｜放空露台",
+    "en": "Slow Deck"
+  },
+  "nomad.deckCopy": {
+    "zh-TW": "海風、躺椅與綠植，留一個不用努力的角落。",
+    "en": "Sea breezes, loungers and greenery. A corner where you can simply be."
+  },
+  "nomad.focus": {
+    "zh-TW": "Focus Nook｜專注角落",
+    "en": "Focus Nook"
+  },
+  "nomad.focusCopy": {
+    "zh-TW": "安靜工作或閱讀；可選的陪伴計時將於後續階段加入。",
+    "en": "Work or read quietly. An optional companion timer will follow in a later phase."
+  },
+  "nomad.promise": {
+    "zh-TW": "這裡不需要打卡、排名或完成任務。你也可以只是來待一會。",
+    "en": "No check-ins, rankings or tasks. You can simply stay a while."
+  },
+  "nomad.map": {
+    "zh-TW": "Nomad House｜施工中",
+    "en": "Nomad House | Under construction"
+  },
+  "nomad.hint": {
+    "zh-TW": "熱帶共享工作屋正在準備中。先看看建築概念，開幕日期尚未公布",
+    "en": "A tropical coworking retreat is taking shape. Preview the concept; no opening date has been announced"
+  },
+  "nomad.cta": {
+    "zh-TW": "查看施工告示與預覽",
+    "en": "View construction sign and preview"
   }
 }
