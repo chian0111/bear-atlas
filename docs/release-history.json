@@ -602,6 +602,15 @@
       "deployment_id": "appgdep_6af87233b5888191b1c0ebdbd9af9f47",
       "deployment_status": "succeeded",
       "archive_sha256": "sha256:9ab2e94d5234122892f627c29fd8f2c8e7912e35cac22bce2fa785f4c628e528"
+    },
+    {
+      "version": 86,
+      "product_release": "V86.1",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_eeca0cc775588191bbc8cf239afc2001",
+      "commit": "119d16c919c4281c742bbf6123d2b52dc211df1b",
+      "deployment_id": "appgdep_6af91489d78c81918d57d90ebc4992aa",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:ee4f3a5c379a6a018b359dd6deab6b17b225f3fec7f5f1947ff2f835b5e39be2"
     }
   ],
   "candidates": [
@@ -609,8 +618,8 @@
       "release": "V86.1",
       "branch": "feature/v86-nomad-house",
       "base_source_commit": "a027cb2b62881a887c62d4987fb5797e33441ab6",
-      "status": "candidate-not-deployed",
-      "deployment_id": null,
+      "status": "deployed-on-user-request",
+      "deployment_id": "appgdep_6af91489d78c81918d57d90ebc4992aa",
       "remaining_gates": [
         "iPhone Safari",
         "desktop Safari",
