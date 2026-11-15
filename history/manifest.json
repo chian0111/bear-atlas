@@ -1,11 +1,18 @@
 {
   "repository": "chian0111/bear-atlas",
-  "mode": "connector-source-and-restorable-history",
-  "source_commit": "168c17f2edb9d6e7990d17af097ba15cb4306a72",
+  "mode": "connector-source-and-restorable-history-chain",
+  "source_commit": "e704c884b15b2f09b4c8f57c0b7f832a83d0a69f",
   "bundle": "sites-history.bundle",
   "bundle_sha256": "14b653a64b6b80523c213fefe4a531e1a4e789b39a70846196be72be22e9d4e7",
-  "versions": 89,
-  "commits": 123,
-  "restore": "git clone sites-history.bundle bear-atlas-restored",
-  "note": "Original commits and version tags are inside the bundle. GitHub connector commits have separate SHAs."
+  "base_source_commit": "168c17f2edb9d6e7990d17af097ba15cb4306a72",
+  "update_bundle": "v87.1-update.bundle",
+  "update_bundle_sha256": "bd23ff12828a04fd202b7c7dbe89f6fb6f8173a103c9bd5c441546bf863469d6",
+  "versions": 90,
+  "commits": 125,
+  "restore": [
+    "git clone sites-history.bundle restored",
+    "git -C restored fetch /absolute/path/v87.1-update.bundle HEAD",
+    "git -C restored merge --ff-only FETCH_HEAD"
+  ],
+  "note": "The unchanged full bundle plus this verified incremental bundle preserve source history. Connector snapshot commits use separate SHAs."
 }
