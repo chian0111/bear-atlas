@@ -72,7 +72,7 @@ for(const path of ['/islands','/world',dock]){
  const res=await get(path),body=await res.text();
  assert.equal(res.status,200);
  assert.ok(body.includes('點地點直接前往，也可以點居民打招呼。')&&body.includes('class="atlas-harbor-city"')&&body.includes('data-resort-facility="home"'));
- assert.equal([...body.matchAll(/class="hb-pin[ "]/g)].length,5);
+ assert.equal([...body.matchAll(/class="hb-pin[ "]/g)].length,6);
  assert.ok(!body.includes('小茶熊')&&!body.includes('收到的邀請'));
  assert.match(res.headers.get('Content-Security-Policy'),/script-src 'self'/);
 }
@@ -105,7 +105,7 @@ assert.ok((await (await get('/islands')).text()).includes('data-town-scenery="ca
 new Function(await (await get('/town-life.js')).text());
 // Public scene examples preserve existing practice and invitation entry points.
 for(const id of ['sports','english'])for(const who of ['',friend]){const r=await get('/dock/'+id,who),page=await r.text();assert.equal(r.status,200);assert.ok(page.includes('data-public-place="'+id+'"')&&page.includes('data-place-play')&&page.includes('data-place-npc'));if(id==='sports')assert.ok(page.includes('/dock/square#new-meetup')&&!page.includes('和島上居民聊聊'));if(id==='sports'&&who)assert.ok(page.includes('name="invite"'));if(id==='english')assert.ok(!page.includes('<summary>個人練習工具與歷史回答</summary>')); }
-const labels=await (await get('/world')).text();assert.ok(labels.includes('[data-sea-resident-pins]{display:none!important}'));assert.ok(labels.includes('.hb-pin{font-size:10px'));assert.equal((labels.match(/class="hb-pin[ " ]/g)||[]).length,5);
+const labels=await (await get('/world')).text();assert.ok(labels.includes('[data-sea-resident-pins]{display:none!important}'));assert.ok(labels.includes('.hb-pin{font-size:10px'));assert.equal((labels.match(/class="hb-pin[ " ]/g)||[]).length,6);
 console.log('Compact map labels, hidden default resident names, two public scenes and retained sport/practice links passed.');
 
 assert.match((await get('/dock/career')).headers.get('Content-Security-Policy'),/script-src 'self'/);
@@ -533,7 +533,7 @@ console.log('Secret schedules, twelve discoveries, bottle creation, six-person c
   if(!sql.prepare('SELECT visitor_key FROM island_cabins WHERE visitor_key=?').get(key))assert.equal((await post('/dock/cabin',who,{theme:'sage',wall:'print',desk:'books',corner:'plant',revision:'0',share:'1'})).status,303);
   for(const outfit of ['sailor','picnic']){
    assert.equal((await post('/world/wardrobe',who,{slot:'3',action:'equip',outfit,shoes:'cream',bag:'sage'})).status,303);
-   for(const route of ['/passport','/islands','/world','/dock/square','/world/wardrobe'])await content(route,who,new RegExp('data-character-id="'+species+'" data-species="'+species+'"'));
+   for(const route of ['/passport','/islands','/world','/dock/square','/world/wardrobe','/world/nomad'])await content(route,who,new RegExp('data-character-id="'+species+'" data-species="'+species+'"'));
    const room=await (await get('/dock/cabin',who)).text();assert.ok(room.includes('data-bear-species="'+species+'"')&&room.includes('data-bear-look="'+outfit+'"')&&room.includes('data-bear-bag="#76917a"'));
    const no=identityBefore.member_no,label='BEAR-'+String(no).padStart(4,'0');
    const visit=await (await get('/islands/cabins/'+label,who)).text();assert.ok(visit.includes('data-bear-species="'+species+'"')&&visit.includes('data-bear-look="'+outfit+'"'));
@@ -672,7 +672,7 @@ assert.match((await get('/passport')).headers.get('Content-Security-Policy'),/sc
 {
  const k=friend.split('=')[1],before=JSON.stringify(sql.prepare('SELECT * FROM island_cabins ORDER BY visitor_key').all()),rooms=JSON.stringify(sql.prepare('SELECT * FROM island_cabin_rooms ORDER BY visitor_key,room_id').all()),pieces=JSON.stringify(sql.prepare('SELECT * FROM island_bedroom_instances ORDER BY visitor_key,id').all()),identities=JSON.stringify(sql.prepare('SELECT * FROM island_passports ORDER BY visitor_key').all());
  const shared=sql.prepare('SELECT share_enabled FROM island_cabins WHERE visitor_key=?').get(k).share_enabled;
- const park=await (await get('/world?at=home',friend)).text();assert.ok(park.includes('data-initial="11"')&&park.includes('href="/dock/cabin">回家')&&park.includes('連貫的海岸渡假村'));assert.equal((park.match(/class="hb-pin[ "]/g)||[]).length,5);
+ const park=await (await get('/world?at=home',friend)).text();assert.ok(park.includes('data-initial="11"')&&park.includes('href="/dock/cabin">回家')&&park.includes('連貫的海岸渡假村'));assert.equal((park.match(/class="hb-pin[ "]/g)||[]).length,6);
  assert.ok(!park.includes('data-venue="pickleball"'));
  const golf=await (await get('/dock/sports',friend)).text();assert.ok(golf.includes('data-golf-angle')&&golf.includes('data-golf-power')&&golf.includes('離開果嶺'));assert.equal((golf.match(/data-place-player /g)||[]).length,1);
  const own=await get('/world/home',friend);assert.equal(own.status,303);assert.equal(own.headers.get('Location'),'/dock/cabin');
@@ -763,7 +763,7 @@ assert.ok((await (await get('/dock/career',friend)).text()).includes('海邊咖�
 const about=await (await get('/about')).text();assert.equal((about.match(/<figure class="resort-scene">/g)||[]).length,4);
 assert.match(nature,/TOWN \/ 05/);assert.ok(!nature.includes('看看漂流瓶'));assert.ok(!upgradedMap.includes('class="hb-bottle-pin"'));
 const cabin81=await (await get('/dock/cabin',friend)).text();assert.match(cabin81,/data-game-sheet="menu"/);assert.match(cabin81,/cabin-resort-return/);assert.ok(!cabin81.includes('叩叩！'));
-const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/src="\/i18n\/runtime.js\?release=v85\.2"/);assert.match(englishAbout,/有自己的家，也有可以走走的世界/);assert.match(englishAbout,/data-locale="en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
+const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/src="\/i18n\/runtime.js\?release=v87"/);assert.match(englishAbout,/有自己的家，也有可以走走的世界/);assert.match(englishAbout,/data-locale="en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
 console.log('49 distinct residents, WebGL fallback, five facility prototypes, nature garden and illustrated philosophy passed.');
 
 for(const [path,at]of [['/dock/career',1],['/dock/sports',5],['/world/nature',7],['/dock/cabin',11]]){const page=await (await get(path,friend)).text();assert.ok(page.includes('href="/world?at='+at+'"'),path);const map=await (await get('/world?at='+at,friend)).text();assert.ok(map.includes('data-initial="'+at+'"'));}
@@ -771,5 +771,7 @@ assert.equal((await get('/world/home',friend)).headers.get('Location'),'/dock/ca
 for(const id of ['career','mba','finance','network'])assert.ok(!(await (await get('/dock/'+id,friend)).text()).includes('在這裡遇見居民'));
 console.log('Facility return positions retained, direct own-home entry and quiet leisure pages passed.');
 
+for(const who of ['',friend]){const before=sql.prepare('SELECT count(*) n FROM island_passports').get().n;const page=await (await get('/world/nomad',who)).text();assert.match(page,/data-nomad-phase="open"/);assert.match(page,/nomadLive.focusNote/);assert.ok(!page.includes('data-focus-start'));assert.equal((page.match(/data-nomad-npc="/g)||[]).length,6);assert.equal((page.match(/data-nomad-player /g)||[]).length,1);assert.match(page,/data-town-cafe/);assert.match(page,/data-nomad-mode="working"/);assert.equal(sql.prepare('SELECT count(*) n FROM island_passports').get().n,before);assert.match(await (await get('/world?at=12',who)).text(),/data-initial="12"/);}
+console.log('V86.3 guest/member open house, return stop, no premature interactions and unchanged identity count passed.');
 for(let district=0;district<harborNeighbors.length;district++)for(let slot=0;slot<harborNeighbors[district].length;slot++){const response=await get('/islands/neighbors/'+district+'-'+slot,friend);assert.equal(response.status,200);}
 if(process.env.I18N_AUDIT_REPORT){const report=i18nAudit.report();writeFileSync(process.env.I18N_AUDIT_REPORT,JSON.stringify(report,null,2)+'\n');console.log('I18N audit: '+report.htmlRoutes+' HTML routes; '+report.missing.length+' incomplete source strings.');assert.equal(report.missing.length,0,'Untranslated built-in strings; inspect the report.');}

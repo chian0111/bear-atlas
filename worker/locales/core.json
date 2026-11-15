@@ -196,5 +196,593 @@
   "sports.detail_5": {
     "zh-TW": "跟著自己的步調，輕鬆動一動…",
     "en": "Move gently, at your own pace…"
+  },
+  "nomad.title": {
+    "zh-TW": "Nomad House｜熊熊遊牧工作屋",
+    "en": "Nomad House | Tropical Coworking Retreat"
+  },
+  "nomad.back": {
+    "zh-TW": "← 回施工告示旁",
+    "en": "← Back to the construction sign"
+  },
+  "nomad.status": {
+    "zh-TW": "施工中 · 尚未公布開幕日期",
+    "en": "Under construction · Opening date not announced"
+  },
+  "nomad.preview": {
+    "zh-TW": "Nomad House 建築概念預覽",
+    "en": "Nomad House architectural concept preview"
+  },
+  "nomad.concept": {
+    "zh-TW": "建築概念預覽；四個生活區域尚未開放。",
+    "en": "Architectural concept preview; the four living areas are not open yet."
+  },
+  "nomad.intro": {
+    "zh-TW": "即使需要工作，也可以在一個溫暖、自在的小世界裡完成。烏布雨林的自然感，與長谷共享工作的自在節奏。",
+    "en": "Even when work calls, you can do it in a warm little world. Inspired by the greenery of Ubud and the easy coworking rhythm of Canggu."
+  },
+  "nomad.safe": {
+    "zh-TW": "請留在木圍籬外的步道。工程熊熊正在整理竹材與木平台。",
+    "en": "Please stay on the path outside the wooden fence. Our builder is preparing bamboo and a timber deck."
+  },
+  "nomad.work": {
+    "zh-TW": "Work Lounge｜共享工作區",
+    "en": "Work Lounge"
+  },
+  "nomad.workCopy": {
+    "zh-TW": "竹木長桌、藤椅與筆電。以後可以在這裡工作或閱讀。",
+    "en": "Bamboo tables, rattan chairs and laptops. A future spot to work or read."
+  },
+  "nomad.coffee": {
+    "zh-TW": "Coffee Corner｜咖啡角落",
+    "en": "Coffee Corner"
+  },
+  "nomad.coffeeCopy": {
+    "zh-TW": "一杯虛擬咖啡，陪你放慢腳步。",
+    "en": "A virtual coffee to help you slow down."
+  },
+  "nomad.deck": {
+    "zh-TW": "Slow Deck｜放空露台",
+    "en": "Slow Deck"
+  },
+  "nomad.deckCopy": {
+    "zh-TW": "海風、躺椅與綠植，留一個不用努力的角落。",
+    "en": "Sea breezes, loungers and greenery. A corner where you can simply be."
+  },
+  "nomad.focus": {
+    "zh-TW": "Focus Nook｜專注角落",
+    "en": "Focus Nook"
+  },
+  "nomad.focusCopy": {
+    "zh-TW": "安靜工作或閱讀；可選的陪伴計時將於後續階段加入。",
+    "en": "Work or read quietly. An optional companion timer will follow in a later phase."
+  },
+  "nomad.promise": {
+    "zh-TW": "這裡不需要打卡、排名或完成任務。你也可以只是來待一會。",
+    "en": "No check-ins, rankings or tasks. You can simply stay a while."
+  },
+  "nomad.map": {
+    "zh-TW": "Nomad House｜施工中",
+    "en": "Nomad House | Under construction"
+  },
+  "nomad.hint": {
+    "zh-TW": "熱帶共享工作屋正在準備中。先看看建築概念，開幕日期尚未公布",
+    "en": "A tropical coworking retreat is taking shape. Preview the concept; no opening date has been announced"
+  },
+  "nomad.cta": {
+    "zh-TW": "查看施工告示與預覽",
+    "en": "View construction sign and preview"
+  },
+  "nomad.structureStatus": {
+    "zh-TW": "屋架施工中 · 尚未開放入內",
+    "en": "Structure taking shape · Not open for entry"
+  },
+  "nomad.progressImage": {
+    "zh-TW": "Nomad House 屋架施工進度",
+    "en": "Nomad House structural construction progress"
+  },
+  "nomad.progressCaption": {
+    "zh-TW": "竹屋架與部分茅草屋頂已成形，木平台、藤椅與熱帶綠植正在準備中。",
+    "en": "The bamboo frame and partial thatch roof are taking shape. A timber deck, rattan seating and tropical plants are being prepared."
+  },
+  "nomad.progressSafety": {
+    "zh-TW": "步道已連接至施工告示；圍籬內仍在施工，尚未公布開幕日期。",
+    "en": "The path leads to the construction sign. Work continues inside the fence; no opening date has been announced."
+  },
+  "nomad.futureConcept": {
+    "zh-TW": "看看未來空間概念",
+    "en": "Explore the future space concept"
+  },
+  "nomadLive.title": {
+    "zh-TW": "Nomad House｜熊熊遊牧工作屋",
+    "en": "Nomad House | Tropical Coworking Retreat"
+  },
+  "nomadLive.welcome": {
+    "zh-TW": "工作、閱讀，或只是和大家待在一起。今天不需要完成任何事。",
+    "en": "Work, read, or simply share a little space. There is nothing you have to finish today."
+  },
+  "nomadLive.back": {
+    "zh-TW": "← 回渡假村",
+    "en": "← Back to the retreat"
+  },
+  "nomadLive.zones": {
+    "zh-TW": "四個生活區域",
+    "en": "Four living areas"
+  },
+  "nomadLive.work": {
+    "zh-TW": "共享工作區",
+    "en": "Work Lounge"
+  },
+  "nomadLive.coffee": {
+    "zh-TW": "咖啡角落",
+    "en": "Coffee Corner"
+  },
+  "nomadLive.deck": {
+    "zh-TW": "放空露台",
+    "en": "Slow Deck"
+  },
+  "nomadLive.focus": {
+    "zh-TW": "專注角落",
+    "en": "Focus Nook"
+  },
+  "nomadLive.panHelp": {
+    "zh-TW": "手機可左右滑動場景，或使用區域按鈕找到座位。",
+    "en": "On mobile, swipe across the scene or use the area buttons to find a seat."
+  },
+  "nomadLive.scene": {
+    "zh-TW": "熱帶共享工作屋場景",
+    "en": "Tropical coworking retreat scene"
+  },
+  "nomadLive.seat0": {
+    "zh-TW": "工作座位 A",
+    "en": "Work seat A"
+  },
+  "nomadLive.seat1": {
+    "zh-TW": "工作座位 B",
+    "en": "Work seat B"
+  },
+  "nomadLive.seat2": {
+    "zh-TW": "咖啡藤椅",
+    "en": "Coffee chair"
+  },
+  "nomadLive.seat3": {
+    "zh-TW": "露台躺椅",
+    "en": "Deck lounger"
+  },
+  "nomadLive.seat4": {
+    "zh-TW": "安靜座位",
+    "en": "Quiet seat"
+  },
+  "nomadLive.quiet": {
+    "zh-TW": "減少動畫與聲音",
+    "en": "Reduce motion and sound"
+  },
+  "nomadLive.soundOff": {
+    "zh-TW": "環境音：關閉",
+    "en": "Ambient sound: off"
+  },
+  "nomadLive.soundOn": {
+    "zh-TW": "環境音：開啟",
+    "en": "Ambient sound: on"
+  },
+  "nomadLive.choose": {
+    "zh-TW": "選一個空位，慢慢坐下。",
+    "en": "Choose an empty seat and settle in."
+  },
+  "nomadLive.working": {
+    "zh-TW": "工作",
+    "en": "Working"
+  },
+  "nomadLive.reading": {
+    "zh-TW": "閱讀",
+    "en": "Reading"
+  },
+  "nomadLive.resting": {
+    "zh-TW": "休息",
+    "en": "Resting"
+  },
+  "nomadLive.stretching": {
+    "zh-TW": "伸展",
+    "en": "Stretching"
+  },
+  "nomadLive.daydreaming": {
+    "zh-TW": "放空",
+    "en": "Daydreaming"
+  },
+  "nomadLive.leave": {
+    "zh-TW": "起身離開座位",
+    "en": "Leave the seat"
+  },
+  "nomadLive.stroll": {
+    "zh-TW": "沿著走道散步",
+    "en": "Stroll along the aisle"
+  },
+  "nomadLive.workNote": {
+    "zh-TW": "竹屋頂下的長桌留著筆電與書本。點空位坐下，再選想做的事。",
+    "en": "Laptops and books await beneath the bamboo roof. Choose an empty seat, then do what feels right."
+  },
+  "nomadLive.coffeeNote": {
+    "zh-TW": "沿用海邊咖啡館的虛擬飲品。先取一杯，想喝時再喝一口。",
+    "en": "Enjoy the same virtual drinks as the seaside cafe. Pick a cup and take a sip whenever you like."
+  },
+  "nomadLive.deckNote": {
+    "zh-TW": "木露台、藤椅與小水景，陪你伸個懶腰，或什麼都不想。",
+    "en": "A timber deck, rattan chairs and gentle water. Stretch a little or let your mind wander."
+  },
+  "nomadLive.focusNote": {
+    "zh-TW": "獨立座位適合安靜工作或閱讀。可以開啟「減少動畫與聲音」。",
+    "en": "An individual seat for quiet work or reading. Turn on Reduce motion and sound for less distraction."
+  },
+  "nomadLive.drinks": {
+    "zh-TW": "選擇虛擬飲品",
+    "en": "Choose a virtual drink"
+  },
+  "nomadLive.neighbours": {
+    "zh-TW": "今天在這裡的居民",
+    "en": "Neighbours sharing the space"
+  },
+  "nomadLive.drawing": {
+    "zh-TW": "畫圖",
+    "en": "Drawing"
+  },
+  "nomadLive.drinking": {
+    "zh-TW": "喝咖啡",
+    "en": "Having coffee"
+  },
+  "nomadLive.thinking": {
+    "zh-TW": "思考",
+    "en": "Thinking"
+  },
+  "nomadLive.walking": {
+    "zh-TW": "沿著走道慢慢走…",
+    "en": "Taking a gentle walk along the aisle…"
+  },
+  "nomadLive.quietSound": {
+    "zh-TW": "安靜模式已開啟；環境音保持關閉。",
+    "en": "Quiet mode is on; ambient sound stays off."
+  },
+  "nomadLive.audioUnavailable": {
+    "zh-TW": "目前無法播放環境音，你仍可以安靜地待著。",
+    "en": "Ambient sound is unavailable. You can still enjoy the quiet."
+  },
+  "nomad.openMap": {
+    "zh-TW": "Nomad House｜遊牧工作屋",
+    "en": "Nomad House | Coworking Retreat"
+  },
+  "nomad.openHint": {
+    "zh-TW": "熱帶工作屋開門了。找個座位工作、閱讀、喝咖啡，或在露台放空",
+    "en": "The tropical retreat is open. Find a seat to work, read or have a coffee, or unwind on the deck"
+  },
+  "nomad.openCta": {
+    "zh-TW": "走進 Nomad House",
+    "en": "Enter Nomad House"
+  },
+  "adventure.v87.0": {
+    "zh-TW": "招呼港口",
+    "en": "Harbor greetings"
+  },
+  "adventure.v87.1": {
+    "zh-TW": "向港口揮揮手",
+    "en": "Wave hello at the harbor"
+  },
+  "adventure.v87.2": {
+    "zh-TW": "看看廣場布告欄",
+    "en": "Read the town noticeboard"
+  },
+  "adventure.v87.3": {
+    "zh-TW": "在自家小屋歇歇",
+    "en": "Rest in your own cottage"
+  },
+  "adventure.v87.4": {
+    "zh-TW": "沿雪松小徑散步",
+    "en": "Walk the cedar trail"
+  },
+  "adventure.v87.5": {
+    "zh-TW": "坐在木棧道聽海",
+    "en": "Listen to the sea from the boardwalk"
+  },
+  "adventure.v87.6": {
+    "zh-TW": "五個舒服的角落",
+    "en": "Five cozy corners"
+  },
+  "adventure.v87.7": {
+    "zh-TW": "跟著 Ari 探索五站，也可以隨時自由散步。",
+    "en": "Explore five stops with Ari, with freedom to wander anytime."
+  },
+  "adventure.v87.8": {
+    "zh-TW": "初次冒險紀念卡",
+    "en": "First adventure keepsake"
+  },
+  "adventure.v87.9": {
+    "zh-TW": "森林與海的問候",
+    "en": "Greetings from forest and sea"
+  },
+  "adventure.v87.10": {
+    "zh-TW": "散步、聽海，再觀察一位野生朋友。",
+    "en": "Take a walk, listen to the sea and observe a wild friend."
+  },
+  "adventure.v87.11": {
+    "zh-TW": "自然朋友紀念卡",
+    "en": "Nature friends keepsake"
+  },
+  "adventure.v87.12": {
+    "zh-TW": "林間的驚喜",
+    "en": "A woodland surprise"
+  },
+  "adventure.v87.13": {
+    "zh-TW": "每日下午與晚間都能相遇，白天也有補遇步道。",
+    "en": "Meet every afternoon and evening, or take the catch-up trail any time."
+  },
+  "adventure.v87.14": {
+    "zh-TW": "山羌觀察紀念卡",
+    "en": "Muntjac observation keepsake"
+  },
+  "adventure.v87.15": {
+    "zh-TW": "今天慢慢走",
+    "en": "A gentle walk today"
+  },
+  "adventure.v87.16": {
+    "zh-TW": "台灣時間每天更新，錯過不扣分。",
+    "en": "Renews daily in Taiwan time. No penalty for missing a day."
+  },
+  "adventure.v87.17": {
+    "zh-TW": "今日散步紀念卡",
+    "en": "Today's walk keepsake"
+  },
+  "adventure.v87.18": {
+    "zh-TW": "留一張椅子給朋友",
+    "en": "A chair for a friend"
+  },
+  "adventure.v87.19": {
+    "zh-TW": "接受一位既有居民來訪，完成一次小屋聊天。",
+    "en": "Welcome an island resident and share a cottage conversation."
+  },
+  "adventure.v87.20": {
+    "zh-TW": "朋友來訪紀念卡",
+    "en": "A friend's visit keepsake"
+  },
+  "adventure.v87.21": {
+    "zh-TW": "松鼠",
+    "en": "Squirrel"
+  },
+  "adventure.v87.22": {
+    "zh-TW": "藍鵲",
+    "en": "Blue magpie"
+  },
+  "adventure.v87.23": {
+    "zh-TW": "貓頭鷹",
+    "en": "Owl"
+  },
+  "adventure.v87.24": {
+    "zh-TW": "和 Ari 探索這裡",
+    "en": "Explore here with Ari"
+  },
+  "adventure.v87.25": {
+    "zh-TW": "冒險手帳",
+    "en": "Adventure journal"
+  },
+  "adventure.v87.26": {
+    "zh-TW": "雪松森林",
+    "en": "Cedar Woods"
+  },
+  "adventure.v87.27": {
+    "zh-TW": "貝殼海灘",
+    "en": "Shell Beach"
+  },
+  "adventure.v87.28": {
+    "zh-TW": "請使用頁面上的互動。",
+    "en": "Please use the actions shown on this page."
+  },
+  "adventure.v87.29": {
+    "zh-TW": "冒險功能暫時無法使用，原本的資料仍保留。",
+    "en": "Adventure is temporarily unavailable. Your existing data is safe."
+  },
+  "adventure.v87.30": {
+    "zh-TW": "日期已更新，請重新打開手帳。",
+    "en": "The date has changed. Please reopen your journal."
+  },
+  "adventure.v87.31": {
+    "zh-TW": "NPC 拜訪已關閉。你可以在冒險手帳重新開啟。",
+    "en": "NPC visits are off. Turn them on in your adventure journal."
+  },
+  "adventure.v87.32": {
+    "zh-TW": "請先接受朋友來訪。",
+    "en": "Please accept the visit first."
+  },
+  "adventure.v87.33": {
+    "zh-TW": "互動已更新，請回到場景再試。",
+    "en": "This interaction has changed. Return to the scene and try again."
+  },
+  "adventure.v87.34": {
+    "zh-TW": "今天的拜訪選擇已保存。",
+    "en": "Today's visit choice has been saved."
+  },
+  "adventure.v87.35": {
+    "zh-TW": "回到場景",
+    "en": "Return to the scene"
+  },
+  "adventure.v87.36": {
+    "zh-TW": "這是公共探索步道，不會開放任何私人島嶼。",
+    "en": "This public trail does not grant access to private islands."
+  },
+  "adventure.v87.37": {
+    "zh-TW": "這次互動已保存，可以到手帳查看進度。",
+    "en": "Your interaction was saved. See your progress in the journal."
+  },
+  "adventure.v87.38": {
+    "zh-TW": "林間觀察",
+    "en": "Woodland observation"
+  },
+  "adventure.v87.39": {
+    "zh-TW": "山羌每天 14:00–21:00 在觀景坡出現；其他時間可走補遇步道。以伺服器台灣時間為準，不必熬夜。",
+    "en": "Muntjacs visit the lookout daily from 14:00 to 21:00 Taiwan server time. The catch-up trail is open at all other times. No late nights needed."
+  },
+  "adventure.v87.40": {
+    "zh-TW": "安靜觀察野生朋友",
+    "en": "Quietly observe a wild friend"
+  },
+  "adventure.v87.41": {
+    "zh-TW": "到觀景坡看看山羌",
+    "en": "Look for a muntjac at the lookout"
+  },
+  "adventure.v87.42": {
+    "zh-TW": "走補遇步道看看山羌",
+    "en": "Meet a muntjac on the catch-up trail"
+  },
+  "adventure.v87.43": {
+    "zh-TW": "貝殼先留在海灘。背包與撿取會在下一階段加入。",
+    "en": "Leave the shells on the beach for now. Collecting and backpacks will arrive in the next phase."
+  },
+  "adventure.v87.44": {
+    "zh-TW": "Ari 陪你認識島上五個角落，約五分鐘。隨時可跳過，不影響自由探索。",
+    "en": "Ari introduces five island corners in about five minutes. Skip anytime and keep exploring freely."
+  },
+  "adventure.v87.45": {
+    "zh-TW": "進度與收藏已保存，重複操作不會重複發獎。",
+    "en": "Progress and keepsakes are saved. Repeating actions will not duplicate rewards."
+  },
+  "adventure.v87.46": {
+    "zh-TW": "原有紀念冊",
+    "en": "Your existing memory album"
+  },
+  "adventure.v87.47": {
+    "zh-TW": "五分鐘導覽",
+    "en": "Five-minute welcome tour"
+  },
+  "adventure.v87.48": {
+    "zh-TW": "重新觀看導覽",
+    "en": "Replay the welcome tour"
+  },
+  "adventure.v87.49": {
+    "zh-TW": "開始或繼續導覽",
+    "en": "Start or continue the tour"
+  },
+  "adventure.v87.50": {
+    "zh-TW": "跳過導覽，自由探索",
+    "en": "Skip the tour and explore freely"
+  },
+  "adventure.v87.51": {
+    "zh-TW": "可以回到任何一站；已完成的進度會保留。",
+    "en": "Return to any stop. Your completed progress is kept."
+  },
+  "adventure.v87.52": {
+    "zh-TW": "已收進冒險收藏",
+    "en": "Saved in adventure keepsakes"
+  },
+  "adventure.v87.53": {
+    "zh-TW": "收下紀念卡",
+    "en": "Keep the souvenir card"
+  },
+  "adventure.v87.54": {
+    "zh-TW": "自由探索，慢慢完成就好。",
+    "en": "Explore freely and finish at your own pace."
+  },
+  "adventure.v87.55": {
+    "zh-TW": "朋友來敲門",
+    "en": "A friend at your door"
+  },
+  "adventure.v87.56": {
+    "zh-TW": "每天最多一位新朋友，不會自動跳出打擾。稍後會安靜一小時；拒絕不影響友情或獎勵。",
+    "en": "At most one new visitor a day, with no pop-ups. Later keeps things quiet for an hour. Declining has no friendship or reward penalty."
+  },
+  "adventure.v87.57": {
+    "zh-TW": "關閉 NPC 拜訪",
+    "en": "Turn NPC visits off"
+  },
+  "adventure.v87.58": {
+    "zh-TW": "開啟 NPC 拜訪",
+    "en": "Turn NPC visits on"
+  },
+  "adventure.v87.59": {
+    "zh-TW": "朋友想來聽你分享小屋最喜歡的角落；聊完可完成來訪任務。",
+    "en": "Your friend would love to hear about your favorite cottage corner. Chat to complete the visit quest."
+  },
+  "adventure.v87.60": {
+    "zh-TW": "接受來訪",
+    "en": "Welcome them in"
+  },
+  "adventure.v87.61": {
+    "zh-TW": "稍後再說",
+    "en": "Maybe later"
+  },
+  "adventure.v87.62": {
+    "zh-TW": "今天先休息",
+    "en": "Rest today"
+  },
+  "adventure.v87.63": {
+    "zh-TW": "喜歡窗邊的光，還是桌邊的安靜？朋友陪你留下今天的小回憶。",
+    "en": "Do you prefer the window light or the quiet by your desk? Share a little memory with your friend."
+  },
+  "adventure.v87.64": {
+    "zh-TW": "分享最喜歡的小屋角落",
+    "en": "Share your favorite cottage corner"
+  },
+  "adventure.v87.65": {
+    "zh-TW": "招呼限 120 字，請使用友善文字，不加入連結、聯絡方式或控制字元。",
+    "en": "Use a friendly greeting of up to 120 characters, without links, contact details or control characters."
+  },
+  "adventure.v87.66": {
+    "zh-TW": "請稍等 30 秒再更新招呼。",
+    "en": "Please wait 30 seconds before updating your greeting."
+  },
+  "adventure.v87.67": {
+    "zh-TW": "寫一句招呼",
+    "en": "Write a greeting"
+  },
+  "adventure.v87.68": {
+    "zh-TW": "最多 120 字，每 30 秒可更新一次。",
+    "en": "Up to 120 characters. Update once every 30 seconds."
+  },
+  "adventure.v87.69": {
+    "zh-TW": "發佈自訂招呼",
+    "en": "Post your greeting"
+  },
+  "adventure.weekly": {
+    "zh-TW": "本週島上故事",
+    "en": "This week's island story"
+  },
+  "adventure.muntjac": {
+    "zh-TW": "山羌",
+    "en": "Muntjac"
+  },
+  "adventure.week.title": {
+    "zh-TW": "本週的林間約定",
+    "en": "This week's woodland promise"
+  },
+  "adventure.week.note": {
+    "zh-TW": "本週到森林觀察山羌，再去海邊聽海。下週仍有新的機會。",
+    "en": "Observe a muntjac and listen to the sea this week. There is another opportunity next week."
+  },
+  "adventure.week.reward": {
+    "zh-TW": "林海週記紀念卡",
+    "en": "Forest and sea weekly keepsake"
+  },
+  "adventure.publicTrail": {
+    "zh-TW": "沿著步道慢慢走，今天也有新的風景。",
+    "en": "Follow the trail at your own pace. There is something new to notice today."
+  },
+  "adventure.beachPause": {
+    "zh-TW": "把貝殼留給海浪，今天先聽聽海。",
+    "en": "Leave the shells to the waves and enjoy the sound of the sea."
+  },
+  "adventure.home.link": {
+    "zh-TW": "回小屋看看",
+    "en": "Visit your cottage"
+  },
+  "adventure.keepsakes": {
+    "zh-TW": "冒險收藏",
+    "en": "Adventure keepsakes"
+  },
+  "adventure.next": {
+    "zh-TW": "下一站",
+    "en": "Next stop"
+  },
+  "adventure.previous": {
+    "zh-TW": "上一站",
+    "en": "Previous stop"
+  },
+  "adventure.incomplete": {
+    "zh-TW": "任務尚未完成，請繼續探索。",
+    "en": "This quest is not complete yet. Keep exploring at your own pace."
   }
 }

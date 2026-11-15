@@ -602,6 +602,98 @@
       "deployment_id": "appgdep_6af87233b5888191b1c0ebdbd9af9f47",
       "deployment_status": "succeeded",
       "archive_sha256": "sha256:9ab2e94d5234122892f627c29fd8f2c8e7912e35cac22bce2fa785f4c628e528"
+    },
+    {
+      "version": 86,
+      "product_release": "V86.1",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_eeca0cc775588191bbc8cf239afc2001",
+      "commit": "119d16c919c4281c742bbf6123d2b52dc211df1b",
+      "deployment_id": "appgdep_6af91489d78c81918d57d90ebc4992aa",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:ee4f3a5c379a6a018b359dd6deab6b17b225f3fec7f5f1947ff2f835b5e39be2"
+    },
+    {
+      "version": 87,
+      "product_release": "V86.2",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_a5072bf6a3488191be162ec2f2237eae",
+      "commit": "be892f5d79d53e960b9652f71ec82dfcd4b63b77",
+      "deployment_id": "appgdep_6af91714edd48191ac852c4ff618861a",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:663bc820a5a72fe1bce808378ffa77caae9ca923f34799c11f857345f03f8aa5"
+    },
+    {
+      "version": 88,
+      "product_release": "V86.3",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_4e53d29204948191b2d6fc0ac1c3cc2c",
+      "commit": "d30147b1a65181b2e537c5bb2c4bf017c3232d31",
+      "deployment_id": "appgdep_6af9203389d48191b59c31ae511bcfdc",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:59a0e98d2053e37dc05c12324b8c101a149ed90cf6caf5571a9868700cc6f650"
+    },
+    {
+      "version": 89,
+      "product_release": "V87",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_e250ab5b0a388191bf50d0a6f0efee30",
+      "commit": "7233800366af5cc4ca517ec54dd4a4fb1aaf788e",
+      "deployment_id": "appgdep_6af9e09d79948191b97518d3ee928872",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:73a186c60a56efa767e7997ecf07626d8c03cb42085011762651ed1557cc3bb3"
+    }
+  ],
+  "candidates": [
+    {
+      "release": "V86.1",
+      "branch": "feature/v86-nomad-house",
+      "base_source_commit": "a027cb2b62881a887c62d4987fb5797e33441ab6",
+      "status": "deployed-on-user-request",
+      "deployment_id": "appgdep_6af91489d78c81918d57d90ebc4992aa",
+      "remaining_gates": [
+        "iPhone Safari",
+        "desktop Safari",
+        "mobile touch and performance"
+      ],
+      "report": "docs/V86.1-ACCEPTANCE.md"
+    },
+    {
+      "release": "V86.2",
+      "branch": "feature/v86-nomad-house",
+      "base_source_commit": "119d16c919c4281c742bbf6123d2b52dc211df1b",
+      "status": "deployed",
+      "deployment_id": "appgdep_6af91714edd48191ac852c4ff618861a",
+      "report": "docs/V86.2-ACCEPTANCE.md",
+      "remaining_limits": [
+        "actual iPhone Safari",
+        "desktop Safari",
+        "mobile touch/performance",
+        "visual no-WebGL pass"
+      ]
+    },
+    {
+      "release": "V86.3",
+      "branch": "feature/v86-nomad-house",
+      "base_source_commit": "be892f5d79d53e960b9652f71ec82dfcd4b63b77",
+      "status": "deployed",
+      "deployment_id": "appgdep_6af9203389d48191b59c31ae511bcfdc",
+      "report": "docs/V86.3-ACCEPTANCE.md",
+      "remaining_limits": [
+        "actual iPhone Safari",
+        "desktop Safari",
+        "mobile touch/performance",
+        "real device background/BFCache audio"
+      ]
+    },
+    {
+      "release": "V87",
+      "branch": "main",
+      "base_source_commit": "d30147b1a65181b2e537c5bb2c4bf017c3232d31",
+      "status": "deployed",
+      "deployment_id": "appgdep_6af9e09d79948191b97518d3ee928872",
+      "report": "docs/V87-ACCEPTANCE.md",
+      "remaining_limits": [
+        "actual iPhone Safari",
+        "desktop Safari",
+        "final visual pass after browser tooling removal"
+      ]
     }
   ]
 }

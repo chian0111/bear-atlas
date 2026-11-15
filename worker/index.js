@@ -1,3 +1,6 @@
+import {adventureStations,adventureQuests,adventurePeriod,adventureDay,adventureWildlife,adventureGreeting,adventureReady,adventureIssue,adventureRecord,adventureProgress,adventureClaim,adventurePreference,adventureEscape,adventureCss,adventureForm} from './adventure.js';
+import {nomadSeats,nomadResidents,nomadProject,nomadTransition,nomadNpcTask,nomadLivingMarkup,nomadLivingClient} from './nomad-living.js';
+import {nomadSite,nomadBuildModel,nomadStyles,nomadConstructionArt,nomadMarkup} from './nomad-house.js';
 import {sportsVenueModel,sportsVenueClient} from './sports-venues.js';
 import {i18nRuntime,i18nProtectHtml} from './i18n.js';
 import {cozyDefaults,cozyValidate,cozyLoad,cozySave,cozyMarkup,cozyCss,cozyClient} from './cozy-living.js';
@@ -33,7 +36,7 @@ export default {async fetch(request,env){
  const response=path==='/about'&&request.method==='GET'?resortIdea():await app.fetch(request,env);
  if(!response.headers.get('Content-Type')?.includes('text/html'))return response;
  let profile=null,code='';try{const key=islanderOf(request);if(key){profile=await readPassportProfile(env.DB,key);if(profile){const row=await env.DB.prepare('SELECT member_no FROM island_credentials WHERE visitor_key=?').bind(key).first();if(row)code=memberLabel(row.member_no);}}}catch{}
- const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v85.2'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v85.2" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
+ const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11,12].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/world/nomad'?12:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(request.method==='GET'&&response.status===200&&profile&&['/world','/dock/quests','/dock/cabin','/dock/square'].includes(path)){try{if(await adventureReady(env.DB))content=await adventureEnhance(content,path,new URL(request.url),env.DB,islanderOf(request));}catch{/* Keep existing scenes usable during an adventure outage. */}}if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v87'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v87" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
 }};
 
 const tokenPattern=/^[a-f0-9]{48}$/;
@@ -147,7 +150,15 @@ function renderInvite(row,reply,notice='',status=200,profile=null,path=''){
 }
 const app={async fetch(request,env){
  const url=new URL(request.url), path=url.pathname;
+ if(path==='/dock/adventure'||path==='/world/forest'||path==='/world/beach'){try{return await adventureRoute(request,env,url);}catch{return lifePage('冒險手帳','<p>冒險功能暫時無法使用，原本的資料仍保留。</p><a href="/world">回渡假村</a>',503);}}
  try{
+  if(path==='/world/nomad'&&request.method==='GET'){
+   const profile=islanderOf(request)?await readPassportProfile(env.DB,islanderOf(request)):null;
+   const portrait=fullBody(profile?memberAvatar(profile,true):avatar('honey','explorer'));
+   const residents=nomadResidents.map(slot=>{const[d,i]=slot.id.split('-').map(Number),row=harborNeighbors[d][i];return {name:escapeUser(row[0]),portrait:fullBody(neighborAvatar(d,i,row[2]))};});
+   return html(nomadLivingMarkup(portrait,residents),200,worldSceneHeaders,{title:'Nomad House | Bear Atlas',brand:''});
+  }
+  if(path==='/nomad-life.js'&&request.method==='GET')return new Response(nomadProject.toString()+';'+nomadTransition.toString()+';'+nomadNpcTask.toString()+';('+nomadLivingClient.toString()+')(nomadProject,nomadTransition,nomadNpcTask);',{headers:{...headers,'Content-Type':'application/javascript; charset=utf-8','Cache-Control':'public, max-age=300'}});
   if(path==='/world/nature'&&request.method==='GET')return naturePage(islanderOf(request)?await readPassportProfile(env.DB,islanderOf(request)):null);
   if(path==='/api/organizer')return await admin(request,env);
   if(path==='/api/organizer-relay')return await organizerRelay(request,env);
@@ -974,6 +985,7 @@ async function islandLifeStoryRoute(request,db,url,visitor,profile){
  if(!profile)return lifePage(story.title,intro+'<section class="life-story"><p>'+story.intro+'</p>'+memberLinks(url.pathname)+'</section>',request.method==='POST'?403:200,page);
  let error='',status=200;
  if(request.method==='POST'){
+  if(kind==='visit'&&await adventureReady(db)&&!(await adventurePreference(db,visitor)).npc_enabled)return lifePage(story.title,'<p>NPC 拜訪已關閉。你可以在冒險手帳重新開啟。</p><a href="/dock/adventure">冒險手帳</a>',403,page);
   const parsed=await dockForm(request,url,1500),fields=parsed.fields;
   if(!fields){error=parsed.error;status=parsed.status;}
   else if(fields.get('period')!==period||fields.get('story')!==id){error='故事已輪替，請從現在的故事重新開始。之前完成的紀念仍會保留。';status=409;}
@@ -1040,7 +1052,7 @@ function cabinGameClient(){
  display.addEventListener('cabin-furniture-select',event=>selectFurniture(event.detail));
  let dirty=false,busy=false,storyPath='',returnFocus=null,storyRequest=0,bubbleTimer=0,savedForm=form?new URLSearchParams(new FormData(form)).toString():'';
  const say=text=>{clearTimeout(bubbleTimer);bubble.textContent=text;if(text)bubbleTimer=setTimeout(()=>{bubble.textContent='';},6500);};
- const visitorDelay=60000+Math.random()*60000;const visitorTimer=setTimeout(()=>{if(game.dataset.roomId!=='bedroom'&&!document.hidden){game.dataset.visitorArrived='true';say('叩叩，有位島上居民來拜訪。想招待時，再點門口就好。');}},visitorDelay);window.addEventListener('pagehide',()=>clearTimeout(visitorTimer),{once:true});
+ const visitorDelay=60000+Math.random()*60000;const visitorTimer=setTimeout(()=>{if(game.dataset.npcVisits!=='bounded'&&game.dataset.roomId!=='bedroom'&&!document.hidden){game.dataset.visitorArrived='true';say('叩叩，有位島上居民來拜訪。想招待時，再點門口就好。');}},visitorDelay);window.addEventListener('pagehide',()=>clearTimeout(visitorTimer),{once:true});
  const close=()=>game.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
  const openPanel=id=>{selectFurniture(null);const panel=game.querySelector('[data-game-sheet="'+id+'"]');if(!panel)return;close();returnFocus=document.activeElement;panel.showModal();};
  game.querySelectorAll('[data-game-sheet]').forEach(dialog=>{dialog.addEventListener('close',()=>{returnFocus?.focus();});});
@@ -1542,12 +1554,22 @@ async function islandSquare(request,db,url,visitor,profile){
     const outcome={'meetup-join':'joined','meetup-leave':'left','meetup-cancel':'cancelled'};
     if(await changeMeetup(db,visitor,action,parsed.fields.get('meetup')))return dockRedirect(meetupDestination(meetupView(parsed.fields.get('view')),outcome[action]));
     error='這個揪團已額滿、已截止，或你沒有權限進行這項操作。';status=409;
+   }else if(action==='greet-custom'){
+    if(!await adventureReady(db)){error='冒險功能暫時無法使用，原本的資料仍保留。';status=503;}else{
+     const message=adventureGreeting(parsed.fields.get('message'));
+     if(!message){error='招呼限 120 字，請使用友善文字，不加入連結、聯絡方式或控制字元。';status=400;}else{
+      const now=Date.now();const saved=await db.prepare('INSERT INTO island_custom_greetings(visitor_key,message,updated_at) VALUES(?,?,?) ON CONFLICT(visitor_key) DO UPDATE SET message=excluded.message,updated_at=excluded.updated_at,visible=1 WHERE island_custom_greetings.updated_at<=?').bind(visitor,message,now,now-30000).run();
+      if(!saved.meta.changes){error='請稍等 30 秒再更新招呼。';status=429;}else return dockRedirect('/dock/square#noticeboard');
+     }
+    }
    }else if(action==='greet'&&Object.hasOwn(greetings,option)){
     await db.prepare('INSERT INTO island_board_greetings(visitor_key,greeting,nickname,bear,outfit,updated_at) VALUES(?,?,?,?,?,?) ON CONFLICT(visitor_key) DO UPDATE SET greeting=excluded.greeting,nickname=excluded.nickname,bear=excluded.bear,outfit=excluded.outfit,updated_at=excluded.updated_at').bind(visitor,option,profile.nickname,profile.bear,profile.outfit,Date.now()).run();
+    if(await adventureReady(db))await db.prepare('UPDATE island_custom_greetings SET visible=0 WHERE visitor_key=?').bind(visitor).run();
     return dockRedirect('/dock/square#noticeboard');
    }
    else if(action==='ungreet'){
     await db.prepare('DELETE FROM island_board_greetings WHERE visitor_key=?').bind(visitor).run();
+    if(await adventureReady(db))await db.prepare('UPDATE island_custom_greetings SET visible=0 WHERE visitor_key=?').bind(visitor).run();
     return dockRedirect('/dock/square#noticeboard');
    }
    else if((action==='join'||action==='leave')&&Object.hasOwn(weeklyActivities,option)){
@@ -1577,7 +1599,11 @@ async function islandSquare(request,db,url,visitor,profile){
  FROM island_board_greetings g LEFT JOIN island_passports p ON p.visitor_key=g.visitor_key LEFT JOIN bear_world_looks w ON w.visitor_key=g.visitor_key ORDER BY g.updated_at DESC LIMIT 12`).all();
  const {results:signups}=await db.prepare('SELECT activity,COUNT(*) AS count,MAX(CASE WHEN visitor_key=? THEN 1 ELSE 0 END) AS joined FROM island_weekly_activities WHERE week=? GROUP BY activity').bind(visitor,week).all();
  const options=Object.entries(greetings).map(([id,label])=>'<option value="'+id+'"'+(ownGreeting?.greeting===id?' selected':'')+'>'+label+'</option>').join('');
- const board=notes.filter(note=>Object.hasOwn(greetings,note.greeting)).map(note=>'<li>'+memberAvatar(note,true)+'<div><strong>'+escapeUser(note.nickname)+'</strong><p>'+greetings[note.greeting]+'</p></div></li>').join('');
+ let board=notes.filter(note=>Object.hasOwn(greetings,note.greeting)).map(note=>'<li>'+memberAvatar(note,true)+'<div><strong>'+escapeUser(note.nickname)+'</strong><p>'+greetings[note.greeting]+'</p></div></li>').join('');
+ if(await adventureReady(db)){
+  const {results:custom}=await db.prepare('SELECT g.message,p.nickname,p.bear,p.outfit FROM island_custom_greetings g JOIN island_passports p ON p.visitor_key=g.visitor_key WHERE g.visible=1 ORDER BY g.updated_at DESC LIMIT 12').all();
+  board=custom.map(note=>'<li>'+memberAvatar(note,true)+'<div><strong>'+escapeUser(note.nickname)+'</strong><p translate="no" data-user-content>'+escapeUser(note.message)+'</p></div></li>').join('')+board;
+ }
  const activities=Object.entries(weeklyActivities).map(([id,a])=>{
   const row=signups.find(s=>s.activity===id),joined=row?.joined===1;
   return '<article class="dock-life-card"><h3>'+a.title+'</h3><p>'+a.note+'</p>'+(a.port?'<a href="/dock/'+a.port+'">前往練習 ↗</a>':'')+
@@ -1591,6 +1617,7 @@ async function islandSquare(request,db,url,visitor,profile){
   (error?dockError(error):'')+'<div class="sq-layout">'+meetups+residents+'</div><details class="sq-stroll"><summary>到廣場散步</summary>'+worldScene(true,memberAvatar(profile,true))+'</details>'+
   '<section class="sq-section sq-more" aria-label="布告欄與本週小任務"><section id="noticeboard" class="dock-section"><h2>島民布告欄</h2>'+(board?'<ul class="dock-greetings">'+board+'</ul>':'<p>還沒有人打招呼。可以從你開始。</p>')+
   '<form method="post"><label>選一句招呼<select name="option">'+options+'</select></label><small>發佈後，你的熊熊和暱稱會顯示給已登島的島民。你可以隨時撤下。</small><button name="action" value="greet" type="submit">'+(ownGreeting?'更新招呼':'發佈招呼')+'</button></form>'+
+  '<form method="post"><label>寫一句招呼<input name="message" maxlength="120" required></label><small>最多 120 字，每 30 秒可更新一次。</small><button name="action" value="greet-custom">發佈自訂招呼</button></form><form method="post"><button name="action" value="ungreet">撤下我的招呼</button></form>'+
   (ownGreeting?'<form class="dock-withdraw" method="post"><button name="action" value="ungreet" type="submit">撤下我的招呼</button></form>':'')+'</section>'+
   '<section id="weekly-activities" class="dock-section"><h2>本週島上活動</h2><p>從 '+week.replaceAll('-','/')+' 起，可自由加入、各自找時間完成。</p>'+activities+'</section></section>',status,undefined,worldSceneHeaders);
 }
@@ -3387,7 +3414,7 @@ function resortMapArt(){
  const figures=harborNeighbors.map((group,d)=>group.map(([name,role,look],i)=>{const n=index++,id=d+'-'+i,secret=state.residents.find(r=>r.resident===id),[a,b]=paths[n%paths.length],t=((Math.floor(n/paths.length)+.5)/Math.ceil(49/paths.length)),x=a[0]+(b[0]-a[0])*t+(n%2?9:-9),y=a[1]+(b[1]-a[1])*t+(n%3-1)*12,portrait=neighborAvatar(d,i,look).replace('<svg','<svg x="-13" y="-43" width="26" height="43"'),target=secret?'/dock/secrets/'+secret.id:neighborPath+'/'+id;
  return '<g class="hb-neighbor resort-npc" data-resort-resident="'+id+'"'+(secret?' data-sea-resident="'+secret.id+'"':'')+' transform="translate('+x+' '+y+')"><g class="resort-stroll" style="--stroll-delay:-'+(n*1.7)+'s"><a href="'+target+'" '+(secret?'data-sea-open':'data-hb-neighbor')+' aria-label="和 '+escape(name)+' 聊聊" aria-controls="'+(secret?'sea-dialog':'harbor-chat')+'" aria-expanded="false"><title>'+escape(name)+'</title><rect x="-16" y="-45" width="32" height="48" rx="12"/>'+portrait+'</a></g></g>';
  }).join('')).join('');
- return '<canvas class="resort-webgl" data-resort-3d aria-hidden="true"></canvas>'+resortArtwork({tree:isoTree,house:isoHouse}).replace('</svg>','<g data-resort-people role="group" aria-label="49 位渡假村居民">'+figures+'</g></svg>').replace(/\n/g,'');
+ return '<canvas class="resort-webgl" data-resort-3d aria-hidden="true"></canvas>'+resortArtwork({tree:isoTree,house:isoHouse}).replace('</svg>',nomadConstructionArt()+'</svg>') .replace('</svg>','<g data-resort-people role="group" aria-label="49 位渡假村居民">'+figures+'</g></svg>').replace(/\n/g,'');
 }
 
 async function resortHome(request,env,url,visitor){
@@ -3407,7 +3434,7 @@ async function resortHome(request,env,url,visitor){
 }
 
 function publicHarbor(url,profile,credential,isFounder,invitations,dockServices){
- const map='/world',dockStop=9,requested=url.searchParams.get('at'),initial=requested==='home'?11:[1,5,7,9,11].includes(Number(requested))?Number(requested):dockStop;
+ const map='/world',dockStop=9,requested=url.searchParams.get('at'),initial=requested==='home'?11:[1,5,7,9,11,12].includes(Number(requested))?Number(requested):dockStop;
  const accountLinks=returnTo=>({login:'/passport?recover=1&next='+encodeURIComponent(returnTo)+'#passport-recover',join:'/passport?next='+encodeURIComponent(returnTo)+'#passport-form'});
  const {login,join}=accountLinks(initial===dockStop?harborDockPath:map);
  const dockAccount=accountLinks(harborDockPath);
@@ -3420,6 +3447,7 @@ function publicHarbor(url,profile,credential,isFounder,invitations,dockServices)
  {i:1,n:'02',name:'海邊生活街',hint:'喝杯咖啡、逛市集，或翻一本喜歡的書',to:'/dock/career',cta:'走進咖啡館'},
  {i:5,n:'03',name:'運動俱樂部',hint:'海風裡的果嶺與伸展平台。自由練習，不用比賽或打卡',to:'/dock/sports',cta:'去果嶺練一球'},
  {i:11,n:'04',name:'我的小屋',hint:profile?'你原本的小屋與布置都在。走近家門，就能進屋休息':'先領取島民證，就能回到自己的小屋',to:'/dock/cabin',cta:'回家休息'},
+ {i:12,n:'06',name:'Nomad House｜遊牧工作屋',hint:'熱帶工作屋開門了。找個座位工作、閱讀、喝咖啡，或在露台放空',to:'/world/nomad',cta:'走進 Nomad House'},
  {i:7,n:'05',name:'自然休憩區',hint:'沿著海岸走走，在花園長椅上休息，或到安靜的小島整理心情',to:'/world/nature',cta:'走進海岸花園'}];
  const services={1:'<div class="resort-services"><a href="/dock/mba">山丘書屋</a><a href="/dock/finance">潮汐市集</a><a href="/dock/square">榕樹廣場</a></div>',7:'<div class="resort-services"><a href="/dock/bottles" data-sea-open>漂流瓶接力</a></div>'};
  const dockLink=(text,cls='')=>'<a'+(cls?' class="'+cls+'"':'')+' href="'+harborDockPath+'" data-stop="'+dockStop+'"'+(initial===dockStop?' aria-current="true"':'')+'>'+text+'</a>';
@@ -3436,10 +3464,10 @@ function publicHarbor(url,profile,credential,isFounder,invitations,dockServices)
   '<p class="hb-dock-empty">'+(profile?'目前沒有待赴的邀請。島主用你的島民編號邀請後，船票會出現在這裡。':'登入受邀的島民證，就能在這裡看船票和登島紀錄。')+'</p>';
  const dockPanel='<section class="hb-panel hb-dock-panel" id="dock-station" data-destination="'+dockStop+'" tabindex="-1"'+(initial===dockStop?'':' hidden')+'><span class="hb-kicker">Visitor Dock</span><h2>抵達碼頭</h2><p>歡迎來到熊熊渡假村。點地點就會慢慢走過去並進入；「回家」直接帶你進屋。</p><a class="hb-cta" href="/dock/square">到廣場打招呼 ↗</a><div class="resort-services"><a href="/world/emerald">私人島嶼入口</a></div>'+inbox+
   (profile?dockServices:'<a class="hb-cta" href="'+dockAccount.login+'">登入島民證 ↗</a> <a class="hb-link" href="'+dockAccount.join+'">領取島民證</a>')+'</section>';
- return html('<style>'+publicHarborCss+seaStyles+publicMapStyle+resortStyles+'</style><header class="hb-head"><div><span class="hb-kicker">Bear Atlas / Seaside Retreat</span><h1>熊熊渡假村</h1></div>'+
+ return html('<style>'+publicHarborCss+seaStyles+publicMapStyle+resortStyles+nomadStyles+'</style><header class="hb-head"><div><span class="hb-kicker">Bear Atlas / Seaside Retreat</span><h1>熊熊渡假村</h1></div>'+
   '<div class="hb-identity">'+(profile?'<a class="hb-passport" href="/passport" title="'+escapeUser(profile.nickname)+' 的護照" aria-label="'+escapeUser(profile.nickname)+' 的護照 '+memberLabel(credential.member_no)+'"><span class="hb-player-name">'+escapeUser(profile.nickname)+'</span><small>'+memberLabel(credential.member_no)+'</small></a>':'<a class="hb-passport hb-join" href="'+join+'">新玩家登島 ↗</a><a class="hb-login" href="'+login+'">已有島民證？登入</a>')+'</div>'+
   '<nav class="hb-account" aria-label="島嶼導覽"><a href="#dock-activities" aria-current="page">地圖</a><a href="'+neighborPath+'">找居民</a><a href="'+(profile?cabinPath:'/world/home')+'">回家</a>'+
-  dockLink('碼頭 '+badge,'hb-dock-shortcut')+'</nav></header><p class="hb-town-intro">成年人的心靈寄託小宇宙。出門散步、喝杯咖啡，再沿著小徑回家。</p>'+harborWelcome(profile,credential?memberLabel(credential.member_no):'guest')+'<p class="hb-welcome-notice" role="status" data-hb-welcome-notice></p><div class="hb-layout" id="dock-activities"><figure class="hb-map resort-map"><div class="hb-stage" aria-label="熊熊渡假村園區地圖" data-public-harbor data-initial="'+initial+'" data-stops="'+escape(JSON.stringify(positions))+'" data-links="'+escape(JSON.stringify(links))+'" data-size="'+size.x+','+size.y+'">'+
+  dockLink('碼頭 '+badge,'hb-dock-shortcut')+'</nav></header><p class="hb-town-intro">成年人的心靈寄託小宇宙。出門散步、喝杯咖啡，再沿著小徑回家。</p>'+harborWelcome(profile,credential?memberLabel(credential.member_no):'guest')+'<p class="hb-welcome-notice" role="status" data-hb-welcome-notice></p><div class="hb-layout" id="dock-activities"><figure class="hb-map resort-map"><div class="hb-stage" aria-label="熊熊渡假村園區地圖" data-public-harbor data-nomad-phase="'+nomadSite.phase+'" data-initial="'+initial+'" data-stops="'+escape(JSON.stringify(positions))+'" data-links="'+escape(JSON.stringify(links))+'" data-size="'+size.x+','+size.y+'">'+
   resortMapArt()+'<span class="hb-actor" aria-hidden="true" style="--x:'+positions[initial].x/size.x*100+'%;--y:'+positions[initial].y/size.y*100+'%">'+avatarSvg+'</span>'+
   stopsConfig.map(p=>item(p,true)).join('')+seaMapPins()+'</div><figcaption class="hb-caption"><span>'+(profile?'點地點直接前往，點居民打招呼。':'點地點直接前往，也可以點居民打招呼。')+'</span><a class="hb-enter" data-hb-enter href="/dock/square">到廣場打招呼 ↗</a><button type="button" data-hb-motion hidden>暫停動畫</button></figcaption><div class="sea-map-note"><span data-sea-clock data-sea-next="'+islandSecretClock().nextChange+'">台灣時間 '+islandSecretClock().label+' · 居民正在島上生活</span></div></figure>'+
   '<aside class="hb-rail" aria-label="島嶼活動"><dialog class="hb-panel hb-chat-panel" id="harbor-chat" data-hb-chat-panel hidden aria-label="和居民聊天"><div class="hb-chat-top"><span class="hb-kicker">HELLO, NEIGHBOR</span><button type="button" data-hb-chat-close>關閉聊天 ✕</button></div><p role="status" data-hb-chat-status></p><div data-hb-chat-body></div></dialog><div aria-live="polite">'+summaries+dockPanel+'</div></aside></div>'+
@@ -3753,7 +3781,7 @@ function publicHarborClient(){
   catch{notice.textContent=url;}
  });
 }
-const worldSceneScript=shortestResortRoute.toString()+';('+resort3dClient.toString()+')();('+upgradeClient.toString()+')();'+sportsVenueModel.toString()+';('+sportsVenueClient.toString()+')(sportsVenueModel);'+golfShot.toString()+';('+golfClient.toString()+')();'+sadWalkPoint.toString()+';'+neighborChatClient.toString()+';('+harborArrivalClient.toString()+')();('+worldSceneClient.toString()+')();('+worldWardrobeClient.toString()+')();('+worldVoyageClient.toString()+')();('+publicHarborClient.toString()+')();('+seaLifeClient.toString()+')();('+sadIslandClient.toString()+')();('+publicPlaceClient.toString()+')();';
+const worldSceneScript=nomadBuildModel.toString()+';'+shortestResortRoute.toString()+';('+resort3dClient.toString()+')(nomadBuildModel);('+upgradeClient.toString()+')();'+sportsVenueModel.toString()+';('+sportsVenueClient.toString()+')(sportsVenueModel);'+golfShot.toString()+';('+golfClient.toString()+')();'+sadWalkPoint.toString()+';'+neighborChatClient.toString()+';('+harborArrivalClient.toString()+')();('+worldSceneClient.toString()+')();('+worldWardrobeClient.toString()+')();('+worldVoyageClient.toString()+')();('+publicHarborClient.toString()+')();('+seaLifeClient.toString()+')();('+sadIslandClient.toString()+')();('+publicPlaceClient.toString()+')();';
 const worldSceneHeaders={'Content-Security-Policy':headers['Content-Security-Policy']+"; script-src 'self'; img-src data:"};
 
 const worldShoes={classic:['原本的鞋',''],rose:['霧粉鞋','#bc786f'],cream:['奶油白鞋','#f0dfb8'],cedar:['雪松棕鞋','#886044']};
@@ -3825,4 +3853,110 @@ function recoveryReminderClient(){
  saved.addEventListener('change',()=>{next.disabled=!saved.checked;});
  form.addEventListener('submit',event=>{event.preventDefault();if(!saved.checked){saved.reportValidity();return;}location.assign(form.getAttribute('action'));});
  copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(value.value.replace(/\s/g,''));status.textContent='已複製恢復碼。請貼到私人、安全的位置保存；確認保存後勾選下方選項。';}catch{value.focus();value.select();value.setSelectionRange?.(0,value.value.length);status.textContent='無法自動複製。已選取代碼，請長按或使用系統複製功能，或手動抄寫保存。';}});
+}
+
+// V87 adapters deliberately reuse existing page chrome, auth and origin validation.
+const adventureNpcRoster=[{id:'0-3',name:'Hugo'},{id:'5-4',name:'Liv'},{id:'7-4',name:'Ari'},{id:'0-4',name:'Emi'},{id:'0-5',name:'Felix'},{id:'0-0',name:'Clara'}];
+function adventureNpc(now=Date.now()){const day=Math.floor((now+28800000)/86400000);return adventureNpcRoster[((day%6)+6)%6];}
+async function adventureEnhance(content,path,url,db,key){
+ const station=path==='/world'&&(!url.searchParams.has('at')||url.searchParams.get('at')==='9')?adventureStations[0]:adventureStations.find(s=>s.path===path);
+ const pref=await adventurePreference(db,key);let block='';
+ if(station){const token=await adventureIssue(db,key,station.id);block='<details class="adventure"'+(pref.tour_status==='active'||pref.tour_replay?' open':'')+'><summary>和 Ari 探索這裡</summary><p>'+station.label+'</p>'+adventureForm('station',token,station.action,'<input type="hidden" name="scene" value="'+station.id+'">')+'<a href="/dock/adventure">冒險手帳</a></details>';block+=adventureGuideNav(station,pref);if(url.searchParams.has('adventure'))block+='<p class="adventure" role="status">這次互動已保存，可以到手帳查看進度。</p>';}
+ if(path==='/world'||path==='/dock/quests'||path==='/dock/cabin')block+='<div class="adventure"><a href="/dock/adventure">冒險手帳</a> <a href="/world/forest">雪松森林</a> <a href="/world/beach">貝殼海灘</a></div>';
+ if(path==='/dock/cabin'){
+  content=content.replace('data-cabin-game','data-npc-visits="bounded" data-cabin-game');
+  const visit=await db.prepare('SELECT * FROM island_adventure_visits WHERE visitor_key=? AND day=?').bind(key,adventureDay()).first();
+  if(pref.npc_enabled&&visit?.status==='accepted'){
+   const token=await adventureIssue(db,key,'npc');const npc=adventureNpc();
+   const [district,slot]=npc.id.split('-').map(Number),resident=harborNeighbors[district][slot],fur=harborBears[['honey','mist','cocoa'][(district*7+slot*3)%3]].fur,look=Object.keys(harborOutfits)[resident[2]%Object.keys(harborOutfits).length],outfit=harborOutfits[look];
+   content=content.replace('data-cabin-display','data-cabin-guest="'+npc.name.toLowerCase()+'" data-cabin-guest-fur="'+fur+'" data-cabin-guest-outfit="'+outfit.color+'" data-cabin-guest-look="'+look+'" data-cabin-guest-trim="'+outfit.trim+'" data-cabin-display');
+   block+='<section class="adventure"><h2>'+npc.name+'</h2><p>喜歡窗邊的光，還是桌邊的安靜？朋友陪你留下今天的小回憶。</p>'+adventureForm('npc-talk',token,'分享最喜歡的小屋角落','<input type="hidden" name="period" value="'+adventureDay()+'">')+'</section>';
+  }
+ }
+ if(path==='/dock/cabin'&&!pref.npc_enabled){content=content.replace(/<section class="life-arrivals"[\s\S]*?<\/section>/g,'');}
+ return content.replace('</main>','<style>'+adventureCss+'</style>'+block+'</main>');
+}
+async function adventureRoute(request,env,url){
+ const db=env.DB,key=islanderOf(request),profile=key?await readPassportProfile(db,key):null;
+ const page=(body,status=200)=>lifePage('冒險手帳','<style>'+adventureCss+'</style><section class="adventure">'+body+'</section>',status);
+ if(!['GET','POST'].includes(request.method))return page('<p>請使用頁面上的互動。</p>',405);
+ if(!profile)return page('<h1>冒險手帳</h1>'+memberLinks(url.pathname),request.method==='POST'?403:200);
+ if(!await adventureReady(db))return page('<p>冒險功能暫時無法使用，原本的資料仍保留。</p><a href="/world">回渡假村</a>',503);
+ const now=Date.now(),day=adventureDay(now),npc=adventureNpc(now);
+ if(request.method==='POST'){
+  if(url.pathname!=='/dock/adventure')return page('<p>請使用頁面上的互動。</p>',405);
+  const form=await dockForm(request,url,1500);if(!form.fields)return page(dockError(form.error),form.status);
+  const f=form.fields,action=f.get('action');
+  if([...f.keys()].some(k=>!['action','token','scene','quest','enabled','choice','period'].includes(k))||[...f.keys()].some(k=>f.getAll(k).length!==1))return page('<p>請使用頁面上的互動。</p>',400);
+  if(action==='tour-start'||action==='tour-skip'){
+   await db.prepare('INSERT INTO island_adventure_preferences(visitor_key,tour_status,tour_replay) VALUES(?,?,?) ON CONFLICT(visitor_key) DO UPDATE SET tour_replay=excluded.tour_replay,tour_status=CASE WHEN island_adventure_preferences.tour_status=\'complete\' THEN \'complete\' ELSE excluded.tour_status END').bind(key,action==='tour-start'?'active':'skipped',action==='tour-start'?1:0).run();
+   return dockRedirect(action==='tour-start'?'/world?at=9':'/world');
+  }
+  if(action==='npc-setting'){
+   if(!['0','1'].includes(f.get('enabled')))return page('<p>請使用頁面上的互動。</p>',400);
+   await db.prepare('INSERT INTO island_adventure_preferences(visitor_key,npc_enabled) VALUES(?,?) ON CONFLICT(visitor_key) DO UPDATE SET npc_enabled=excluded.npc_enabled').bind(key,Number(f.get('enabled'))).run();return dockRedirect('/dock/adventure');
+  }
+  if(action==='claim'){
+   const q=adventureQuests.find(q=>q.id===f.get('quest'));if(!q)return page('<p>請使用頁面上的互動。</p>',400);
+   if((q.kind==='daily'||q.repeat==='weekly')&&f.get('period')!==adventurePeriod(q,now))return page('<p>日期已更新，請重新打開手帳。</p>',409);
+   const claimed=await adventureClaim(db,key,q.id,now);if(!claimed&&!(await adventureProgress(db,key,now)).find(row=>row.id===q.id)?.claimed)return page('<p>任務尚未完成，請繼續探索。</p><a href="/dock/adventure">冒險手帳</a>',409);return dockRedirect('/dock/adventure?feedback=claim');
+  }
+  if(action==='npc-later'||action==='npc-decline'||action==='npc-accept'||action==='npc-talk'){
+   const pref=await adventurePreference(db,key);if(!pref.npc_enabled||f.get('period')!==day)return page('<p>NPC 拜訪已關閉。你可以在冒險手帳重新開啟。</p>',403);
+   const visit=await db.prepare('SELECT * FROM island_adventure_visits WHERE visitor_key=? AND day=?').bind(key,day).first();
+   if(action==='npc-talk'){
+    if(visit?.status!=='accepted')return page('<p>請先接受朋友來訪。</p>',409);
+    const ok=await adventureRecord(db,key,'npc',f.get('token'),'npc:conversation',day,now);if(!ok)return page('<p>互動已更新，請回到場景再試。</p>',409);
+    await db.prepare("UPDATE island_adventure_visits SET status='complete' WHERE visitor_key=? AND day=? AND status='accepted'").bind(key,day).run();return dockRedirect('/dock/adventure?feedback=talk');
+   }
+   if(visit&&(visit.status!=='later'||visit.next_at>now))return page('<p>今天的拜訪選擇已保存。</p>',409);
+   const status=action==='npc-later'?'later':action==='npc-decline'?'declined':'accepted';
+   await db.prepare('INSERT INTO island_adventure_visits(visitor_key,day,resident_id,status,next_at) VALUES(?,?,?,?,?) ON CONFLICT(visitor_key,day) DO UPDATE SET status=excluded.status,next_at=excluded.next_at WHERE island_adventure_visits.status=\'later\' AND island_adventure_visits.next_at<=?').bind(key,day,npc.id,status,status==='later'?now+3600000:0,now).run();return dockRedirect('/dock/adventure');
+  }
+  let scene,event,back;
+  if(action==='station'){
+   const station=adventureStations.find(s=>s.id===f.get('scene'));if(!station)return page('<p>請使用頁面上的互動。</p>',400);scene=station.id;event=station.event;back=station.path;
+  }else if(action==='observe'||action==='catchup'){
+   scene='wildlife';event=action==='catchup'?'wildlife:rare':'wildlife:common';back='/world/forest';
+   // Catch-up is deliberately available every hour. No midnight-only collectible.
+  }else return page('<p>請使用頁面上的互動。</p>',400);
+  if(!await adventureRecord(db,key,scene,f.get('token'),event,day,now))return page('<p>互動已更新，請回到場景再試。</p><a href="'+back+'">回到場景</a>',409);
+  const progress=await adventureProgress(db,key,now);if(progress.find(q=>q.id==='welcome').complete)await db.prepare("INSERT INTO island_adventure_preferences(visitor_key,tour_status,tour_replay) VALUES(?,'complete',0) ON CONFLICT(visitor_key) DO UPDATE SET tour_status='complete',tour_replay=CASE WHEN ?='beach' THEN 0 ELSE island_adventure_preferences.tour_replay END").bind(key,scene).run();
+  return dockRedirect(back+(back.includes('?')?'&':'?')+'adventure=done');
+ }
+ if(url.pathname==='/world/forest'||url.pathname==='/world/beach'){
+  const forest=url.pathname.endsWith('forest'),station=adventureStations[forest?3:4],token=await adventureIssue(db,key,station.id,now),wild=adventureWildlife(now);
+  const rareSeen=forest?await db.prepare("SELECT 1 seen FROM island_adventure_events WHERE visitor_key=? AND event='wildlife:rare' AND period=?").bind(key,day).first():null;
+  let body='<h1>'+station.label+'</h1><p>沿著步道慢慢走，今天也有新的風景。</p><figure style="position:relative;margin:12px 0"><svg viewBox="0 0 760 480" role="img" aria-label="'+station.label+'">'+jadeExArt[station.id]+'</svg><div style="position:absolute;width:12%;bottom:4%;left:37%">'+memberAvatar(profile,true)+'</div></figure>';
+  if(url.searchParams.has('adventure'))body+='<p role="status">這次互動已保存，可以到手帳查看進度。</p>';
+  body+=adventureForm('station',token,station.action,'<input type="hidden" name="scene" value="'+station.id+'">');
+  if(forest){const wt=await adventureIssue(db,key,'wildlife',now);body+='<h2>林間觀察</h2>'+adventureAnimal(wild.common)+'<p>'+wild.common+'</p>'+(wild.rare||rareSeen?'<svg viewBox="0 0 200 120" role="img" aria-label="山羌" style="max-height:150px"><ellipse cx="90" cy="65" rx="38" ry="22" fill="#b18c65"/><path d="m63 73-4 36m52-36 5 36" stroke="#8f6e50" stroke-width="9"/><path d="m111 60 14-28 20 7-7 36" fill="#b18c65"/><path d="m129 34-2-23 13 19m0 4 15-19-4 26" fill="#bc9b73"/><circle cx="143" cy="45" r="3" fill="#263e33"/></svg>':'')+'<p>山羌每天 14:00–21:00 在觀景坡出現；其他時間可走補遇步道。以伺服器台灣時間為準，不必熬夜。</p>'+adventureForm('observe',wt,'安靜觀察野生朋友')+adventureForm('catchup',wt,wild.rare?'到觀景坡看看山羌':'走補遇步道看看山羌');}
+  else body+='<p>把貝殼留給海浪，今天先聽聽海。</p>';
+  return page(body+adventureGuideNav(station,await adventurePreference(db,key))+'<nav><a href="/dock/adventure">冒險手帳</a><a href="/world?at=7">回渡假村</a></nav>');
+ }
+ const pref=await adventurePreference(db,key),progress=await adventureProgress(db,key,now),visit=await db.prepare('SELECT * FROM island_adventure_visits WHERE visitor_key=? AND day=?').bind(key,day).first();
+ let body='<h1>冒險手帳</h1><time datetime="'+day+'">'+day+'</time><p>Ari 陪你認識島上五個角落，約五分鐘。隨時可跳過，不影響自由探索。</p>';
+ if(url.searchParams.has('feedback'))body+='<p role="status">進度與收藏已保存，重複操作不會重複發獎。</p>';
+ body+='<nav><a href="/world">回渡假村</a><a href="/dock/quests">居民委託</a><a href="/dock/memories">原有紀念冊</a><a href="/dock/events">本週島上故事</a></nav><h2>五分鐘導覽</h2>'+adventureForm('tour-start','',pref.tour_status==='complete'?'重新觀看導覽':'開始或繼續導覽')+adventureForm('tour-skip','','跳過導覽，自由探索')+'<ol>'+adventureStations.map(s=>'<li><a href="'+s.path+'">'+s.label+'</a></li>').join('')+'</ol><p>可以回到任何一站；已完成的進度會保留。</p>';
+ for(const q of progress){if(q.kind==='hidden'&&!q.complete)continue;body+='<article><h2>'+q.title+'</h2><p>'+q.note+'</p><p>'+q.done+' / '+q.events.length+'</p><p>'+q.reward+'</p>'+(q.claimed?'<p>已收進冒險收藏</p>'+memoryArt(q.reward):q.complete?adventureForm('claim','','收下紀念卡','<input type="hidden" name="quest" value="'+q.id+'"><input type="hidden" name="period" value="'+q.period+'">'):'<p>自由探索，慢慢完成就好。</p>')+'</article>';}
+ body+='<h2>朋友來敲門</h2><p>每天最多一位新朋友，不會自動跳出打擾。稍後會安靜一小時；拒絕不影響友情或獎勵。</p>'+adventureForm('npc-setting','',pref.npc_enabled?'關閉 NPC 拜訪':'開啟 NPC 拜訪','<input type="hidden" name="enabled" value="'+(pref.npc_enabled?'0':'1')+'">');
+ const hidden='<input type="hidden" name="period" value="'+day+'">';
+ if(pref.npc_enabled){
+  if(!visit||visit.status==='later'&&visit.next_at<=now)body+='<p>'+npc.name+'</p><p>朋友想來聽你分享小屋最喜歡的角落；聊完可完成來訪任務。</p>'+['accept','later','decline'].map((v,i)=>adventureForm('npc-'+v,'',['接受來訪','稍後再說','今天先休息'][i],hidden)).join('');
+  else if(visit.status==='accepted'){body+='<p>'+npc.name+'</p><p>喜歡窗邊的光，還是桌邊的安靜？朋友陪你留下今天的小回憶。</p><a href="/dock/cabin">回小屋看看</a>';}
+  else body+='<p>今天的拜訪選擇已保存。</p>';
+ }
+ const rawPage=url.searchParams.get('page')||'1';if(!/^[1-9]\d{0,3}$/.test(rawPage))return page('<p>請使用頁面上的互動。</p>',400);
+ const collectionPage=Number(rawPage);const {results:keepsakes}=await db.prepare('SELECT quest_id,period,claimed_at FROM island_adventure_rewards WHERE visitor_key=? ORDER BY claimed_at DESC,quest_id LIMIT 25 OFFSET ?').bind(key,(collectionPage-1)*24).all();
+ body+='<details><summary>冒險收藏</summary><ul>'+keepsakes.slice(0,24).map(r=>'<li>'+adventureQuests.find(q=>q.id===r.quest_id)?.reward+' · '+(r.period||adventureDay(r.claimed_at))+'</li>').join('')+'</ul>'+ (collectionPage>1?'<a href="/dock/adventure?page='+(collectionPage-1)+'">上一頁</a>':'')+(keepsakes.length>24?'<a href="/dock/adventure?page='+(collectionPage+1)+'">下一頁</a>':'')+'</details>';
+ return page(body);
+}
+function adventureAnimal(name){
+ const animal=name==='松鼠'?'<path d="M87 74C15 80 20 15 57 24c30 6 4 44 30 37" fill="none" stroke="#a87854" stroke-width="18"/><ellipse cx="98" cy="74" rx="23" ry="17" fill="#b78962"/><circle cx="116" cy="56" r="16" fill="#c39672"/><path d="m106 45 1-18 13 17" fill="#b78962"/><circle cx="123" cy="54" r="3" fill="#273f33"/>':name==='藍鵲'?'<path d="M79 64 22 104 87 82" fill="#586aa1"/><ellipse cx="104" cy="70" rx="27" ry="17" fill="#748bb5"/><circle cx="125" cy="50" r="15" fill="#394b60"/><path d="m139 50 14 6-16 3" fill="#d28f66"/><circle cx="130" cy="47" r="3" fill="#fff3d4"/>':'<ellipse cx="100" cy="70" rx="28" ry="31" fill="#a88f72"/><path d="m75 49 3-26 20 16 23-16 5 27" fill="#a88f72"/><circle cx="88" cy="55" r="14" fill="#e9d6b1"/><circle cx="113" cy="55" r="14" fill="#e9d6b1"/><circle cx="88" cy="55" r="5" fill="#394b3b"/><circle cx="113" cy="55" r="5" fill="#394b3b"/><path d="m96 68 5 8 5-8" fill="#ce9668"/>';
+ return '<svg viewBox="0 0 200 120" role="img" aria-label="'+name+'" style="max-height:150px"><path d="M12 102q90-17 175 0" fill="none" stroke="#9eaf87" stroke-width="8"/>'+animal+'</svg>';
+}
+function adventureGuideNav(station,pref){
+ if(pref.tour_status!=='active'&&!pref.tour_replay)return '';
+ const i=adventureStations.indexOf(station),previous=adventureStations[i-1],next=adventureStations[i+1];
+ return '<nav class="adventure">'+(previous?'<a href="'+previous.path+'">← 上一站</a>':'')+(next?'<a href="'+next.path+'">下一站 →</a>':'<a href="/dock/adventure">冒險手帳</a>')+'</nav>';
 }

@@ -113,6 +113,13 @@
       "when": 1794474000000,
       "tag": "0015_bedroom_instances",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1794787200000,
+      "tag": "0017_welcome_adventure",
+      "breakpoints": true
     }
   ]
 }

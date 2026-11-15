@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {readFileSync,readdirSync} from 'node:fs';
+import worker from '../worker/index.js';
+import {adventureDay,adventureWildlife,adventureGreeting,adventureIssue,adventureRecord,adventureClaim,adventureProgress,adventureStations} from '../worker/adventure.js';
+import {createI18nAudit} from './i18n-audit.mjs';
+const sql=new DatabaseSync(':memory:');sql.exec('PRAGMA foreign_keys=ON');
+for(const file of readdirSync(new URL('../drizzle/',import.meta.url)).filter(f=>f.endsWith('.sql')).sort())sql.exec(readFileSync(new URL('../drizzle/'+file,import.meta.url),'utf8'));
+const key='a'.repeat(48),other='b'.repeat(48);
+for(const [k,n]of [[key,'Legacy'],[other,'Friend']]){sql.prepare('INSERT INTO island_passports VALUES(?,?,?,?,?)').run(k,n,'cat','picnic',1700000000000);sql.prepare('INSERT INTO island_credentials(visitor_key) VALUES(?)').run(k);}
+const snapshot=sql.prepare('SELECT * FROM island_passports').all();
+const DB={prepare(query){const p=sql.prepare(query);function bind(...args){return{first:async()=>p.get(...args),all:async()=>({results:p.all(...args)}),run:async()=>({meta:p.run(...args)}),executeBatch:()=>p.columns().length?{results:p.all(...args)}:{meta:p.run(...args)},bind}}return bind();},async batch(statements){sql.exec('BEGIN');try{const r=statements.map(s=>s.executeBatch());sql.exec('COMMIT');return r;}catch(e){sql.exec('ROLLBACK');throw e;}}};
+const origin='https://adventure.test',audit=createI18nAudit();
+const get=async(path,k=key)=>audit.response(await worker.fetch(new Request(origin+path,{headers:{Cookie:k?'atlas_islander='+k:''}}),{DB}),path);
+const post=async(fields,k=key,path='/dock/adventure',host=origin)=>audit.response(await worker.fetch(new Request(origin+path,{method:'POST',headers:{Cookie:'atlas_islander='+k,Origin:host,'Sec-Fetch-Site':host===origin?'same-origin':'cross-site','Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fields)}),{DB}),path+' POST');
+const html=async(path)=>await(await get(path)).text();
+const token=text=>text.match(/name="token" value="([^"]+)"/)?.[1];
+const count=table=>sql.prepare('SELECT count(*) n FROM '+table).get().n;
+assert.equal(adventureDay(Date.parse('2026-11-15T15:59:59Z')),'2026-11-15');assert.equal(adventureDay(Date.parse('2026-11-15T16:00:00Z')),'2026-11-16');
+assert.equal(adventureWildlife(Date.parse('2026-11-16T06:00:00Z')).rare,true);assert.equal(adventureWildlife(Date.parse('2026-11-16T13:00:00Z')).rare,false);
+for(const text of ['','x'.repeat(121),'<script>alert(1)</script>','hello\u202e','www.spam.test','kill yourself','去死','a@b.com'])assert.equal(adventureGreeting(text),null,text);
+assert.equal(adventureGreeting('你好，島上的朋友！'),'你好,島上的朋友!');
+assert.equal((await get('/dock/adventure','')).status,200);assert.equal((await post({action:'claim',quest:'welcome'},'')).status,403);
+assert.equal((await post({action:'tour-start'},key,undefined,'https://evil.test')).status,403);
+assert.equal((await post({action:'tour-start',owner_key:other})).status,400);
+assert.equal((await post({action:'claim',quest:'unknown'})).status,400);assert.equal((await get('/dock/adventure?page=bad')).status,400);
+assert.equal((await post({action:'claim',quest:'welcome'})).status,409);assert.equal(count('island_adventure_rewards'),0);
+await post({action:'tour-start'});
+for(const station of adventureStations){
+ const text=await html(station.path),t=token(text);assert.ok(t,station.path);assert.match(text,/和 Ari 探索這裡|沿雪松小徑散步|坐在木棧道聽海/);
+ assert.equal((await post({action:'station',scene:station.id,token:t},other)).status,409);
+ assert.equal((await post({action:'station',scene:station.id,token:t})).status,303);
+ assert.equal((await post({action:'station',scene:station.id,token:t})).status,409);
+}
+assert.equal(sql.prepare('SELECT tour_status FROM island_adventure_preferences WHERE visitor_key=?').get(key).tour_status,'complete');await post({action:'tour-start'});assert.equal(sql.prepare('SELECT tour_replay FROM island_adventure_preferences WHERE visitor_key=?').get(key).tour_replay,1);assert.match(await html('/dock/cabin'),/上一站/);await post({action:'tour-skip'});assert.equal(sql.prepare('SELECT tour_status FROM island_adventure_preferences WHERE visitor_key=?').get(key).tour_status,'complete');assert.equal(sql.prepare('SELECT tour_replay FROM island_adventure_preferences WHERE visitor_key=?').get(key).tour_replay,0);
+await post({action:'claim',quest:'welcome'});await post({action:'claim',quest:'welcome'});assert.equal(count('island_adventure_rewards'),1);
+assert.equal((await adventureProgress(DB,other))[0].done,0);
+assert.equal((await adventureProgress(DB,key))[0].claimed,true);
+// Reward check and unique insertion happen in a single SQL statement, including daily period.
+await Promise.all([adventureClaim(DB,key,'daily'),adventureClaim(DB,key,'daily')]);assert.equal(count('island_adventure_rewards'),2);
+assert.equal((await post({action:'claim',quest:'daily',period:'1999-01-01'})).status,409);
+let forest=await html('/world/forest'),wildToken=[...forest.matchAll(/name="token" value="([^"]+)"/g)][1][1];
+assert.equal((await post({action:'observe',token:wildToken,event:'wildlife:rare'})).status,400);
+assert.equal((await post({action:'observe',token:wildToken})).status,303);
+forest=await html('/world/forest');wildToken=[...forest.matchAll(/name="token" value="([^"]+)"/g)][1][1];assert.equal((await post({action:'catchup',token:wildToken})).status,303);
+await post({action:'claim',quest:'rare'});await post({action:'claim',quest:'nature'});assert.equal(count('island_adventure_rewards'),4);const weekly=(await adventureProgress(DB,key)).find(q=>q.id==='woodland-week');assert.equal(weekly.complete,true);await post({action:'claim',quest:'woodland-week',period:weekly.period});await post({action:'claim',quest:'woodland-week',period:weekly.period});assert.equal(count('island_adventure_rewards'),5);assert.equal((await adventureProgress(DB,key,Date.now()+7*86400000)).find(q=>q.id==='woodland-week').complete,false);
+const expired=await adventureIssue(DB,key,'beach',1000);assert.equal(await adventureRecord(DB,key,'beach',expired,'beach:listen','2000-01-01',1801000),false);
+// Failure during the event insert rolls the token consumption back, so retry is safe.
+const retry=await adventureIssue(DB,key,'beach');sql.exec("CREATE TRIGGER fail_adventure BEFORE INSERT ON island_adventure_events BEGIN SELECT RAISE(ABORT,'fixture failure');END");
+await assert.rejects(()=>adventureRecord(DB,key,'beach',retry,'beach:listen',adventureDay()));sql.exec('DROP TRIGGER fail_adventure');assert.equal(await adventureRecord(DB,key,'beach',retry,'beach:listen',adventureDay()),true);
+assert.equal((await post({action:'greet-custom',message:'Good morning!'},key,'/dock/square')).status,303);
+assert.equal((await post({action:'greet-custom',message:'Again'},key,'/dock/square')).status,429);
+const square=await html('/dock/square');assert.match(square,/Good morning!/);assert.match(square,/translate="no" data-user-content/);
+await post({action:'ungreet'},key,'/dock/square');assert.equal(sql.prepare('SELECT count(*) n FROM island_custom_greetings WHERE visible=1').get().n,0);assert.equal((await post({action:'greet-custom',message:'Cooldown bypass'},key,'/dock/square')).status,429);
+await post({action:'npc-setting',enabled:'0'});assert.ok(!(await html('/dock/cabin')).includes('class="life-arrivals"'));assert.equal((await post({action:'npc-accept',period:adventureDay()})).status,403);
+await post({action:'npc-setting',enabled:'1'});await post({action:'npc-later',period:adventureDay()});assert.equal((await post({action:'npc-accept',period:adventureDay()})).status,409);
+sql.prepare('UPDATE island_adventure_visits SET next_at=0 WHERE visitor_key=?').run(key);await post({action:'npc-accept',period:adventureDay()});
+assert.equal((await post({action:'npc-talk',period:adventureDay(),token:'forged'})).status,409);
+await html('/dock/adventure');const cabin=await html('/dock/cabin');const talkToken=cabin.match(/value="npc-talk"><input type="hidden" name="token" value="([^"]+)"/)?.[1];assert.ok(talkToken);assert.match(cabin,/data-cabin-guest=/);assert.match(cabin,/data-cabin-guest-fur="#[a-f0-9]{6}"/);
+await post({action:'npc-talk',period:adventureDay(),token:talkToken});await post({action:'claim',quest:'visit'});assert.equal(count('island_adventure_rewards'),6);
+assert.equal((await post({action:'npc-accept',period:adventureDay()})).status,409);
+assert.deepEqual(sql.prepare('SELECT * FROM island_passports').all(),snapshot);
+await html('/dock/adventure');
+// A retired daily keepsake remains readable after the date changes.
+ sql.prepare('INSERT INTO island_adventure_rewards VALUES(?,?,?,?)').run(key,'daily','2026-01-01',1);assert.match(await html('/dock/adventure'),/2026-01-01/);
+ sql.exec('ALTER TABLE island_adventure_actions RENAME TO unavailable_fixture');assert.equal((await get('/dock/adventure')).status,503);assert.equal((await get('/world')).status,200);sql.exec('ALTER TABLE unavailable_fixture RENAME TO island_adventure_actions');
+ const missing=audit.report().missing;assert.deepEqual(missing,[]);
+console.log('V87 PASS: legacy identities, two-account isolation, origin/forgery/replay/expiry guards, atomic retry, five scenes, Taipei rollover, daily/one-time rewards, greeting safety/rate limit, bounded NPC visit/off/later/chat, save/readback and bilingual HTML.');
