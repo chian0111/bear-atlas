@@ -712,6 +712,14 @@
       "commit": "3173723b17b692693ca589008cb90379fdeaf96b",
       "deployment_id": "appgdep_6afabdf77ed881918703a3cd1f547fbd",
       "archive_sha256": "sha256:51ea373f973cd83ecd50e809a129ef1167e1899e5ee33ff78fe4824a543343bf"
+    },
+    {
+      "release": "V90.4",
+      "version": 99,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_fbd7f66568c08191b39dfc77c579107e",
+      "commit": "f9f0f00202dd45797c2f84ffded481b84153af35",
+      "deployment_id": "appgdep_6afabfac4e48819195115f187e822410",
+      "archive_sha256": "sha256:28207e58038494025d79baa7b763621947e75618d37fe9098430f5a44a0c00c6"
     }
   ],
   "candidates": [
@@ -823,6 +831,19 @@
       "platform_version": 98,
       "deployment_id": "appgdep_6afabdf77ed881918703a3cd1f547fbd",
       "runtime_commit": "3173723b17b692693ca589008cb90379fdeaf96b"
+    },
+    {
+      "release": "V90.4",
+      "status": "deployed",
+      "report": "docs/V90.4-ACCEPTANCE.md",
+      "remaining_limits": [
+        "physical iPhone Safari",
+        "installed Web App",
+        "real device touch/performance"
+      ],
+      "platform_version": 99,
+      "deployment_id": "appgdep_6afabfac4e48819195115f187e822410",
+      "runtime_commit": "f9f0f00202dd45797c2f84ffded481b84153af35"
     }
   ]
 }

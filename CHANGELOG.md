@@ -1,3 +1,7 @@
+# V90.4 — QA and mobile interaction polish
+
+Verified regression suite, native-form saving state and BFCache reset. Physical iPhone Safari/installed Web App remain explicitly unverified. No schema/player-asset change.
+
 # V90.3 — Economic Storytelling
 
 Five-stop pinned-case Carrot Mystery, once-only Little Economist badge in existing collections, immutable snapshot-driven weekly bulletin and homepage entry. Additive0022; no player asset consumption.

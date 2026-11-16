@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('../worker/index.js',import.meta.url),'utf8'),start=source.indexOf('function recoveryReminderClient()');
-const client=new Function('return ('+source.slice(start)+')')();
+const client=new Function('return ('+source.slice(start,source.indexOf('// V87 adapters',start)).trim()+')')();
 for(const fail of [false,true]){
  const el=()=>({handlers:{},hidden:true,checked:false,disabled:false,textContent:'',addEventListener(k,v){this.handlers[k]=v;}}),root=el(),value=el(),copy=el(),status=el(),form=el(),saved=el(),next=el();
  value.value='1111 2222 3333 4444 5555 6666';let selected=false,reported=false,target='',copied='';value.focus=()=>{};value.select=()=>selected=true;value.setSelectionRange=()=>{};saved.reportValidity=()=>reported=true;form.getAttribute=()=>'/world';
