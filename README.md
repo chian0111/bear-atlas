@@ -1,3 +1,7 @@
+# V90.1 熊熊經濟觀測站
+
+New resort building and bilingual Professor Maple conversations. Indices and active market simulations are pending V90.2. [Phase 0](docs/V90-PHASE0.md) · [V90.1 acceptance](docs/V90.1-ACCEPTANCE.md).
+
 # Bear Atlas
 
 A small island world with resident passports, cottages, animal neighbors and quiet activities. Continue this existing Site and preserve player data.

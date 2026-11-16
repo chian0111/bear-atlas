@@ -13,3 +13,5 @@
 - User decision (2026-11-15): V86 Nomad House work uses `feature/v86-nomad-house`; this specific instruction supersedes the earlier main-only preference. Preserve main and production V85 until this candidate meets the release gates.
 
 - User decision (2026-11-16): V88 and subsequent authorized development updates must be deployed to the existing Site and synchronized to the public `chian0111/bear-atlas` main branch without repeated confirmation. Preserve existing history and never include runtime credentials or production user data.
+
+- User decision (2026-11-16): V90 Observatory uses `feature/v89-bear-economic-observatory` exactly as requested, superseding main-only during development. Complete Phase 0 then V90.1; defer engine/story quest/banking to their specified batches. Product release label is V90 despite the historical branch name.

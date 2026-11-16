@@ -1,3 +1,7 @@
+# V90.1 — Bear Economic Observatory
+
+Physical seventh resort building, cozy indoor study and optional bilingual Professor Maple dialogue. Phase 0 verified V86.3/V87.3/V88/V89 deployments. No migration or player-asset changes. BBI/BCPI and playable simulation remain V90.2. Deployed as platform95, runtime c7fd6c4, native deployment appgdep_6afa8d65a41881918de918d070bb5975 succeeded.
+
 # Bear Atlas 更新紀錄
 
 ## V89（已正式部署｜田園與自然）

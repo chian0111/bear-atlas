@@ -2000,5 +2000,133 @@
   "garden.gardenQuestReward": {
     "zh-TW": "田園自然紀念卡",
     "en": "Garden and nature keepsake"
+  },
+  "observatory.title": {
+    "zh-TW": "熊熊經濟觀測站",
+    "en": "Bear Economic Observatory"
+  },
+  "observatory.map": {
+    "zh-TW": "回到觀測站門前",
+    "en": "Back to the observatory entrance"
+  },
+  "observatory.welcome": {
+    "zh-TW": "門開著，問題也可以慢慢問。",
+    "en": "The door is open. There is time for your questions."
+  },
+  "observatory.intro": {
+    "zh-TW": "這裡從島上的一杯咖啡、一籃胡蘿蔔開始，觀察生活如何連在一起。沒有考試，也不用每天報到。",
+    "en": "Start with a cup of coffee and a basket of carrots. Discover how island life connects, without tests or daily check-ins."
+  },
+  "observatory.maple": {
+    "zh-TW": "楓教授",
+    "en": "Professor Maple"
+  },
+  "observatory.role": {
+    "zh-TW": "島嶼經濟學家 · 喜歡先聽生活故事",
+    "en": "Island economist · Every observation starts with a story"
+  },
+  "observatory.talk": {
+    "zh-TW": "和楓教授聊聊",
+    "en": "Talk with Professor Maple"
+  },
+  "observatory.today": {
+    "zh-TW": "今天島上發生什麼事？",
+    "en": "What is happening on the island?"
+  },
+  "observatory.why": {
+    "zh-TW": "為什麼商品價格會變動？",
+    "en": "Why do prices change?"
+  },
+  "observatory.index": {
+    "zh-TW": "查看熊熊指數",
+    "en": "Explore the Bear indices"
+  },
+  "observatory.experiment": {
+    "zh-TW": "參加一個經濟小實驗",
+    "en": "Try an economic experiment"
+  },
+  "observatory.leave": {
+    "zh-TW": "離開觀測站",
+    "en": "Leave the observatory"
+  },
+  "observatory.hello": {
+    "zh-TW": "嗨，我是楓教授！我喜歡先逛農場，再坐下來聽咖啡師的故事。你想從哪裡開始？",
+    "en": "Hello, I am Professor Maple! I like visiting farms and listening to café stories. Where would you like to start?"
+  },
+  "observatory.todayText": {
+    "zh-TW": "今天研究所剛開門。我們先認識供給與需求；正式的每週市場事件與經濟週報還在準備中。你可以先到花園看看自己種下的作物。",
+    "en": "Our research house has just opened. Let us start with supply and demand. Weekly market events and the economic bulletin are still being prepared. Visit your garden to see what you have planted."
+  },
+  "observatory.whyText": {
+    "zh-TW": "想像胡蘿蔔豐收了，想買的人數卻一樣：市場上可賣的胡蘿蔔增加，價格通常面臨下行壓力。若大家突然想喝咖啡，供給暫時沒變，咖啡價格通常面臨上行壓力。其他條件是否改變，也要一起看。",
+    "en": "Imagine a carrot harvest grows while the number of buyers stays the same. More carrots for sale usually put downward pressure on prices. If more people want coffee while supply stays unchanged, prices usually face upward pressure. We must also check what else has changed."
+  },
+  "observatory.indexText": {
+    "zh-TW": "BBI 將觀察島嶼經濟活動，BCPI 將追蹤固定商品籃子的價格。V90.2 才會提供可重現的模擬資料與正式快照；目前沒有已發布的指數或漲跌率。",
+    "en": "BBI will track island economic activity. BCPI will follow the price of a fixed basket of goods. Reproducible simulated data and official snapshots arrive in V90.2. No indices or rates of change have been published yet."
+  },
+  "observatory.experimentText": {
+    "zh-TW": "先用一個故事試想：胡蘿蔔變多了，買的人沒有變，價格可能怎麼走？你可以翻開下面的觀察卡，看看不同條件。這是概念故事，不會改變花園產量、商店售價或你的島幣。可操作的模擬市場會在 V90.2 開放。",
+    "en": "Try a story: more carrots arrive, but the number of buyers stays the same. What might happen to prices? Open an observation card below to explore the conditions. This is a concept story; it does not change crops, shop prices or your coins. The playable simulated market arrives in V90.2."
+  },
+  "observatory.cards": {
+    "zh-TW": "桌上的觀察卡",
+    "en": "Observation cards on the desk"
+  },
+  "observatory.supply": {
+    "zh-TW": "胡蘿蔔大豐收 · 供給增加",
+    "en": "Carrot harvest · Supply increases"
+  },
+  "observatory.supplyText": {
+    "zh-TW": "需求不變時，更多胡蘿蔔競相出售，價格通常受到下行壓力。買菜居民可能受益，農夫每份收入則可能減少。",
+    "en": "With demand unchanged, more carrots compete for buyers and prices usually face downward pressure. Shoppers may benefit while farmers may earn less per carrot."
+  },
+  "observatory.demand": {
+    "zh-TW": "島嶼咖啡節 · 需求增加",
+    "en": "Island coffee festival · Demand increases"
+  },
+  "observatory.demandText": {
+    "zh-TW": "供給短期不變時，更多遊客想買咖啡，價格通常受到上行壓力。咖啡館可能賣得更多，買咖啡的居民則可能花得更多。",
+    "en": "With short-term supply unchanged, more visitors wanting coffee usually put upward pressure on prices. Cafés may sell more while residents may pay more for a cup."
+  },
+  "observatory.storyLabel": {
+    "zh-TW": "概念故事 · 非市場事件或玩家統計",
+    "en": "Concept stories · Not market events or player statistics"
+  },
+  "observatory.board": {
+    "zh-TW": "正在準備的研究看板",
+    "en": "Research board in preparation"
+  },
+  "observatory.pending": {
+    "zh-TW": "BBI / BCPI · V90.2 準備中",
+    "en": "BBI / BCPI · Coming in V90.2"
+  },
+  "observatory.pendingText": {
+    "zh-TW": "有資料來源、期間與計算版本之後，才會放上數字。未來的模擬指數會清楚標示資料性質。",
+    "en": "Numbers will appear only when their source, period and calculation version are available. Future simulated indices will be clearly labelled."
+  },
+  "observatory.garden": {
+    "zh-TW": "去花園看看",
+    "en": "Visit the garden"
+  },
+  "observatory.cafe": {
+    "zh-TW": "去生活街喝咖啡",
+    "en": "Visit the café"
+  },
+  "observatory.room": {
+    "zh-TW": "木質研究室，圓窗旁有書桌、觀察卡與楓教授",
+    "en": "A wooden study with round windows, a desk, observation cards and Professor Maple"
+  },
+  "observatory.roomHint": {
+    "zh-TW": "點楓教授聊天，或翻開桌上的觀察卡。隨時可以離開。",
+    "en": "Talk with Professor Maple or open a card on the desk. Leave whenever you like."
+  },
+  "observatory.door": {
+    "zh-TW": "走進觀測站",
+    "en": "Enter the observatory"
+  },
+  "observatory.mapHint": {
+    "zh-TW": "走進木石小研究所，與楓教授聊聊生活中的價格",
+    "en": "Visit the little wood-and-stone research house and talk with Professor Maple about everyday prices"
   }
 }
