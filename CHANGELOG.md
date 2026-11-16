@@ -1,3 +1,7 @@
+# V91.2 — Bounded scenario quotes
+
+New NPC offers link to official simulated events with capped prices/quantities; all earlier issued terms remain fixed. No original shop or official-index change.
+
 # V91.1 — Resident farm orders
 
 Garden-linked NPC offers, transparent fixed terms, accept/decline/cancel, account/week caps and shared inventory rules. Delivery remains visibly pending V91.3. Additive0023; no acceptance asset debit.

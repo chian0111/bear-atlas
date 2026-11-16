@@ -10,6 +10,10 @@ const DB={prepare(query){const p=sql.prepare(query);function bind(...args){retur
 const origin='https://economy.test',env={DB},audit=createI18nAudit();
 const get=async(path,headers={})=>audit.response(await worker.fetch(new Request(origin+path,{headers}),env),path);
 
+for(let period=0;period<16;period++)for(const template of farmTemplates){const quote=farmQuote(template,economySnapshot(period));assert.ok(quote.quantity<=4&&quote.reward<=30&&Number.isInteger(quote.unit));assert.deepEqual(quote,farmQuote(template,economySnapshot(period)));}
+assert.equal(farmQuote(farmTemplates[0],economySnapshot(1)).unit,4);
+assert.equal(farmQuote(farmTemplates[1],economySnapshot(2)).quantity,3);
+assert.equal(farmQuote(farmTemplates[2],economySnapshot(2)).quantity,2);
 const a='a'.repeat(48),b='b'.repeat(48);for(const key of[a,b]){sql.prepare('INSERT INTO island_passports VALUES(?,?,?,?,?)').run(key,'Farm tester','rabbit','picnic',1);sql.prepare('INSERT INTO island_credentials(visitor_key) VALUES(?)').run(key);}
 const time=economyConfig.baseStart+economyConfig.weekMs+1000;
 await farmOffers(DB,a,time);await farmOffers(DB,a,time);const offers=sql.prepare('SELECT * FROM island_farm_orders WHERE visitor_key=? ORDER BY template_id').all(a);assert.equal(offers.length,3);assert.equal(offers[0].item_id,'carrot');assert.equal(offers[0].quantity,2);assert.ok(offers.every(o=>o.reward===o.quantity*o.unit_reward&&o.reward<=30));
