@@ -697,6 +697,13 @@
       "commit": "82d61133d5422b36362be07f78a4aad9c99eaefe",
       "deployment_id": "appgdep_6afa920225448191a57d0b704474344b",
       "archive_sha256": "sha256:a664b20d1ddd2122994e1dd2912a524e7f49f1cdea0731d1d8e27b0621095c7a"
+    },
+    {
+      "version": 97,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_e15616577ce08191a1bc44fad123e642",
+      "commit": "b9ebe069269e36f86e6b2cdeff575ed2d09099c8",
+      "deployment_id": "appgdep_6afa95f7307481919c0559cfd6d1ffa4",
+      "archive_sha256": "sha256:891502e14a24f8b431f8902779d494caec4992ea5bb9bca8f324ba01576f741f"
     }
   ],
   "candidates": [
@@ -789,6 +796,15 @@
       "deployment_id": "appgdep_6afa920225448191a57d0b704474344b",
       "platform_version": 96,
       "runtime_commit": "82d61133d5422b36362be07f78a4aad9c99eaefe"
+    },
+    {
+      "release": "V90.2.1",
+      "status": "deployed",
+      "base_source_commit": "8bf8ae0f22fb10fe0c5c2fd514094c8ebb11f39c",
+      "report": "docs/V90.2.1-ACCEPTANCE.md",
+      "deployment_id": "appgdep_6afa95f7307481919c0559cfd6d1ffa4",
+      "runtime_commit": "b9ebe069269e36f86e6b2cdeff575ed2d09099c8",
+      "platform_version": 97
     }
   ]
 }

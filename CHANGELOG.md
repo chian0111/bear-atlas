@@ -1,3 +1,7 @@
+# V90.2.1 — Homepage economic indices
+
+Compact BBI/BCPI cards appear above the island map for guests and residents, with weekly changes, current period, simulated-data label and event explanation. Uses the exact authoritative Observatory snapshot. No migration or financial changes.
+
 # V90.2 — Economic Engine
 
 Shared deterministic weekly simulated market, fixed-basket BCPI and weighted volume BBI, immutable raw snapshots, traceable three-event cycle, lightweight history charts and resettable independent supply-demand experiments. Additive0021 only; no changes to player assets or shop prices. Deployed platform96, runtime82d6113; native deployment appgdep_6afa920225448191a57d0b704474344b succeeded.
