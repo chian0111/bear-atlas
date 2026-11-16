@@ -13,6 +13,7 @@ export const adventureQuests=[
  {id:'daily',kind:'daily',title:'今天慢慢走',note:'台灣時間每天更新，錯過不扣分。',events:['forest:walk','beach:listen'],reward:'今日散步紀念卡'},
  {id:'woodland-week',kind:'side',repeat:'weekly',title:'本週的林間約定',note:'本週到森林觀察山羌，再去海邊聽海。下週仍有新的機會。',events:['wildlife:rare','beach:listen'],reward:'林海週記紀念卡'},
  {id:'visit',kind:'side',title:'留一張椅子給朋友',note:'接受一位既有居民來訪，完成一次小屋聊天。',events:['npc:conversation'],reward:'朋友來訪紀念卡'},
+ {id:'carrot-mystery',kind:'side',title:'胡蘿蔔價格之謎',note:'跟著公告拜訪教授、農場與咖啡館，慢慢理解價格。',events:['economy:square','economy:maple','economy:farm','economy:cafe','economy:explain'],reward:'小小經濟學家'},
  {id:'garden-nature',kind:'side',title:'田園與林間的約定',note:'收成一回、觀察野生朋友，再到池邊收竿。',events:['garden:harvest','wildlife:common','pond:catch'],reward:'田園自然紀念卡'}
 ];
 export function adventureDay(now=Date.now()){return new Date(now+28800000).toISOString().slice(0,10);}

@@ -2424,5 +2424,189 @@
   "economy.modelBounds": {
     "zh-TW": "調整的是模型商品市場；島上現有商店與玩家交易仍沿用原系統。",
     "en": "Only the model market changes; existing island shops and player exchanges keep their current rules."
+  },
+  "story.title": {
+    "zh-TW": "胡蘿蔔價格之謎",
+    "en": "The Carrot Mystery"
+  },
+  "story.intro": {
+    "zh-TW": "一張廣場公告，連起農場、咖啡館與島上的價格。隨時可以離開，下次再繼續。",
+    "en": "A square notice connects the farm, café and island prices. Leave whenever you like and continue next time."
+  },
+  "story.square": {
+    "zh-TW": "廣場公告：胡蘿蔔變便宜了",
+    "en": "Square notice: carrots cost less"
+  },
+  "story.squareText": {
+    "zh-TW": "這份模擬案例裡，胡蘿蔔豐收、供給增加，想買的人卻沒有變。一起去問問楓教授吧。",
+    "en": "In this simulated case, a plentiful harvest increases carrot supply while demand stays unchanged. Let us ask Professor Maple."
+  },
+  "story.maple": {
+    "zh-TW": "楓教授的觀察",
+    "en": "Professor Maple’s observation"
+  },
+  "story.mapleText": {
+    "zh-TW": "價格變動不只有一個原因。我們先到農場，看看這次是供給還是需求改變。",
+    "en": "Prices can change for many reasons. Visit the farm to see whether supply or demand changed this time."
+  },
+  "story.farm": {
+    "zh-TW": "農場線索：多了好多胡蘿蔔",
+    "en": "Farm clue: more carrots"
+  },
+  "story.farmText": {
+    "zh-TW": "這次案例的胡蘿蔔供給由 100 份增加到 140 份，需求仍是 100 份。這些是案例數據，不會改變你的花園產量。",
+    "en": "Case supply grows from 100 to 140 units while demand stays at 100. These are case figures and do not change your garden output."
+  },
+  "story.cafe": {
+    "zh-TW": "Hugo 的原料筆記",
+    "en": "Hugo’s ingredient notes"
+  },
+  "story.cafeText": {
+    "zh-TW": "Hugo 說：「胡蘿蔔便宜時，做胡蘿蔔點心的材料成本可能減少；但農夫每份收入也可能降低。不同居民感受到的改變不一樣。」",
+    "en": "Hugo says, “Cheaper carrots may reduce the ingredient cost of carrot snacks, while farmers may earn less per carrot. Residents experience the change differently.”"
+  },
+  "story.explain": {
+    "zh-TW": "回到觀測站，說說你的發現",
+    "en": "Back at the observatory, share your observation"
+  },
+  "story.explainText": {
+    "zh-TW": "這次案例中，哪個解釋最符合看到的線索？選擇只是聊天，不會扣款或阻擋探索。",
+    "en": "Which explanation fits the clues in this case? This is a conversation, without charges or restrictions on exploration."
+  },
+  "story.supply": {
+    "zh-TW": "供給增加，需求不變，價格承受下行壓力",
+    "en": "Supply increased while demand stayed unchanged, putting downward pressure on price"
+  },
+  "story.demand": {
+    "zh-TW": "只有需求增加，所以價格下降",
+    "en": "Only demand increased, so price fell"
+  },
+  "story.unsure": {
+    "zh-TW": "我還不確定，請教授解釋",
+    "en": "I am not sure; please explain"
+  },
+  "story.right": {
+    "zh-TW": "你把線索連起來了：這次供給增加、需求不變，價格面臨下行壓力。實際市場仍要一起觀察其他條件。",
+    "en": "You connected the clues: increased supply with unchanged demand puts downward pressure on price. In real markets, other conditions also matter."
+  },
+  "story.gentle": {
+    "zh-TW": "沒關係，我們一起看：這次改變的是供給，從 100 增加到 140，需求沒有變。這使價格面臨下行壓力。你仍然完成了這段探索。",
+    "en": "That is all right. Supply changed from 100 to 140 while demand stayed unchanged, putting downward pressure on price. You have still completed this exploration."
+  },
+  "story.continue": {
+    "zh-TW": "記下線索，前往下一站",
+    "en": "Record the clue and visit the next stop"
+  },
+  "story.start": {
+    "zh-TW": "開始這段探索",
+    "en": "Start exploring"
+  },
+  "story.claim": {
+    "zh-TW": "領取紀念徽章",
+    "en": "Collect commemorative badge"
+  },
+  "story.badge": {
+    "zh-TW": "小小經濟學家",
+    "en": "Little Economist"
+  },
+  "story.claimed": {
+    "zh-TW": "紀念徽章已收藏，不會重複發放。",
+    "en": "Your badge is collected and will not be issued twice."
+  },
+  "story.case": {
+    "zh-TW": "本任務固定使用的模擬案例期間",
+    "en": "Pinned simulated case period"
+  },
+  "story.price": {
+    "zh-TW": "案例胡蘿蔔價格（模擬島幣／份）",
+    "en": "Case carrot price (simulated coins/unit)"
+  },
+  "story.progress": {
+    "zh-TW": "已記錄線索",
+    "en": "Recorded clues"
+  },
+  "story.next": {
+    "zh-TW": "前往目前的任務地點",
+    "en": "Visit the current quest location"
+  },
+  "story.journal": {
+    "zh-TW": "回冒險手帳",
+    "en": "Back to the adventure journal"
+  },
+  "story.login": {
+    "zh-TW": "登入島民證後即可保存探索進度。",
+    "en": "Sign in with a resident passport to save progress."
+  },
+  "story.signin": {
+    "zh-TW": "登入島民證",
+    "en": "Resident sign in"
+  },
+  "story.invalid": {
+    "zh-TW": "這次操作已失效或不符合目前進度，請回任務地點再試。",
+    "en": "This action expired or does not match your progress. Return to the quest location and try again."
+  },
+  "story.unavailable": {
+    "zh-TW": "故事暫時無法開啟，原本的島嶼活動仍可使用。",
+    "en": "This story is temporarily unavailable. Existing island activities remain available."
+  },
+  "story.news": {
+    "zh-TW": "熊熊經濟週報",
+    "en": "The Bear Economist"
+  },
+  "story.oneLine": {
+    "zh-TW": "本週一句話",
+    "en": "This week in one sentence"
+  },
+  "story.story": {
+    "zh-TW": "島嶼生活故事",
+    "en": "An island economy story"
+  },
+  "story.expert": {
+    "zh-TW": "楓教授的小解釋",
+    "en": "Professor Maple explains"
+  },
+  "story.archive": {
+    "zh-TW": "閱讀其他期別",
+    "en": "Browse other issues"
+  },
+  "story.latest": {
+    "zh-TW": "閱讀本週週報",
+    "en": "Read this week’s bulletin"
+  },
+  "story.newsNote": {
+    "zh-TW": "文章與數字綁定同一份已保存的官方模擬快照，並非真實玩家市場統計。",
+    "en": "This article and its numbers use the same saved official simulation snapshot, not real player market statistics."
+  },
+  "story.newsHarvest": {
+    "zh-TW": "農場籃子裝得更滿，咖啡館開始構思胡蘿蔔點心。農夫與買菜的居民，對同一個價格有不同感受。",
+    "en": "Farm baskets are fuller and the café imagines carrot snacks. Farmers and shoppers experience the same price differently."
+  },
+  "story.newsFestival": {
+    "zh-TW": "咖啡節讓吧台忙了起來。多備咖啡豆有幫助，但需求跑得比供給更快。",
+    "en": "The coffee festival keeps the counter busy. Preparing more beans helps, but demand grows faster than supply."
+  },
+  "story.newsBuilding": {
+    "zh-TW": "新工程需要木材，家具製作者也開始重新安排材料清單。",
+    "en": "New construction needs wood, and furniture makers revisit their material lists."
+  },
+  "story.newsStable": {
+    "zh-TW": "市集回到平常的節奏，居民慢慢採買。上一個事件結束，仍可能讓週變化出現正負數。",
+    "en": "The market returns to its usual pace. Residents shop calmly, though the end of the last event can still produce weekly changes."
+  },
+  "story.prices": {
+    "zh-TW": "主要商品價格與週變化",
+    "en": "Main prices and weekly changes"
+  },
+  "story.map": {
+    "zh-TW": "回島嶼首頁",
+    "en": "Back to the island homepage"
+  },
+  "story.noCase": {
+    "zh-TW": "胡蘿蔔案例尚未開始，請稍後再來。",
+    "en": "The carrot case has not started yet. Please return later."
+  },
+  "story.questNote": {
+    "zh-TW": "跟著公告拜訪教授、農場與咖啡館，慢慢理解價格。",
+    "en": "Follow the notice to the professor, farm and café, and explore prices at your own pace."
   }
 }

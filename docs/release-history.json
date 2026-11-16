@@ -704,6 +704,14 @@
       "commit": "b9ebe069269e36f86e6b2cdeff575ed2d09099c8",
       "deployment_id": "appgdep_6afa95f7307481919c0559cfd6d1ffa4",
       "archive_sha256": "sha256:891502e14a24f8b431f8902779d494caec4992ea5bb9bca8f324ba01576f741f"
+    },
+    {
+      "release": "V90.3",
+      "version": 98,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_8b25560eb7b881918cd82441070c1df7",
+      "commit": "3173723b17b692693ca589008cb90379fdeaf96b",
+      "deployment_id": "appgdep_6afabdf77ed881918703a3cd1f547fbd",
+      "archive_sha256": "sha256:51ea373f973cd83ecd50e809a129ef1167e1899e5ee33ff78fe4824a543343bf"
     }
   ],
   "candidates": [
@@ -805,6 +813,16 @@
       "deployment_id": "appgdep_6afa95f7307481919c0559cfd6d1ffa4",
       "runtime_commit": "b9ebe069269e36f86e6b2cdeff575ed2d09099c8",
       "platform_version": 97
+    },
+    {
+      "release": "V90.3",
+      "status": "deployed",
+      "report": "docs/V90.3-ACCEPTANCE.md",
+      "migration": "0022_economy_stories",
+      "branch": "feature/v89-bear-economic-observatory",
+      "platform_version": 98,
+      "deployment_id": "appgdep_6afabdf77ed881918703a3cd1f547fbd",
+      "runtime_commit": "3173723b17b692693ca589008cb90379fdeaf96b"
     }
   ]
 }

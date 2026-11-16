@@ -1,3 +1,7 @@
+# V90.3 — Economic Storytelling
+
+Five-stop pinned-case Carrot Mystery, once-only Little Economist badge in existing collections, immutable snapshot-driven weekly bulletin and homepage entry. Additive0022; no player asset consumption.
+
 # V90.2.1 — Homepage economic indices
 
 Compact BBI/BCPI cards appear above the island map for guests and residents, with weekly changes, current period, simulated-data label and event explanation. Uses the exact authoritative Observatory snapshot. No migration or financial changes.
