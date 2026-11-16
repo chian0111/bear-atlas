@@ -15,7 +15,7 @@ const get=async(path,key=alice)=>audit.response(await worker.fetch(new Request(o
 const html=async(path,key=alice)=>await(await get(path,key)).text();
 const post=async(fields,key=alice,foreign=false)=>audit.response(await worker.fetch(new Request(origin+'/dock/collection',{method:'POST',headers:{Cookie:key?'atlas_islander='+key:'',Origin:foreign?'https://evil.test':origin,'Sec-Fetch-Site':foreign?'cross-site':'same-origin','Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fields)}),{DB}),'POST');
 const tokens=text=>[...text.matchAll(/<form\b[^>]*>([\s\S]*?)<\/form>/g)].map(m=>({body:m[1],token:m[1].match(/name="token" value="([^"]+)"/)?.[1]})).filter(f=>f.token);
-const card=(text,id)=>[...text.matchAll(/<article class="collection-card">([\s\S]*?)<\/article>/g)].map(m=>m[1]).find(s=>s.includes('collection.'+id+'"'));
+const card=(text,id)=>[...text.matchAll(/<article class="collection-card"[^>]*>([\s\S]*?)<\/article>/g)].map(m=>m[1]).find(s=>s.includes('collection.'+id+'"'));
 const qty=(key,id)=>sql.prepare('SELECT quantity FROM island_collection_inventory WHERE visitor_key=? AND item_id=?').get(key,id)?.quantity||0;
 const coins=key=>sql.prepare('SELECT coins FROM island_collection_wallets WHERE visitor_key=?').get(key)?.coins||0;
 const ledger=key=>sql.prepare('SELECT * FROM island_collection_ledger WHERE visitor_key=?').all(key);
@@ -64,6 +64,15 @@ sql.exec("CREATE TRIGGER collection_fixture_failure BEFORE INSERT ON island_coll
 assert.equal((await apply(buy.token)).status,409);assert.equal(coins(alice),12);assert.equal(qty(alice,'vase'),0);assert.equal(sql.prepare('SELECT applied_at FROM island_collection_operations WHERE token=?').get(buy.token).applied_at,null);
 sql.exec('DROP TRIGGER collection_fixture_failure');assert.equal((await apply(buy.token)).status,303);assert.equal(coins(alice),0);assert.equal(qty(alice,'vase'),1);
 assert.equal((await apply(buy.token)).status,303);assert.equal(qty(alice,'vase'),1);
+// V95: the verified purchase leads to the owned item, without accepting another account's receipt.
+const receiptHtml=await html('/dock/shop?receipt='+buy.token);assert.match(receiptHtml,/data-pocket-receipt/);assert.match(receiptHtml,/item=vase/);
+assert.ok(!(await html('/dock/shop?receipt='+buy.token,bob)).includes('data-pocket-receipt'));
+assert.ok(!(await html('/dock/shop?receipt='+poor)).includes('data-pocket-receipt'));
+const focused=await html('/dock/collection?item=vase&view=display');assert.match(focused,/id="item-vase"/);assert.match(focused,/<details class="pocket-item-actions" open>/);assert.match(focused,/<details class="pocket-more" id="display" open>/);
+assert.ok(focused.indexOf('id="item-vase"')<focused.indexOf('id="display"'));
+const tabs=focused.match(/<nav class="pocket-tabs">[\s\S]*?<\/nav>/)[0];assert.equal((tabs.match(/<a /g)||[]).length,3);assert.match(tabs,/aria-current="page"/);
+const decor=await html('/dock/collection?filter=decor');assert.match(decor,/id="item-vase"/);assert.ok(!decor.includes('id="item-clam"'));
+const materials=await html('/dock/collection?filter=material');assert.ok(!materials.includes('id="item-vase"'));
 // Review exact recipient before the gift; forged identities/quantities are rejected.
 assert.equal((await post({action:'gift-prepare',item:'mobile',member:'BEAR-0001'})).status,400);
 const review=await post({action:'gift-prepare',item:'mobile',member:'BEAR-0002'});assert.equal(review.status,200);const reviewText=await review.text();assert.match(reviewText,/Bob/);assert.match(reviewText,/BEAR-0002/);
@@ -85,3 +94,16 @@ sql.exec('ALTER TABLE island_collection_spawns RENAME TO collection_missing_fixt
 sql.exec('ALTER TABLE collection_missing_fixture RENAME TO island_collection_spawns');
 assert.deepEqual(audit.report().missing,[]);
 console.log('V88 PASS: server pickups, account isolation, duplicate/competing tokens, Taipei midnight, inventory/display reservation, atomic crafting/sale/purchase/gifts, insufficient funds, injected rollback, legacy quest bonus, bilingual routes, unchanged identities and missing-schema fallback.');
+
+// Optional, isolated local UI review. No QA endpoints are shipped with the Worker.
+if(process.env.COLLECTION_QA_SERVER==='1'){
+ const {createServer}=await import('node:http');
+ const server=createServer(async(req,res)=>{try{
+  const url=new URL(req.url,'http://'+req.headers.host);
+  if(url.pathname==='/__qa/start'){res.writeHead(303,{'Set-Cookie':'atlas_islander='+alice+'; Path=/; HttpOnly; SameSite=Lax',Location:'/dock/collection'});res.end();return;}
+  const chunks=[];for await(const part of req)chunks.push(part);
+  const init={method:req.method,headers:req.headers};if(!['GET','HEAD'].includes(req.method))init.body=Buffer.concat(chunks);
+  const response=await worker.fetch(new Request(url,init),{DB});res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));
+ }catch(error){res.writeHead(500,{'Content-Type':'text/plain'});res.end('Isolated preview error');console.error(error);}});
+ server.listen(Number(process.env.PORT||4173),'127.0.0.1',()=>console.log('Isolated collection preview: http://localhost:'+Number(process.env.PORT||4173)+'/__qa/start'));
+}

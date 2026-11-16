@@ -759,6 +759,15 @@
       "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_30188b6063408191b0047eff9cf265df",
       "commit": "d4198f51f8764ff95419d5cb93d6cbe25b70b74d",
       "deployment_id": "appgdep_6afacf95378081918cd7da1744f4e6fd"
+    },
+    {
+      "version": 109,
+      "product_release": "V95",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_2543f5743c84819198eb22fa23691141",
+      "commit": "8d1af6bb00d907094fa6cff5f53c5de39420f968",
+      "deployment_id": "appgdep_6afb15980d988191bb58ed9bceadfc02",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:3184584c646f108a4c57deaf8ee423943c85fadc6ae18b5d51f22e774c5b0a90"
     }
   ],
   "candidates": [
@@ -815,6 +824,13 @@
         "desktop Safari",
         "final visual pass after browser tooling removal"
       ]
+    },
+    {
+      "release": "V94",
+      "status": "engineering-validated-player-acceptance-pending",
+      "report": "docs/V94-ACCEPTANCE.md",
+      "physical_iphone": "not-tested",
+      "private_beta": "not-run"
     }
   ],
   "releases": [
@@ -930,6 +946,30 @@
       "platform_version": 104,
       "runtime_commit": "d4198f51f8764ff95419d5cb93d6cbe25b70b74d",
       "deployment_id": "appgdep_6afacf95378081918cd7da1744f4e6fd"
+    },
+    {
+      "release": "V93",
+      "status": "deployed",
+      "platform_version": 107,
+      "runtime_commit": "9781252a924dff468f78cad7487b186afa86d8a7",
+      "deployment_id": "appgdep_6afaddf69a8c819184c296d965a7506f",
+      "report": "docs/V93-ACCEPTANCE.md"
+    },
+    {
+      "release": "V94",
+      "status": "deployed-engineering-player-acceptance-pending",
+      "platform_version": 108,
+      "runtime_commit": "d707b3668b2c5c6a555a26ab12bf3d0f7724296a",
+      "deployment_id": "appgdep_6afae049a430819199c67710eda75d74",
+      "report": "docs/V94-ACCEPTANCE.md"
+    },
+    {
+      "release": "V95",
+      "status": "deployed-engineering-player-acceptance-pending",
+      "platform_version": 109,
+      "runtime_commit": "8d1af6bb00d907094fa6cff5f53c5de39420f968",
+      "deployment_id": "appgdep_6afb15980d988191bb58ed9bceadfc02",
+      "report": "docs/V95-ACCEPTANCE.md"
     }
   ]
 }

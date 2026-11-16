@@ -1,4 +1,5 @@
-import {gardenIssue,gardenApply} from '../worker/garden.js';
+import {collectionIssue,collectionApply} from '../worker/collection.js';
+import {gardenInit,gardenIssue,gardenApply} from '../worker/garden.js';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -22,6 +23,11 @@ const carrot=offers[0];sql.prepare('INSERT INTO island_collection_inventory VALU
 const before=sql.prepare('SELECT quantity FROM island_collection_inventory WHERE visitor_key=? AND item_id=?').get(a,'carrot').quantity;
 const accept=await farmIssue(DB,a,carrot.id,'accept',time);assert.equal((await farmApply(DB,b,accept,time)).status,403);assert.equal((await farmApply(DB,a,accept,time)).status,303);assert.equal((await farmApply(DB,a,accept,time)).replay,true);assert.equal(sql.prepare('SELECT quantity FROM island_collection_inventory WHERE visitor_key=? AND item_id=?').get(a,'carrot').quantity,before);
 const accepted=sql.prepare('SELECT * FROM island_farm_orders WHERE id=?').get(carrot.id);assert.equal(accepted.due_at,time+1209600000);
+// V95 navigation projects real accepted orders and account-private stock.
+const orderSummary=await(await get('/dock/adventure',{Cookie:'atlas_islander='+a})).text();assert.match(orderSummary,/id="pocket-orders"/);assert.ok(orderSummary.includes('data-pocket-order="'+carrot.id+'"'));
+const bagOrder=await(await get('/dock/collection?item=carrot',{Cookie:'atlas_islander='+a})).text();assert.ok(bagOrder.includes('/world/farm-orders#order-'+carrot.id));
+assert.ok(!(await(await get('/dock/adventure',{Cookie:'atlas_islander='+b})).text()).includes('data-pocket-order="'+carrot.id+'"'));
+
 await farmOffers(DB,a,time+economyConfig.weekMs);assert.equal(sql.prepare('SELECT reward FROM island_farm_orders WHERE id=?').get(carrot.id).reward,carrot.reward);assert.throws(()=>sql.exec('UPDATE island_farm_orders SET reward=29'),/immutable/);
 // Two displayed carrots leave only one available; blocked delivery consumes nothing.
 sql.prepare('INSERT INTO island_collection_displays(visitor_key,slot,item_id) VALUES(?,?,?)').run(a,1,'carrot');sql.prepare('INSERT INTO island_collection_displays(visitor_key,slot,item_id) VALUES(?,?,?)').run(a,2,'carrot');
@@ -57,6 +63,20 @@ assert.equal((await get('/world/market?page=0')).status,400);
 assert.equal((await get('/world/market?lang=en')).status,200);
 const marketBefore=sql.prepare('SELECT coins FROM island_collection_wallets WHERE visitor_key=?').get(a).coins;await get('/world/market',{Cookie:'atlas_islander='+a});assert.equal(sql.prepare('SELECT coins FROM island_collection_wallets WHERE visitor_key=?').get(a).coins,marketBefore);
 
+// V93 full existing life loop: seed -> harvest -> order -> income -> shop -> shelf -> cottage.
+const d='d'.repeat(48);sql.prepare('INSERT INTO island_passports VALUES(?,?,?,?,?)').run(d,'Life loop','rabbit','picnic',1);sql.prepare('INSERT INTO island_credentials(visitor_key) VALUES(?)').run(d);
+await gardenInit(DB,d,time);await farmOffers(DB,d,time);
+const act=async(kind,data,t=time)=>gardenApply(DB,d,await gardenIssue(DB,d,kind,data,t),t);
+assert.equal((await act('starter')).status,303);assert.equal((await act('plant',{slot:1,revision:0,crop:'herb',input:'seed_herb'})).status,303);
+assert.equal((await act('water',{slot:1,revision:1,crop:'herb',duration:300000})).status,303);
+assert.equal((await act('harvest',{slot:1,revision:2,crop:'herb',item:'herb'},time+300000)).status,303);
+const life=sql.prepare('SELECT * FROM island_farm_orders WHERE visitor_key=? AND template_id=?').get(d,'herb');assert.equal((await farmApply(DB,d,await farmIssue(DB,d,life.id,'accept',time+300000),time+300000)).status,303);assert.equal((await farmApply(DB,d,await farmIssue(DB,d,life.id,'deliver',time+300000),time+300000)).status,303);
+assert.equal((await collectionApply(DB,d,await collectionIssue(DB,d,'buy',{item:'tray',coins:-8},time+300000),time+300000)).status,303);
+assert.equal((await collectionApply(DB,d,await collectionIssue(DB,d,'display',{item:'tray',slot:1},time+300000),time+300000)).status,303);
+const cottage=await get('/dock/cabin',{Cookie:'atlas_islander='+d});assert.equal(cottage.status,200);assert.equal(sql.prepare('SELECT item_id FROM island_collection_displays WHERE visitor_key=?').get(d).item_id,'tray');
+for(const path of ['/world','/world/garden','/world/farm-orders','/dock/shop','/dock/collection'])assert.ok((await(await get(path,{Cookie:'atlas_islander='+d})).text()).includes(path==='/world'?'simple-directions':['/dock/shop','/dock/collection','/world/farm-orders'].includes(path)?'data-pocket-nav':'data-simple-next'));
+const homeHtml=await(await get('/world')).text();const primary=homeHtml.match(/<nav class="simple-directions"[\s\S]*?<\/nav>/)[0];assert.equal((primary.match(/<a /g)||[]).length,3);assert.ok(homeHtml.includes('<details class="econ-home-details">'));assert.ok(!homeHtml.includes('<details class="econ-home-details" open'));
+const bagHtml=await(await get('/dock/collection',{Cookie:'atlas_islander='+d})).text();const nav=bagHtml.match(/<nav class="pocket-tabs">[\s\S]*?<\/nav>/)[0];assert.equal((nav.match(/<a /g)||[]).length,3);assert.match(nav,/href="\/dock\/collection" aria-current="page"/);
 const state=await economyOfficial(DB,time);assert.equal(state.current.bbi,102.5);assert.equal(state.current.bcpi,economySnapshot(1).bcpi);
 for(const path of ['/world/market','/world/farm-orders','/world/garden','/dock/collection']){const response=await get(path,{Cookie:'atlas_islander='+a});assert.equal(response.status,200,path);}
 assert.equal((await get('/world/farm-orders?page=bad',{Cookie:'atlas_islander='+a})).status,400);

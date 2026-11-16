@@ -1,3 +1,4 @@
+import {pocketT,pocketUtilities,pocketSource,pocketOrders} from './pocket.js';
 import {natureItems,natureItemCopy,natureItemArt} from './nature-catalog.js';
 // V88 — all quantities, prices and counterparties come from server-owned operations.
 export const collectionCopy={
@@ -112,36 +113,55 @@ export async function collectionRoute(request,env,url,ctx){
   const result=await collectionApply(db,key,f.get('token'));
   if(result.status!==303)return render(collectionText(result.message,'p')+'<a href="/dock/collection">'+collectionText('bag')+'</a>',result.status);
   const op=result.op,back=op.kind==='pick'?'/world/'+op.scene:op.kind==='buy'||op.kind==='craft'?'/dock/shop':op.kind==='display'||op.kind==='clear'?'/dock/collection#display':'/dock/collection';
-  const [base,hash]=back.split('#');return redirect(base+'?collection='+(result.replay?'replay':op.kind==='gift'?'gift':'saved')+(hash?'#'+hash:''));
+  const [base,hash]=back.split('#');return redirect(base+'?collection='+(result.replay?'replay':op.kind==='gift'?'gift':'saved')+'&receipt='+encodeURIComponent(f.get('token'))+(hash?'#'+hash:''));
  }
  const wallet=await db.prepare('SELECT coins FROM island_collection_wallets WHERE visitor_key=?').bind(key).first(),inventory=(await db.prepare('SELECT * FROM island_collection_inventory WHERE visitor_key=? ORDER BY first_at,item_id').bind(key).all()).results,displays=(await db.prepare('SELECT * FROM island_collection_displays WHERE visitor_key=?').bind(key).all()).results;
  const qty=id=>inventory.find(r=>r.item_id===id)?.quantity||0,free=id=>qty(id)-displays.filter(r=>r.item_id===id).length;
  const flowerUnlocked=(await db.prepare("SELECT count(DISTINCT item_id) n FROM island_collection_ledger WHERE visitor_key=? AND kind='harvest' AND item_id IN ('herb','carrot','tomato')").bind(key).first())?.n===3;
  const mode=url.pathname==='/dock/shop'?'shop':url.pathname==='/dock/catalog'?'catalog':'bag';
- let body='<header class="collection-head"><div><span class="collection-eyebrow">BEAR ATLAS · ISLAND COLLECTION</span><h1>'+collectionText(mode==='bag'?'title':mode)+'</h1>'+collectionText('intro','p')+'</div><div class="collection-wallet">'+collectionText('coins')+'<strong>'+wallet.coins+'</strong></div></header><nav class="collection-nav">'+[['bag','/dock/collection'],['shop','/dock/shop'],['catalog','/dock/catalog'],['beach','/world/beach'],['forest','/world/forest'],['garden','/world/garden'],['trades','/dock/trades'],['home','/dock/cabin'],['garden','/world/garden'],['trades','/dock/trades']].map(([label,path])=>'<a href="'+path+'"'+(mode===label?' aria-current="page"':'')+'>'+collectionText(label)+'</a>').join('')+'</nav>';
+ const focus=collectionCatalog.find(i=>i.id===url.searchParams.get('item'))?.id||'';
+ const receiptToken=url.searchParams.get('receipt')||'';
+ const receipt=/^[a-f0-9-]{36}$/i.test(receiptToken)?await db.prepare('SELECT kind,item_id FROM island_collection_operations WHERE token=? AND visitor_key=? AND applied_at IS NOT NULL').bind(receiptToken,key).first():null;
+ const showDisplay=url.searchParams.get('view')==='display'||['display','clear'].includes(receipt?.kind);
+ const orders=mode==='bag'?await pocketOrders(db,key):[];
+ const filter=focus?'all':['all','material','farm','decor'].includes(url.searchParams.get('filter'))?url.searchParams.get('filter'):'all';
+ const visibleInventory=inventory.filter(r=>r.quantity>0).filter(r=>{const type=collectionCatalog.find(i=>i.id===r.item_id)?.type;return filter==='all'||filter==='farm'&&['seed','produce','fish'].includes(type)||type===filter;});
+
+ let body='<header class="collection-head"><div><span class="collection-eyebrow">BEAR ATLAS</span><h1>'+collectionText(mode==='bag'?'bag':mode)+'</h1>'+pocketT(mode==='bag'?'bagHint':'shopHint','p')+'</div><div class="collection-wallet">'+collectionText('coins')+'<strong>'+wallet.coins+'</strong></div></header>'+pocketUtilities();
  const feedback=url.searchParams.get('collection');if(['saved','replay','gift'].includes(feedback))body+='<p role="status" class="collection-notice">'+collectionText(feedback==='saved'?'success':feedback==='gift'?'giftSuccess':'replay')+'</p>';
+ if(receipt&&['buy','craft','display','clear'].includes(receipt.kind)&&receipt.item_id&&collectionCatalog.some(i=>i.id===receipt.item_id)){
+  const received=collectionCatalog.find(i=>i.id===receipt.item_id),href='/dock/collection?item='+encodeURIComponent(received.id);
+  body+='<aside class="pocket-section" data-pocket-receipt><h2>'+pocketT('receipt')+'</h2><p>'+collectionText(received.id)+' · '+pocketT('owned')+' '+qty(received.id)+'</p>'+pocketT('receiptNote','p')+'<nav><a href="'+href+'#item-'+received.id+'">'+pocketT('checkItem')+'</a>'+(received.display!==false&&qty(received.id)>0?'<a href="'+href+'&view=display#item-'+received.id+'">'+pocketT('displayNow')+'</a>':'')+'</nav></aside>';
+ }
  if(mode==='shop'){
   body+=collectionText('virtual','p')+collectionText('legacy','p')+'<div class="collection-grid">';
   for(const item of collectionCatalog.filter(i=>i.price||i.material)){
    const can=item.price?wallet.coins>=item.price:free(item.material)>=item.count;
-   body+='<article class="collection-card">'+collectionArt(item.id)+'<h2>'+collectionText(item.id)+'</h2>'+collectionText(item.id+'Note','p')+'<p>'+collectionText(item.price?'price':'need')+' · '+(item.price?item.price:collectionText(item.material)+' × '+item.count)+'</p>';
+   body+='<article class="collection-card">'+collectionArt(item.id)+'<h2>'+collectionText(item.id)+'</h2><p class="pocket-shop-stock">'+pocketT('owned')+' '+qty(item.id)+'</p>'+collectionText(item.id+'Note','p')+'<p>'+collectionText(item.price?'price':'need')+' · '+(item.price?item.price:collectionText(item.material)+' × '+item.count)+'</p>';
+   if(item.material){const material=collectionCatalog.find(i=>i.id===item.material),[sourceLabel,sourcePath]=pocketSource(material);body+='<p class="pocket-shop-stock">'+pocketT('materials')+' '+Math.max(0,free(item.material))+' / '+item.count+'</p>';if(!can)body+='<a href="'+sourcePath+'">'+pocketT(sourceLabel)+'</a>';}
+   if(item.price&&!can)body+='<p>'+pocketT('missing')+' '+(item.price-wallet.coins)+' '+pocketT('coins')+'</p><a href="/dock/adventure">'+pocketT('findCoins')+'</a>';
    body+=item.unlock&&!flowerUnlocked?collectionText('locked','p'):can?collectionForm(await collectionIssue(db,key,item.price?'buy':'craft',{item:item.id,coins:item.price?-item.price:0,material:item.material,count:item.count}),collectionText(item.price?'buy':'craft')):collectionText(item.price?'poor':'short','p');body+='</article>';
   }body+='</div>';
  }else if(mode==='catalog'){
   body+='<div class="collection-grid">';for(const item of collectionCatalog){const known=inventory.some(r=>r.item_id===item.id);body+='<article class="collection-card">'+collectionArt(item.id)+'<h2>'+collectionText(item.id)+'</h2><div class="collection-meta">'+collectionText(item.rarity)+collectionText(item.type)+'</div>'+collectionText(item.id+'Note','p')+collectionText('source'+item.source[0].toUpperCase()+item.source.slice(1),'p')+'<p>'+collectionText(known?'discovered':'undiscovered')+' · '+collectionText('quantity')+' '+qty(item.id)+'</p></article>';}body+='</div>';
  }else{
-  body+='<section id="display">'+await collectionShelf(db,key,true)+'</section>'+collectionText('reserved','p');
-  if(!inventory.some(i=>i.quantity))body+='<p class="collection-empty">'+collectionText('emptyBag')+'</p>';
+  body+='<h2>'+pocketT('inventory')+'</h2><nav class="collection-nav" data-pocket-filter>'+[['all','allItems'],['material','materialItems'],['farm','farmItems'],['decor','decorItems']].map(([id,label])=>'<a href="/dock/collection?filter='+id+'"'+(filter===id?' aria-current="page"':'')+'>'+pocketT(label)+'</a>').join('')+'</nav>';
+  if(inventory.some(i=>i.quantity)&&!visibleInventory.length)body+=pocketT('emptyCategory','p');
+  if(!inventory.some(i=>i.quantity))body+='<p class="collection-empty">'+collectionText('emptyBag')+'</p><nav class="collection-nav"><a href="/world/beach">'+pocketT('beach')+'</a><a href="/world/garden">'+pocketT('garden')+'</a></nav>';
   body+='<div class="collection-grid">';
-  for(const row of inventory.filter(r=>r.quantity>0)){const item=collectionCatalog.find(i=>i.id===row.item_id);if(!item)continue;
-   body+='<article class="collection-card">'+collectionArt(item.id)+'<h2>'+collectionText(item.id)+'</h2><div class="collection-meta">'+collectionText(item.rarity)+collectionText(item.type)+'</div><div class="collection-counts"><div>'+collectionText('quantity')+'<strong>'+row.quantity+'</strong></div><div>'+collectionText('available')+'<strong>'+free(item.id)+'</strong></div></div>';
+  for(const row of visibleInventory){const item=collectionCatalog.find(i=>i.id===row.item_id);if(!item)continue;
+   body+='<article class="collection-card" id="item-'+item.id+'">'+collectionArt(item.id)+'<h2>'+collectionText(item.id)+'</h2><div class="collection-meta">'+collectionText(item.rarity)+collectionText(item.type)+'</div><div class="collection-counts"><div>'+collectionText('quantity')+'<strong>'+row.quantity+'</strong></div><div>'+pocketT('available')+'<strong>'+free(item.id)+'</strong></div></div>';
+   body+='<details class="pocket-item-actions"'+(focus===item.id?' open':'')+'><summary>'+pocketT('uses')+'</summary>';
+   const matching=(orders||[]).filter(o=>o.item_id===item.id);
+   if(matching.length)body+='<p>'+pocketT('orderUse')+'</p>'+matching.map(o=>'<a href="/world/farm-orders#order-'+collectionEscape(o.id)+'">'+pocketT('seeOrder')+' · '+Math.max(0,o.available)+' / '+o.quantity+'</a>').join('');
+   if(item.type==='seed')body+='<a href="/world/garden">'+pocketT('garden')+'</a>';
    if(free(item.id)>0){body+='<div class="collection-actions">'+(item.sell?collectionForm(await collectionIssue(db,key,'sell',{item:item.id,coins:item.sell}),collectionText('sell')+' · '+item.sell):'')+'</div>';
     body+='<details><summary>'+collectionText('gift')+'</summary><form method="post" action="/dock/collection"><input type="hidden" name="action" value="gift-prepare"><input type="hidden" name="item" value="'+item.id+'"><label>'+collectionText('member')+'<input name="member" placeholder="BEAR-0001" pattern="[Bb][Ee][Aa][Rr]-[0-9]{4,10}" maxlength="15" required></label><button>'+collectionText('prepare')+'</button></form></details>';
    }
-   if(item.display!==false){body+='<details><summary>'+collectionText('display')+'</summary><div class="collection-slot-buttons">';
+   if(item.display!==false){body+='<details'+(focus===item.id&&showDisplay?' open':'')+'><summary>'+collectionText('display')+'</summary><div class="collection-slot-buttons">';
    for(let slot=1;slot<=4&&item.display!==false;slot++){const same=displays.some(d=>d.slot===slot&&d.item_id===item.id);if(free(item.id)>0||same)body+=collectionForm(await collectionIssue(db,key,'display',{item:item.id,slot}),collectionText('slot')+' '+slot);}
-   body+='</div></details>';}body+='</article>';
-  }body+='</div><section><h2>'+collectionText('rewards')+'</h2>'+collectionText('rewardNote','p');
+   body+='</div></details>';}body+='</details></article>';
+  }body+='</div><details class="pocket-more" id="display"'+(showDisplay?' open':'')+'><summary>'+pocketT('display')+'</summary>'+await collectionShelf(db,key,true)+collectionText('reserved','p')+'</details><section><h2>'+collectionText('rewards')+'</h2>'+collectionText('rewardNote','p');
   const bonuses=(await db.prepare("SELECT r.quest_id,r.period,r.claimed_at FROM island_adventure_rewards r WHERE r.visitor_key=? AND r.quest_id<>'carrot-mystery' AND NOT EXISTS(SELECT 1 FROM island_collection_ledger l WHERE l.visitor_key=r.visitor_key AND l.kind='reward' AND l.reference=r.quest_id||'@'||r.period) ORDER BY r.claimed_at DESC LIMIT 12").bind(key).all()).results;
   if(!bonuses.length)body+=collectionText('allClaimed','p');
   for(const reward of bonuses){const title=ctx.quests.find(q=>q.id===reward.quest_id)?.reward||collectionCopy.journal[0];body+='<div class="collection-reward"><span>'+title+' <span translate="no">'+collectionEscape(reward.period)+'</span></span>'+collectionForm(await collectionIssue(db,key,'reward',{coins:10,reference:reward.quest_id+'@'+reward.period}),collectionText('claim')+' · 10')+'</div>';}
@@ -149,7 +169,7 @@ export async function collectionRoute(request,env,url,ctx){
   body+='</section><details><summary>'+collectionText('oldCollection')+'</summary>'+collectionText('oldNote','p')+'<nav class="collection-nav"><a href="/dock/adventure">'+collectionText('journal')+'</a><a href="/dock/memories">'+collectionText('memories')+'</a><a href="/dock/quests">'+collectionText('furniture')+'</a></nav></details>';
   const raw=url.searchParams.get('page')||'1';if(!/^[1-9]\d{0,3}$/.test(raw))return render(collectionText('invalid','p'),400);const n=Number(raw);
   const history=(await db.prepare('SELECT kind,item_id,quantity_delta,coin_delta,happened_at FROM island_collection_ledger WHERE visitor_key=? ORDER BY happened_at DESC,operation_id LIMIT 21 OFFSET ?').bind(key,(n-1)*20).all()).results;
-  body+='<details><summary>'+collectionText('ledger')+'</summary>'+(!history.length?collectionText('noHistory','p'):'<div class="collection-history"><table><tbody>'+history.slice(0,20).map(h=>'<tr><td><time>'+new Date(h.happened_at+28800000).toISOString().replace('T',' ').slice(0,16)+'</time></td><td>'+collectionText(h.kind+'Action')+'</td><td>'+(h.item_id?collectionText(h.item_id):collectionText('coins'))+' '+(h.quantity_delta>0?'+':'')+(h.quantity_delta||'')+'</td><td>'+collectionText('coins')+' '+(h.coin_delta>0?'+':'')+h.coin_delta+'</td></tr>').join('')+'</tbody></table></div>')+'<nav class="collection-nav">'+(n>1?'<a href="/dock/collection?page='+(n-1)+'">'+collectionText('prev')+'</a>':'')+(history.length>20?'<a href="/dock/collection?page='+(n+1)+'">'+collectionText('next')+'</a>':'')+'</nav></details>';
+  body+='<details id="ledger"><summary>'+collectionText('ledger')+'</summary>'+(!history.length?collectionText('noHistory','p'):'<div class="collection-history"><table><tbody>'+history.slice(0,20).map(h=>'<tr><td><time>'+new Date(h.happened_at+28800000).toISOString().replace('T',' ').slice(0,16)+'</time></td><td>'+collectionText(h.kind+'Action')+'</td><td>'+(h.item_id?collectionText(h.item_id):collectionText('coins'))+' '+(h.quantity_delta>0?'+':'')+(h.quantity_delta||'')+'</td><td>'+collectionText('coins')+' '+(h.coin_delta>0?'+':'')+h.coin_delta+'</td></tr>').join('')+'</tbody></table></div>')+'<nav class="collection-nav">'+(n>1?'<a href="/dock/collection?page='+(n-1)+'">'+collectionText('prev')+'</a>':'')+(history.length>20?'<a href="/dock/collection?page='+(n+1)+'">'+collectionText('next')+'</a>':'')+'</nav></details>';
  }
  return render(body+'<nav class="collection-nav"><a href="/world">'+collectionText('map')+'</a><a href="/dock/adventure">'+collectionText('journal')+'</a></nav>');
 }

@@ -1,3 +1,13 @@
+# V95 — Backpack, Shop & Tasks navigation（已正式部署）
+
+Consistent three-tab navigation; backpack-first item groups and contextual uses; verified purchase-to-item/display return links; owned/material/shortfall shop cues; unified task overview with private active-order stock. Mobile tabs stay below the measured site header. No schema, settlement, inventory, reward, price or permission changes. Product V95 / platform109 deployed successfully; evidence in docs/V95-ACCEPTANCE.md.
+
+V94 engineering publication verified: platform108, runtime d707b3668b2c5c6a555a26ab12bf3d0f7724296a, deployment appgdep_6afae049a430819199c67710eda75d74 succeeded. Physical-device and player acceptance pending.
+
+# V94 Player Experience — engineering candidate
+
+Mobile safe-area and measured navigation, native POST duplicate/offline guard, BFCache reset and background CSS pause. Existing storage and settlement unchanged. Internal suites pass; desktop browser homepage/EN/explore checked. Physical iPhone/Web App and 5–10-player Beta remain pending; see docs/V94-ACCEPTANCE.md. V93 platform107 deployment verified succeeded.
+
 ## V92 — Bear Market
 
 Connected market entrance, produce price comparisons, existing NPC orders and personal settled receipts. No migration or new financial system.

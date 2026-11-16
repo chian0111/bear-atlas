@@ -2986,8 +2986,8 @@
     "en": "Bear Atlas | About This Little Island"
   },
   "idea.lead": {
-    "zh-TW": "長大以後，也想有一個自己的小世界。",
-    "en": "Even after growing up, we can still want a little world of our own."
+    "zh-TW": "留一個角落，給不用努力的自己；也留一點好奇，慢慢認識這個世界。",
+    "en": "A little corner where you don’t have to try so hard, and a little curiosity to discover the world at your own pace."
   },
   "idea.p1": {
     "zh-TW": "Bear Atlas 的開始，是一個很簡單的念頭：",
@@ -3132,5 +3132,349 @@
   "idea.cap4": {
     "zh-TW": "在小小的研究所，帶著好奇聊聊生活裡的價格。",
     "en": "A little research house for curious conversations about everyday prices."
+  },
+  "simple.home": {
+    "zh-TW": "回我的小屋",
+    "en": "My Home"
+  },
+  "simple.homeHint": {
+    "zh-TW": "布置、休息、看看收藏",
+    "en": "Decorate, rest and enjoy your collection"
+  },
+  "simple.joinHint": {
+    "zh-TW": "先領島民證，擁有自己的家",
+    "en": "Get a passport and a home of your own"
+  },
+  "simple.explore": {
+    "zh-TW": "探索島嶼",
+    "en": "Explore"
+  },
+  "simple.exploreHint": {
+    "zh-TW": "沿著地圖，自由走走",
+    "en": "Follow the map at your own pace"
+  },
+  "simple.today": {
+    "zh-TW": "今日島嶼生活",
+    "en": "Island Today"
+  },
+  "simple.todayHint": {
+    "zh-TW": "一件小事，隨心參與",
+    "en": "A little story, yours to explore"
+  },
+  "simple.next": {
+    "zh-TW": "接下來，想做什麼？",
+    "en": "What would you like to do next?"
+  },
+  "simple.orders": {
+    "zh-TW": "查看居民委託與交付",
+    "en": "View resident orders and deliveries"
+  },
+  "simple.bag": {
+    "zh-TW": "看看背包與收藏",
+    "en": "View backpack and collection"
+  },
+  "simple.shop": {
+    "zh-TW": "逛商店，購買或交換",
+    "en": "Visit the shop to buy or craft"
+  },
+  "simple.display": {
+    "zh-TW": "把收藏放上展示架",
+    "en": "Put a keepsake on display"
+  },
+  "simple.receipts": {
+    "zh-TW": "查看我的成交紀錄",
+    "en": "View my completed order receipts"
+  },
+  "simple.afterExplore": {
+    "zh-TW": "有了收成或探索物品，可以先看背包，再決定交付、交換或留在小屋展示。不是每件物品都能交訂單，接單前請先看條件。",
+    "en": "With a harvest or a found item, check your backpack and choose whether to deliver, exchange or display it. Orders accept specific items; review the terms first."
+  },
+  "simple.afterOrder": {
+    "zh-TW": "已交付的訂單會留下紀錄與居民回應。想用報酬買一份收藏，就去商店；也可以直接回家。未完成的訂單仍可留待下次。",
+    "en": "Completed orders leave a receipt and a resident’s reply. Visit the shop for a keepsake, or head home. Unfinished orders can wait for another visit."
+  },
+  "simple.afterShop": {
+    "zh-TW": "買到或製作好的收藏會進入背包。到展示架選擇位置，再回小屋看看；原有家具仍在小屋內布置。",
+    "en": "Purchased or crafted keepsakes go into your backpack. Choose a shelf slot, then visit your cottage. Arrange your existing furniture inside the cottage."
+  },
+  "simple.afterBag": {
+    "zh-TW": "背包物品可以依各自支援的用途交換、贈送或展示。展示中的物品會保留，不會同時拿去交付。",
+    "en": "Each item shows the actions it supports: exchange, gift or display. Displayed items stay reserved and cannot also be delivered."
+  },
+  "simple.npc": {
+    "zh-TW": "聊天之外，Hugo 與 Mika 也有食材委託。前往訂單頁查看各自用途、接單條件與已完成狀態；成交紀錄保留收貨回應。",
+    "en": "Hugo and Mika also offer produce orders. The order page shows each resident’s purpose, terms and completion status; completed receipts keep their replies."
+  },
+  "simple.harvest": {
+    "zh-TW": "本週胡蘿蔔豐收，模擬供給增加，價格下降。",
+    "en": "A plentiful carrot harvest raises simulated supply and lowers the price this week."
+  },
+  "simple.festival": {
+    "zh-TW": "島上咖啡節帶動模擬需求，咖啡價格上升。",
+    "en": "The island coffee festival raises simulated demand and the coffee price."
+  },
+  "simple.building": {
+    "zh-TW": "新建築施工增加模擬木材需求，木材價格上升。",
+    "en": "New construction raises simulated demand for wood and its price."
+  },
+  "simple.stable": {
+    "zh-TW": "本週沒有新事件；前期事件結束後，模擬市場回到一般供需。",
+    "en": "There is no new event this week. As earlier events end, the simulated market returns to ordinary supply and demand."
+  },
+  "simple.busy": {
+    "zh-TW": "熊熊景氣：比基期活躍",
+    "en": "Island activity: above the base period"
+  },
+  "simple.quiet": {
+    "zh-TW": "熊熊景氣：平穩生活中",
+    "en": "Island activity: a quieter rhythm"
+  },
+  "simple.more": {
+    "zh-TW": "了解更多：指數、價格與經濟週報",
+    "en": "Learn more: indices, prices and the bulletin"
+  },
+  "simple.optional": {
+    "zh-TW": "想參與的話，可以去花園或看看居民委託；也可以只是看海。",
+    "en": "If you feel like joining in, visit the garden or browse resident orders. Watching the sea is just as welcome."
+  },
+  "simple.fallback": {
+    "zh-TW": "今天也可以自在散步、照顧花園，或回小屋休息。",
+    "en": "Take a walk, tend your garden or rest at home today."
+  },
+  "idea.future": {
+    "zh-TW": "未來，我也想用熊熊銀行、利率與金融教育的故事，繼續探索生活與經濟的連結。這些仍是小島慢慢長大的願景，還沒有正式開放。",
+    "en": "In the future, I hope to explore the links between life and economics through stories about Bear Bank, interest rates and financial learning. These are ideas for the island’s gradual growth, not features that are open today."
+  },
+  "experience.offline": {
+    "zh-TW": "目前沒有網路。重新連線後再保存；先前已保存的進度會保留。",
+    "en": "You are offline. Reconnect before saving. Previously saved progress is kept."
+  },
+  "pocket.nav": {
+    "zh-TW": "背包、商店與任務",
+    "en": "Backpack, shop and tasks"
+  },
+  "pocket.title": {
+    "zh-TW": "物品與任務",
+    "en": "Items and tasks"
+  },
+  "pocket.map": {
+    "zh-TW": "回地圖",
+    "en": "Island map"
+  },
+  "pocket.bag": {
+    "zh-TW": "背包",
+    "en": "Backpack"
+  },
+  "pocket.shop": {
+    "zh-TW": "商店",
+    "en": "Shop"
+  },
+  "pocket.tasks": {
+    "zh-TW": "任務",
+    "en": "Tasks"
+  },
+  "pocket.bagHint": {
+    "zh-TW": "先看手上有什麼，再選用途：交付、展示或送朋友。",
+    "en": "See what you have, then choose a use: deliver, display or give to a friend."
+  },
+  "pocket.shopHint": {
+    "zh-TW": "看清價格、材料與已持有數量；買好後可直接回背包找到物品。",
+    "en": "Check prices, materials and what you own. Return straight to the item in your backpack after buying."
+  },
+  "pocket.tasksHint": {
+    "zh-TW": "先處理可領取的回饋，再看探索任務、居民故事與作物訂單。",
+    "en": "Collect ready rewards, then explore adventure tasks, resident stories and crop orders."
+  },
+  "pocket.more": {
+    "zh-TW": "展示、圖鑑與其他整理",
+    "en": "Display, guide and other tools"
+  },
+  "pocket.display": {
+    "zh-TW": "整理展示架",
+    "en": "Arrange display"
+  },
+  "pocket.catalog": {
+    "zh-TW": "物品圖鑑",
+    "en": "Item guide"
+  },
+  "pocket.trade": {
+    "zh-TW": "與朋友交換",
+    "en": "Trade with friends"
+  },
+  "pocket.ledger": {
+    "zh-TW": "收支紀錄",
+    "en": "Activity ledger"
+  },
+  "pocket.uses": {
+    "zh-TW": "用途與操作",
+    "en": "Uses and actions"
+  },
+  "pocket.inventory": {
+    "zh-TW": "手上的物品",
+    "en": "Your items"
+  },
+  "pocket.owned": {
+    "zh-TW": "已持有",
+    "en": "Owned"
+  },
+  "pocket.available": {
+    "zh-TW": "目前可用",
+    "en": "Available"
+  },
+  "pocket.needed": {
+    "zh-TW": "需要",
+    "en": "Needed"
+  },
+  "pocket.missing": {
+    "zh-TW": "還差",
+    "en": "Still needed"
+  },
+  "pocket.coins": {
+    "zh-TW": "島幣",
+    "en": "Island coins"
+  },
+  "pocket.beach": {
+    "zh-TW": "去海灘拾貝",
+    "en": "Find shells at the beach"
+  },
+  "pocket.forest": {
+    "zh-TW": "去森林找素材",
+    "en": "Find woodland materials"
+  },
+  "pocket.garden": {
+    "zh-TW": "去花園種植",
+    "en": "Visit your garden"
+  },
+  "pocket.pond": {
+    "zh-TW": "去池邊釣魚",
+    "en": "Go fishing at the pond"
+  },
+  "pocket.findCoins": {
+    "zh-TW": "查看任務與報酬",
+    "en": "Find tasks and rewards"
+  },
+  "pocket.materials": {
+    "zh-TW": "可用材料",
+    "en": "Available materials"
+  },
+  "pocket.source": {
+    "zh-TW": "去哪裡找材料？",
+    "en": "Where can I find materials?"
+  },
+  "pocket.checkItem": {
+    "zh-TW": "在背包查看物品",
+    "en": "Find the item in your backpack"
+  },
+  "pocket.displayNow": {
+    "zh-TW": "把它擺到小屋",
+    "en": "Display it in your cottage"
+  },
+  "pocket.receipt": {
+    "zh-TW": "這筆操作已完成",
+    "en": "This action is complete"
+  },
+  "pocket.receiptNote": {
+    "zh-TW": "物品已保存，接著可以查看或整理展示。",
+    "en": "Your item is saved. You can now find it or arrange your display."
+  },
+  "pocket.cropOrders": {
+    "zh-TW": "正在進行的作物訂單",
+    "en": "Your active crop orders"
+  },
+  "pocket.ordersHint": {
+    "zh-TW": "這裡只顯示你已接受的訂單；交付前仍會再次確認可用物品。",
+    "en": "These are orders you have accepted. Available items are checked again before delivery."
+  },
+  "pocket.ordersUnavailable": {
+    "zh-TW": "目前無法讀取訂單，背包與原本的任務仍可使用。",
+    "en": "Orders cannot be read right now. Your backpack and existing tasks are still available."
+  },
+  "pocket.noOrders": {
+    "zh-TW": "還沒有進行中的作物訂單。可以先看看居民需要什麼，再決定要不要接。",
+    "en": "No active crop orders. See what residents need before deciding to accept."
+  },
+  "pocket.viewOrder": {
+    "zh-TW": "查看這張訂單",
+    "en": "View this order"
+  },
+  "pocket.deliver": {
+    "zh-TW": "前往確認交付",
+    "en": "Review and deliver"
+  },
+  "pocket.allOrders": {
+    "zh-TW": "查看居民需要什麼",
+    "en": "See what residents need"
+  },
+  "pocket.overview": {
+    "zh-TW": "先做哪一件？",
+    "en": "What would you like to do?"
+  },
+  "pocket.adventures": {
+    "zh-TW": "探索任務",
+    "en": "Adventure tasks"
+  },
+  "pocket.stories": {
+    "zh-TW": "居民故事與家具",
+    "en": "Resident stories and furniture"
+  },
+  "pocket.guide": {
+    "zh-TW": "新手導覽與回顧",
+    "en": "Welcome tour and review"
+  },
+  "pocket.completed": {
+    "zh-TW": "已完成的探索任務",
+    "en": "Completed adventure tasks"
+  },
+  "pocket.ready": {
+    "zh-TW": "可以領取",
+    "en": "Ready to collect"
+  },
+  "pocket.ongoing": {
+    "zh-TW": "進行中",
+    "en": "In progress"
+  },
+  "pocket.storyHint": {
+    "zh-TW": "想解鎖原有家具，可以回到居民的小故事。",
+    "en": "Visit resident stories to unlock the original furniture."
+  },
+  "pocket.noMatches": {
+    "zh-TW": "這件物品目前沒有進行中的作物訂單。",
+    "en": "There is no active crop order for this item."
+  },
+  "pocket.orderUse": {
+    "zh-TW": "有居民正需要這件物品",
+    "en": "A resident needs this item"
+  },
+  "pocket.seeOrder": {
+    "zh-TW": "看看可用於哪張訂單",
+    "en": "See the matching order"
+  },
+  "pocket.emptyGo": {
+    "zh-TW": "先去找第一件喜歡的物品",
+    "en": "Find your first favorite item"
+  },
+  "pocket.browseBag": {
+    "zh-TW": "繼續整理背包",
+    "en": "Keep browsing your backpack"
+  },
+  "pocket.allItems": {
+    "zh-TW": "全部",
+    "en": "All"
+  },
+  "pocket.materialItems": {
+    "zh-TW": "自然素材",
+    "en": "Materials"
+  },
+  "pocket.farmItems": {
+    "zh-TW": "種子與收成",
+    "en": "Seeds and harvest"
+  },
+  "pocket.decorItems": {
+    "zh-TW": "擺飾",
+    "en": "Decor"
+  },
+  "pocket.emptyCategory": {
+    "zh-TW": "這個分類還沒有物品，可以切回全部看看。",
+    "en": "No items in this group yet. Switch to All to see your other items."
   }
 }
