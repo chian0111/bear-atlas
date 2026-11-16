@@ -752,6 +752,13 @@
       "commit": "4e47a8cde53fb777f7f48907eb5e7c31cdf35001",
       "deployment_id": "appgdep_6afac4c176148191a14c6c04dc04946f",
       "archive_sha256": "sha256:1a5fd36c6ef0f8e6dba74d50b97963962216850fd390d923a97a36ab6fae7586"
+    },
+    {
+      "release": "V92",
+      "version": 104,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_30188b6063408191b0047eff9cf265df",
+      "commit": "d4198f51f8764ff95419d5cb93d6cbe25b70b74d",
+      "deployment_id": "appgdep_6afacf95378081918cd7da1744f4e6fd"
     }
   ],
   "candidates": [
@@ -914,6 +921,15 @@
       "platform_version": 103,
       "deployment_id": "appgdep_6afac4c176148191a14c6c04dc04946f",
       "runtime_commit": "4e47a8cde53fb777f7f48907eb5e7c31cdf35001"
+    },
+    {
+      "release": "V92",
+      "status": "deployed",
+      "report": "docs/V92-ACCEPTANCE.md",
+      "branch": "feature/v92-bear-market",
+      "platform_version": 104,
+      "runtime_commit": "d4198f51f8764ff95419d5cb93d6cbe25b70b74d",
+      "deployment_id": "appgdep_6afacf95378081918cd7da1744f4e6fd"
     }
   ]
 }

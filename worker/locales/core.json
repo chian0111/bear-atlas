@@ -2828,5 +2828,157 @@
   "farm.farm_incomeAction": {
     "zh-TW": "居民訂單報酬",
     "en": "Resident order reward"
+  },
+  "market.title": {
+    "zh-TW": "熊熊市場",
+    "en": "Bear Market"
+  },
+  "market.intro": {
+    "zh-TW": "海邊生活街的小市集，把花園收成帶進居民的餐桌。",
+    "en": "A little market on Seaside Living Street, bringing garden harvests to residents’ tables."
+  },
+  "market.map": {
+    "zh-TW": "回島嶼地圖",
+    "en": "Back to island map"
+  },
+  "market.garden": {
+    "zh-TW": "前往花園",
+    "en": "Visit the garden"
+  },
+  "market.orders": {
+    "zh-TW": "找居民接單與交付",
+    "en": "Meet residents, accept and deliver orders"
+  },
+  "market.bag": {
+    "zh-TW": "背包、商店與交換",
+    "en": "Backpack, shop and exchange"
+  },
+  "market.desk": {
+    "zh-TW": "詢問楓教授",
+    "en": "Ask Professor Maple"
+  },
+  "market.stalls": {
+    "zh-TW": "今日的農產攤位",
+    "en": "Today’s produce stalls"
+  },
+  "market.shop": {
+    "zh-TW": "原商店回收價／份",
+    "en": "Existing shop sell price / unit"
+  },
+  "market.quote": {
+    "zh-TW": "本期 NPC 訂單報價／份",
+    "en": "This period’s NPC order quote / unit"
+  },
+  "market.qty": {
+    "zh-TW": "本期訂單數量",
+    "en": "This period’s order quantity"
+  },
+  "market.free": {
+    "zh-TW": "可用背包數量",
+    "en": "Available inventory"
+  },
+  "market.sim": {
+    "zh-TW": "觀測站模擬價／份",
+    "en": "Observatory simulated price / unit"
+  },
+  "market.none": {
+    "zh-TW": "此商品不在模擬籃子內",
+    "en": "Not in the simulation basket"
+  },
+  "market.distinction": {
+    "zh-TW": "三種價格有不同用途。商店回收價維持原設定；NPC 報價依模擬情境設定，有數量及報酬上限；觀測站模擬價僅供觀察，不能直接成交。",
+    "en": "These prices serve different purposes. Shop sell prices stay unchanged. NPC quotes follow bounded simulated scenarios. Observatory simulation prices are for observation, not executable trades."
+  },
+  "market.locked": {
+    "zh-TW": "已接受訂單請以訂單上的固定報酬為準。市集顯示新報價，不會追溯修改舊單。",
+    "en": "Accepted orders keep their fixed terms. New market quotes never rewrite an older order."
+  },
+  "market.hugo": {
+    "zh-TW": "Hugo 的點心攤",
+    "en": "Hugo’s snack stall"
+  },
+  "market.mika": {
+    "zh-TW": "Mika 的午餐攤",
+    "en": "Mika’s lunch stall"
+  },
+  "market.talk": {
+    "zh-TW": "「帶來一點收成，今天的餐桌就多一點故事。」先看完整條件，再決定要不要接單。",
+    "en": "“Bring a little harvest, and today’s table has another story.” Review the full terms before accepting."
+  },
+  "market.records": {
+    "zh-TW": "我的市集成交紀錄",
+    "en": "My market receipts"
+  },
+  "market.recordsNote": {
+    "zh-TW": "以下只列已完成的居民訂單。作物與島幣紀錄使用既有帳本；官方模擬指數不因個人交付改變。",
+    "en": "Only completed resident orders appear here. Produce and coin receipts use the existing ledger. Personal deliveries do not change the official simulated indices."
+  },
+  "market.empty": {
+    "zh-TW": "還沒有成交紀錄。可以先去花園種一點喜歡的作物。",
+    "en": "No completed orders yet. Start by growing something you like."
+  },
+  "market.receipt": {
+    "zh-TW": "交付數量",
+    "en": "Delivered quantity"
+  },
+  "market.income": {
+    "zh-TW": "實得島幣",
+    "en": "Coins received"
+  },
+  "market.time": {
+    "zh-TW": "成交時間（台灣時間）",
+    "en": "Completed at (Taiwan time)"
+  },
+  "market.login": {
+    "zh-TW": "登入島民證後可查看自己的庫存、報價與成交紀錄。訪客仍可逛市集。",
+    "en": "Sign in with your resident passport to view your inventory, quotes and receipts. Visitors can still browse."
+  },
+  "market.signin": {
+    "zh-TW": "登入島民證",
+    "en": "Resident sign in"
+  },
+  "market.outage": {
+    "zh-TW": "市場資料暫時無法使用。花園、小屋與既有生活功能仍可繼續。",
+    "en": "Market data is temporarily unavailable. The garden, cottage and existing activities remain available."
+  },
+  "market.prev": {
+    "zh-TW": "上一頁",
+    "en": "Previous page"
+  },
+  "market.next": {
+    "zh-TW": "下一頁",
+    "en": "Next page"
+  },
+  "market.period": {
+    "zh-TW": "報價期間（台灣時間）",
+    "en": "Quote period (Taiwan time)"
+  },
+  "market.unit": {
+    "zh-TW": "價格單位：虛擬島幣；數量單位：份",
+    "en": "Prices in virtual island coins; quantities in units"
+  },
+  "market.policy": {
+    "zh-TW": "沒有玩家拍賣、銀行、借貸或真實付款。",
+    "en": "No player auction, banking, loans or real payments."
+  },
+  "market.scene": {
+    "zh-TW": "木製攤位、暖色遮棚與一籃籃收成的海邊市集",
+    "en": "A seaside market with wooden stalls, warm awnings and baskets of produce"
+  },
+  "market.pin": {
+    "zh-TW": "熊熊市場",
+    "en": "Bear Market"
+  },
+  "market.pinHint": {
+    "zh-TW": "逛農產攤位，看看報價，將收成交給需要的居民",
+    "en": "Browse produce stalls and quotes, then deliver harvests to residents"
+  },
+  "market.enter": {
+    "zh-TW": "走進熊熊市場",
+    "en": "Enter Bear Market"
+  },
+  "market.invalid": {
+    "zh-TW": "頁碼無效，請返回市場。",
+    "en": "Invalid page. Please return to the market."
   }
 }

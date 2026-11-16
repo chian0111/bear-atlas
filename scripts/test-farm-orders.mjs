@@ -51,8 +51,14 @@ const overdue=time+1209600000;assert.equal((await farmApply(DB,c,await farmIssue
 assert.equal((await farmApply(DB,c,await farmIssue(DB,c,target.id,'cancel',overdue),overdue)).status,303);
 const noStock=capped.find(o=>o.item_id==='herb');assert.equal((await farmApply(DB,c,await farmIssue(DB,c,noStock.id,'deliver',time),time)).status,409);
 assert.equal(sql.prepare('SELECT count(*) n FROM island_collection_ledger WHERE visitor_key=? AND kind LIKE \'farm_%\'').get(c).n,0);
+const receipt=await (await get('/world/market',{Cookie:'atlas_islander='+a})).text();assert.ok(receipt.includes('8</p>'));assert.ok(receipt.includes('data-i18n="market.records"'));assert.ok(!(await (await get('/world/market',{Cookie:'atlas_islander='+b})).text()).includes('class="market-receipt"'));
+assert.equal((await worker.fetch(new Request(origin+'/world/market',{method:'POST'}),env)).status,405);
+assert.equal((await get('/world/market?page=0')).status,400);
+assert.equal((await get('/world/market?lang=en')).status,200);
+const marketBefore=sql.prepare('SELECT coins FROM island_collection_wallets WHERE visitor_key=?').get(a).coins;await get('/world/market',{Cookie:'atlas_islander='+a});assert.equal(sql.prepare('SELECT coins FROM island_collection_wallets WHERE visitor_key=?').get(a).coins,marketBefore);
+
 const state=await economyOfficial(DB,time);assert.equal(state.current.bbi,102.5);assert.equal(state.current.bcpi,economySnapshot(1).bcpi);
-for(const path of ['/world/farm-orders','/world/garden','/dock/collection']){const response=await get(path,{Cookie:'atlas_islander='+a});assert.equal(response.status,200,path);}
+for(const path of ['/world/market','/world/farm-orders','/world/garden','/dock/collection']){const response=await get(path,{Cookie:'atlas_islander='+a});assert.equal(response.status,200,path);}
 assert.equal((await get('/world/farm-orders?page=bad',{Cookie:'atlas_islander='+a})).status,400);
 const post=async(fields,key=a,foreign=false)=>worker.fetch(new Request(origin+'/world/farm-orders',{method:'POST',headers:{Cookie:'atlas_islander='+key,Origin:foreign?'https://evil.test':origin,'Sec-Fetch-Site':foreign?'cross-site':'same-origin','Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fields)}),env);
 assert.equal((await post({token:deliver,quantity:999})).status,400);assert.equal((await post({token:deliver},a,true)).status,403);assert.equal((await post({token:deliver},b)).status,403);assert.equal((await post({token:deliver},'')).status,403);

@@ -1,3 +1,7 @@
+## V92 — Bear Market
+
+Connected market entrance, produce price comparisons, existing NPC orders and personal settled receipts. No migration or new financial system.
+
 ## V91.4
 
 Bounded orders verified; expired orders in paginated history; safer retry navigation. Physical Safari/PWA acceptance remains unverified.
