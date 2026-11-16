@@ -1,3 +1,7 @@
+# V96.4 — 修正花園播種連線錯誤（已正式部署）
+
+Fix form.action being shadowed by the hidden action input, which sent garden POSTs to an invalid [object HTMLInputElement] URL. Read the action attribute and validate the same-origin garden endpoint. Original state, tokens and Bear coin header preserved. Targeted regression and compiled garden checks pass; see docs/V96.4-ACCEPTANCE.md.
+
 # V96.3 — 花園原地操作與頂部熊熊幣（已正式部署）
 
 Garden plant/water/harvest POSTs update the garden fragment while preserving plot position, with duplicate and network retry safeguards. A bear-face gold coin and server-owned balance sit immediately before language controls. No data reset, migration or settlement changes. See docs/V96.3-ACCEPTANCE.md.

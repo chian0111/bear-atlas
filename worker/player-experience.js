@@ -44,7 +44,9 @@ export function playerExperienceClient(){
    buttons.forEach(b=>b.disabled=true);form.setAttribute('aria-busy','true');
    const message=text=>{let note=plot.querySelector('[data-garden-live-status]');if(!note){note=document.createElement('p');note.dataset.gardenLiveStatus='';note.setAttribute('role','status');plot.append(note);}note.textContent=text;};
    try{
-    const response=await fetch(form.action,{method:'POST',body:new URLSearchParams(new FormData(form)),credentials:'same-origin',headers:{Accept:'text/html'}});
+    const endpoint=new URL(form.getAttribute('action')||'/world/garden',location.href);
+    if(endpoint.origin!==new URL(location.href).origin||endpoint.pathname!=='/world/garden')throw Error('garden-endpoint');
+    const response=await fetch(endpoint.href,{method:'POST',body:new URLSearchParams(new FormData(form)),credentials:'same-origin',headers:{Accept:'text/html'}});
     const parsed=new DOMParser().parseFromString(await response.text(),'text/html'),fresh=parsed.querySelector('.garden-page'),current=document.querySelector('.garden-page');
     if(!response.ok){const failure=Error('garden-save');failure.playerMessage=parsed.querySelector('.garden-page p')?.textContent;throw failure;}if(!fresh||new URL(response.url).pathname!=='/world/garden')throw Error('garden-save');
     current.replaceWith(fresh);window.BearI18n?.bind?.(fresh);

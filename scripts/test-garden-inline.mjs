@@ -4,7 +4,7 @@ const handlers=[],storage=new Map();let top=100,fetches=0,replaced=0,scroll,requ
 const note={textContent:'',dataset:{},setAttribute(){}};
 const plot={id:'garden-plot-2',getBoundingClientRect:()=>({top}),querySelector:()=>note};
 const fresh={},page={replaceWith(value){assert.equal(value,fresh);replaced++;top=180;}},bar={getBoundingClientRect:()=>({height:150})};
-const button={disabled:false},attrs=new Map(),form={method:'post',action:'https://garden.test/world/garden',checkValidity:()=>true,closest:s=>s==='[data-garden-slot]'||s==='[id]'?plot:null,querySelectorAll:()=>[button],setAttribute:(k,v)=>attrs.set(k,v),removeAttribute:k=>attrs.delete(k),getAttribute:k=>attrs.get(k)??null};
+const button={disabled:false},attrs=new Map(),form={method:'post',action:{toString:()=>'[object HTMLInputElement]'},checkValidity:()=>true,closest:s=>s==='[data-garden-slot]'||s==='[id]'?plot:null,querySelectorAll:()=>[button],setAttribute:(k,v)=>attrs.set(k,v),removeAttribute:k=>attrs.delete(k),getAttribute:k=>k==='action'?'/world/garden':attrs.get(k)??null};
 globalThis.document={documentElement:{lang:'zh-TW',style:{setProperty(){}},toggleAttribute(){}},querySelector:s=>s==='.resort-topbar'?bar:s==='.garden-page'?page:s==='[data-pocket-nav]'?{}:null,querySelectorAll:()=>[],getElementById:id=>id===plot.id?plot:null,addEventListener:(name,fn,capture)=>{if(name==='submit'&&!capture)handlers.push(fn);}};
 globalThis.window={scrollY:500,scrollTo:value=>scroll=value,addEventListener(){},BearI18n:{bind(){}}};
 globalThis.location={pathname:'/world/garden',href:'https://garden.test/world/garden',hash:''};globalThis.history={state:null,replaceState(_,__,url){assert.equal(url.hash,'');}};
@@ -12,7 +12,7 @@ globalThis.sessionStorage={getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(
 Object.defineProperty(globalThis,'navigator',{value:{onLine:true},configurable:true});
 globalThis.DOMParser=class{parseFromString(){return{querySelector:s=>s==='.garden-page'?fresh:null};}};
 globalThis.FormData=class{*[Symbol.iterator](){yield['action','apply'];yield['token','original-server-token'];}};
-globalThis.fetch=async(url,init)=>{fetches++;request=init;await new Promise(r=>release=r);if(fail)throw Error('offline');return{ok:true,url:'https://garden.test/world/garden?garden=saved#garden-plot-2',text:async()=>'<html></html>'};};
+globalThis.fetch=async(url,init)=>{assert.equal(url,'https://garden.test/world/garden');fetches++;request=init;await new Promise(r=>release=r);if(fail)throw Error('offline');return{ok:true,url:'https://garden.test/world/garden?garden=saved#garden-plot-2',text:async()=>'<html></html>'};};
 playerExperienceClient();
 const event=()=>({target:form,defaultPrevented:false,preventDefault(){this.defaultPrevented=true;}});
 let pending=[];const first=event();for(const fn of handlers)pending.push(fn(first));assert.equal(first.defaultPrevented,true);assert.equal(button.disabled,true);assert.equal(fetches,1);
