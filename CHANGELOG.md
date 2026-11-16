@@ -1,3 +1,7 @@
+# V91.1 — Resident farm orders
+
+Garden-linked NPC offers, transparent fixed terms, accept/decline/cancel, account/week caps and shared inventory rules. Delivery remains visibly pending V91.3. Additive0023; no acceptance asset debit.
+
 # V90.4 — QA and mobile interaction polish
 
 Verified regression suite, native-form saving state and BFCache reset. Physical iPhone Safari/installed Web App remain explicitly unverified. No schema/player-asset change.

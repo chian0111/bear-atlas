@@ -1,3 +1,4 @@
+import {farmT} from './farm-orders.js';
 import {gardenCrops} from './nature-catalog.js';
 import {collectionCatalog,collectionCopy,collectionArt,collectionInit,collectionReady,collectionDay} from './collection.js';
 export const gardenCopy={
@@ -24,7 +25,7 @@ export async function gardenApply(db,key,token,now=Date.now()){
 }
 function gardenForm(token,label,soft=false){return '<form method="post" action="/world/garden"'+(soft?' class="garden-soft"':'')+'><input type="hidden" name="action" value="apply"><input type="hidden" name="token" value="'+gardenEscape(token)+'"><button>'+label+'</button></form>';}
 function gardenDate(now){return '<time datetime="'+new Date(now).toISOString()+'">'+new Date(now+28800000).toISOString().slice(0,19).replace('T',' ')+'</time>';}
-function gardenNav(){return '<nav class="garden-nav">'+[['title','/world/garden'],['pond','/world/pond'],['trades','/dock/trades'],['bag','/dock/collection'],['seeds','/dock/shop'],['map','/world?at=7']].map(([label,path])=>'<a href="'+path+'">'+gardenT(label)+'</a>').join('')+'</nav>';}
+function gardenNav(){return '<nav class="garden-nav"><a href="/world/farm-orders">'+farmT('title')+'</a>'+[['title','/world/garden'],['pond','/world/pond'],['trades','/dock/trades'],['bag','/dock/collection'],['seeds','/dock/shop'],['map','/world?at=7']].map(([label,path])=>'<a href="'+path+'">'+gardenT(label)+'</a>').join('')+'</nav>';}
 export function gardenPlotArt(crop,stage,paddy=false){
  const soil=paddy?'#a9c7b0':'#ac8e68',green=stage==='ripe'?'#8daa69':'#8dad7f';
  const plants=Array.from({length:6},(_,i)=>{const x=55+(i%3)*94,y=92+Math.floor(i/3)*62,h=stage==='needsWater'?12:stage==='seedling'?26:stage==='growing'?44:58;

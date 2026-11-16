@@ -2608,5 +2608,225 @@
   "story.questNote": {
     "zh-TW": "跟著公告拜訪教授、農場與咖啡館，慢慢理解價格。",
     "en": "Follow the notice to the professor, farm and café, and explore prices at your own pace."
+  },
+  "farm.title": {
+    "zh-TW": "農場居民訂單",
+    "en": "Farm resident orders"
+  },
+  "farm.intro": {
+    "zh-TW": "把花園的收成，帶進居民的日常。先看清條件，再決定要不要接單。",
+    "en": "Bring your garden harvest into residents’ daily lives. Review the terms before deciding whether to accept."
+  },
+  "farm.terms": {
+    "zh-TW": "接單不扣作物；交付時才扣除可用庫存。接單後數量與報酬固定，14 天內可以交付或免費取消。",
+    "en": "Accepting does not consume crops. Delivery uses available inventory. Quantity and reward stay fixed after acceptance; deliver within14days or cancel freely."
+  },
+  "farm.bounds": {
+    "zh-TW": "每帳號每週最多三張新訂單，同時最多三張有效訂單。沒有強制登入、排名或逾期扣款。",
+    "en": "Each account has at most three new offers per week and three active orders. No attendance requirements, rankings or late penalties."
+  },
+  "farm.carrotTitle": {
+    "zh-TW": "Hugo 的胡蘿蔔點心",
+    "en": "Hugo’s carrot snacks"
+  },
+  "farm.herbTitle": {
+    "zh-TW": "Hugo 的香草飲品",
+    "en": "Hugo’s herb drinks"
+  },
+  "farm.tomatoTitle": {
+    "zh-TW": "Mika 的番茄午餐",
+    "en": "Mika’s tomato lunch"
+  },
+  "farm.carrotUse": {
+    "zh-TW": "Hugo 想替咖啡館準備一份胡蘿蔔點心。",
+    "en": "Hugo wants to prepare carrot snacks for the café."
+  },
+  "farm.herbUse": {
+    "zh-TW": "Hugo 想用花園香草為飲品添一點清香。",
+    "en": "Hugo wants garden herbs to add fragrance to the café drinks."
+  },
+  "farm.tomatoUse": {
+    "zh-TW": "餐飲創業嘉賓 Mika 正在準備簡單的島嶼午餐。",
+    "en": "Mika, the food-business guest, is preparing a simple island lunch."
+  },
+  "farm.quantity": {
+    "zh-TW": "需要數量",
+    "en": "Quantity needed"
+  },
+  "farm.reward": {
+    "zh-TW": "固定總報酬（島幣）",
+    "en": "Fixed total reward (island coins)"
+  },
+  "farm.unit": {
+    "zh-TW": "每份報酬（島幣）",
+    "en": "Reward per unit (island coins)"
+  },
+  "farm.available": {
+    "zh-TW": "目前可交付",
+    "en": "Currently available"
+  },
+  "farm.formula": {
+    "zh-TW": "報價公式與來源",
+    "en": "Quote formula and source"
+  },
+  "farm.baseFormula": {
+    "zh-TW": "基礎報酬 = 原商店回收價 × 1.25，四捨五入至整數。總報酬 = 每份報酬 × 數量。原商店價格不變。",
+    "en": "Base unit reward = original shop sell price ×1.25, rounded to an integer. Total reward = unit reward × quantity. Existing shop prices stay unchanged."
+  },
+  "farm.simFormula": {
+    "zh-TW": "報酬依模擬情境設定，不是玩家自由市場價格。每份報酬 = 原回收價 × 1.25 × 情境係數，四捨五入後限制在原回收價的0.8～1.5倍整數範圍。",
+    "en": "Rewards follow a simulated scenario, not a player free market. Unit reward = original sell price ×1.25× scenario factor, rounded and bounded within the integer range of0.8–1.5× the original sell price."
+  },
+  "farm.source": {
+    "zh-TW": "報價綁定的模擬期間",
+    "en": "Simulated period pinned to this quote"
+  },
+  "farm.accept": {
+    "zh-TW": "接受這張訂單",
+    "en": "Accept this order"
+  },
+  "farm.decline": {
+    "zh-TW": "這次先不接",
+    "en": "Decline this offer"
+  },
+  "farm.cancel": {
+    "zh-TW": "免費取消訂單",
+    "en": "Cancel without penalty"
+  },
+  "farm.deliver": {
+    "zh-TW": "確認交付並領取報酬",
+    "en": "Deliver and collect reward"
+  },
+  "farm.offered": {
+    "zh-TW": "可接單",
+    "en": "Available offer"
+  },
+  "farm.accepted": {
+    "zh-TW": "已接受",
+    "en": "Accepted"
+  },
+  "farm.declined": {
+    "zh-TW": "已婉拒",
+    "en": "Declined"
+  },
+  "farm.cancelled": {
+    "zh-TW": "已取消",
+    "en": "Cancelled"
+  },
+  "farm.delivered": {
+    "zh-TW": "已完成交付",
+    "en": "Delivered"
+  },
+  "farm.expired": {
+    "zh-TW": "已到期，沒有扣款或懲罰",
+    "en": "Expired without charges or penalties"
+  },
+  "farm.offerUntil": {
+    "zh-TW": "接單截止（台灣時間）",
+    "en": "Accept before (Taiwan time)"
+  },
+  "farm.deliverUntil": {
+    "zh-TW": "交付截止（台灣時間）",
+    "en": "Deliver before (Taiwan time)"
+  },
+  "farm.pending": {
+    "zh-TW": "交付功能將在 V91.3 開放；目前接單不扣物品。",
+    "en": "Delivery opens in V91.3. Accepting currently consumes no items."
+  },
+  "farm.pricingPending": {
+    "zh-TW": "目前使用固定基礎報酬；V91.2 將接上有上下限的情境報價。",
+    "en": "Offers currently use fixed base rewards. Bounded scenario pricing arrives in V91.2."
+  },
+  "farm.saved": {
+    "zh-TW": "已保存訂單狀態。",
+    "en": "Order state saved."
+  },
+  "farm.replay": {
+    "zh-TW": "這筆操作已完成，沒有重複扣貨或發放報酬。",
+    "en": "This action was already completed. No duplicate items or rewards were processed."
+  },
+  "farm.invalid": {
+    "zh-TW": "這次操作已失效，或不符合訂單條件。請重新查看訂單；物品與島幣沒有被部分扣除。",
+    "en": "This action expired or no longer meets the order conditions. Review the order again. No partial item or coin changes were made."
+  },
+  "farm.login": {
+    "zh-TW": "登入島民證後，即可查看自己的居民訂單。",
+    "en": "Sign in with a resident passport to view your orders."
+  },
+  "farm.signin": {
+    "zh-TW": "登入島民證",
+    "en": "Resident sign in"
+  },
+  "farm.unavailable": {
+    "zh-TW": "訂單暫時無法使用，既有花園與收藏仍可使用。",
+    "en": "Orders are temporarily unavailable. Your existing garden and collection remain available."
+  },
+  "farm.garden": {
+    "zh-TW": "回花園照顧作物",
+    "en": "Tend your garden"
+  },
+  "farm.bag": {
+    "zh-TW": "查看背包與收支",
+    "en": "View backpack and ledger"
+  },
+  "farm.map": {
+    "zh-TW": "回島嶼首頁",
+    "en": "Back to the island homepage"
+  },
+  "farm.history": {
+    "zh-TW": "我的訂單紀錄",
+    "en": "My order history"
+  },
+  "farm.empty": {
+    "zh-TW": "目前沒有其他訂單紀錄。",
+    "en": "There are no other order records yet."
+  },
+  "farm.prev": {
+    "zh-TW": "上一頁",
+    "en": "Previous page"
+  },
+  "farm.next": {
+    "zh-TW": "下一頁",
+    "en": "Next page"
+  },
+  "farm.thankCarrot": {
+    "zh-TW": "Hugo 把胡蘿蔔放進點心籃：「謝謝，今天的菜單有著落了！」",
+    "en": "Hugo puts the carrots in the snack basket. “Thank you! Today’s menu is ready.”"
+  },
+  "farm.thankHerb": {
+    "zh-TW": "Hugo 聞了聞香草：「這份清香，正好配下午的海風。」",
+    "en": "Hugo smells the herbs. “This fragrance goes perfectly with the afternoon sea breeze.”"
+  },
+  "farm.thankTomato": {
+    "zh-TW": "Mika 收好番茄：「簡單的午餐，也有農場的心意。」",
+    "en": "Mika collects the tomatoes. “A simple lunch carries a little care from the garden.”"
+  },
+  "farm.harvestExplain": {
+    "zh-TW": "豐收情境下，胡蘿蔔供給較多，NPC 每份報價承壓。多種一些，不代表每份收入都增加。",
+    "en": "In a harvest scenario, greater carrot supply puts pressure on the NPC unit quote. Growing more does not always increase income per unit."
+  },
+  "farm.festivalExplain": {
+    "zh-TW": "咖啡節情境增加相關餐飲需求，香草與番茄訂單量增加；報價仍受上限約束。",
+    "en": "The coffee festival increases related food-service demand and herb/tomato order quantities. Quotes remain bounded."
+  },
+  "farm.stableExplain": {
+    "zh-TW": "目前按一般需求報價。你可以比較接單、一般回收與留在小屋展示的不同用途。",
+    "en": "Quotes reflect ordinary demand. Compare fulfilling orders, ordinary selling and keeping items for cottage display."
+  },
+  "farm.separate": {
+    "zh-TW": "訂單是真正的遊戲交付紀錄，與官方模擬 BBI／BCPI 分開，不會直接改寫指數。",
+    "en": "Orders are real in-game delivery records, separate from the official simulated BBI/BCPI, and do not directly change those indices."
+  },
+  "farm.reservation": {
+    "zh-TW": "展示架上的物品不可交付；交換暫存的物品已從可用背包移出。不會重複使用同一份收成。",
+    "en": "Displayed items cannot be delivered. Items held for an exchange are already removed from available inventory. The same harvest cannot be used twice."
+  },
+  "farm.farm_deliverAction": {
+    "zh-TW": "訂單作物交付",
+    "en": "Order produce delivered"
+  },
+  "farm.farm_incomeAction": {
+    "zh-TW": "居民訂單報酬",
+    "en": "Resident order reward"
   }
 }
