@@ -3492,5 +3492,13 @@
   "pocket.rewardHint": {
     "zh-TW": "紀念卡保存在冒險收藏；熊熊幣可透過作物訂單與販售收藏物累積。",
     "en": "Keep commemorative cards in your adventure collection. Earn Bear coins through crop orders and collectible sales."
+  },
+  "nav.square": {
+    "zh-TW": "廣場",
+    "en": "Square"
+  },
+  "nav.garden": {
+    "zh-TW": "花園",
+    "en": "Garden"
   }
 }

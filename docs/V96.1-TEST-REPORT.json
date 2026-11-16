@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-11-16T15:43:58.307316+00:00",
+  "tests": [
+    {
+      "command": "node --experimental-sqlite scripts/test-bear-world.mjs",
+      "environment": {
+        "I18N_AUDIT_REPORT": "/private/tmp/bear-atlas-confirm-current/.sites-checkout/docs/V96.1-I18N-REPORT.json"
+      },
+      "exit_code": 0,
+      "seconds": 2.27
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-adventure.mjs",
+      "environment": {
+        "ADVENTURE_BUILD": "1"
+      },
+      "exit_code": 0,
+      "seconds": 0.42
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-collection.mjs",
+      "environment": {
+        "COLLECTION_BUILD": "1"
+      },
+      "exit_code": 0,
+      "seconds": 0.29
+    }
+  ],
+  "passed": true
+}

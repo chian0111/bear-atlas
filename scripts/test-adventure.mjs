@@ -108,3 +108,8 @@ const tabs=taskPage.match(/<nav class="pocket-tabs">[\s\S]*?<\/nav>/)[0];
 assert.equal((tabs.match(/<a /g)||[]).length,4);assert.ok(tabs.indexOf('/dock/shop')<tabs.indexOf('/world/garden'));assert.ok(tabs.indexOf('/world/garden')<tabs.indexOf('/dock/adventure'));
 assert.match(taskPage,/<details id="pocket-residents" class="pocket-section">/);assert.match(taskPage,/<details class="pocket-section" id="pocket-orders">/);assert.match(taskPage,/<details id="npc-visits" class="pocket-more">/);
 const gardenPage=await html('/world/garden');assert.match(gardenPage,/href="\/world\/garden" aria-current="page"/);assert.ok(!gardenPage.includes('id="carrot-story"'));
+
+const squarePage=await html('/dock/square');
+assert.match(squarePage,/data-i18n="nav.square" href="\/dock\/square" aria-current="page"/);
+assert.ok(!squarePage.includes('<nav class="adventure"><a href="/dock/collection">'));
+assert.match(gardenPage,/data-i18n="nav.garden" href="\/world\/garden" aria-current="page"/);

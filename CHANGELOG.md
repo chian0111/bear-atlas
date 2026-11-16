@@ -1,3 +1,7 @@
+# V96.1 — 廣場與花園直達、居民故事按鈕對比（已正式部署）
+
+Fixed header links directly to Square and Garden; removed unrelated bottom shortcuts from Square. Resident story actions now keep readable dark text and pale backgrounds across link states. Existing data, routes and permissions retained. See docs/V96.1-ACCEPTANCE.md.
+
 # V96 — 任務聚焦、花園捷徑與熊熊幣（已正式部署）
 
 Four primary tabs, one next action per task, folded secondary groups, task POST position retention, resident-card padding, and Carrot Mystery confined to the observatory. Currency labels and practical uses clarified in both languages. Existing data and server settlement preserved. Isolated validation: 23 suites passed; see docs/V96-ACCEPTANCE.md.
