@@ -832,5 +832,249 @@
   "mapGuide.11": {
     "zh-TW": "貝殼海灘適合聽海放空。現在已認識五個角落，接著想去哪裡，由你決定。",
     "en": "Shell Beach is a place to enjoy the waves. Now that you know five island corners, choose where to go next."
+  },
+  "welcome.title": {
+    "zh-TW": "歡迎登島，先和 Ari 走一圈",
+    "en": "Welcome aboard. Let Ari show you around"
+  },
+  "welcome.subtitle": {
+    "zh-TW": "約五分鐘，認識你的島嶼生活",
+    "en": "About five minutes to discover island life"
+  },
+  "welcome.hello": {
+    "zh-TW": "這張島民證就是你的新生活起點。我是 Ari，陪你看看哪裡能交朋友、玩一下，或安靜待著。",
+    "en": "Your passport is the start of island life. I’m Ari. Let’s find places to meet friends, play, or simply unwind."
+  },
+  "welcome.map": {
+    "zh-TW": "島嶼生活示意圖",
+    "en": "Island life overview"
+  },
+  "welcome.mapNote": {
+    "zh-TW": "這是玩法示意圖；各區實際位置以島嶼地圖為準。",
+    "en": "This is a guide to activities; use the island map for actual locations."
+  },
+  "welcome.dock": {
+    "zh-TW": "港口",
+    "en": "Harbor"
+  },
+  "welcome.square": {
+    "zh-TW": "榕樹廣場",
+    "en": "Banyan Square"
+  },
+  "welcome.home": {
+    "zh-TW": "我的小屋",
+    "en": "My cottage"
+  },
+  "welcome.forest": {
+    "zh-TW": "雪松森林",
+    "en": "Cedar Woods"
+  },
+  "welcome.beach": {
+    "zh-TW": "貝殼海灘",
+    "en": "Shell Beach"
+  },
+  "welcome.sports": {
+    "zh-TW": "運動俱樂部",
+    "en": "Sports Club"
+  },
+  "welcome.nomad": {
+    "zh-TW": "Nomad House",
+    "en": "Nomad House"
+  },
+  "welcome.chapter0": {
+    "zh-TW": "先看看：這座島可以怎麼玩？",
+    "en": "First, what can you do here?"
+  },
+  "welcome.chapter1": {
+    "zh-TW": "認識朋友，也找到想參加的活動",
+    "en": "Meet friends and find an activity"
+  },
+  "welcome.chapter2": {
+    "zh-TW": "把小屋變成喜歡的樣子",
+    "en": "Make your cottage feel like home"
+  },
+  "welcome.chapter3": {
+    "zh-TW": "沿著森林，遇見野生朋友",
+    "en": "Follow the woodland trail and meet wildlife"
+  },
+  "welcome.chapter4": {
+    "zh-TW": "聽一會海，選你的第一段旅程",
+    "en": "Enjoy the waves and choose your first outing"
+  },
+  "welcome.note0": {
+    "zh-TW": "從港口出發，到廣場認識居民、回家布置小屋，或走進森林與海灘。想動一動就去運動俱樂部；想喝咖啡、閱讀或工作，可以去 Nomad House。",
+    "en": "Start at the harbor, meet residents in the square, decorate at home, or explore the woods and beach. Visit the Sports Club to move, or Nomad House for coffee, reading and work."
+  },
+  "welcome.note1": {
+    "zh-TW": "廣場有島民招呼、居民與活動。可以自己寫一句問候，也能查看揪團的時間與內容，再決定是否參加。",
+    "en": "The square brings together greetings, residents and activities. Write a greeting or read a meetup’s time and details before joining."
+  },
+  "welcome.note2": {
+    "zh-TW": "家具、服裝與收藏都跟著你的島民證保存。回家後可以布置、坐下或休息；想讓居民來坐坐，到冒險手帳接受今天的拜訪。",
+    "en": "Furniture, clothes and keepsakes stay with your passport. Decorate, sit or rest at home. Accept today’s resident visit in the adventure journal when you want company."
+  },
+  "welcome.note3": {
+    "zh-TW": "森林裡有松鼠、藍鵲與貓頭鷹，會隨台灣時間輪替。山羌在每日 14:00–21:00 出現；其他時間有補遇步道，不必等到半夜。",
+    "en": "Squirrels, blue magpies and owls rotate by Taiwan time. Muntjacs appear daily from 14:00–21:00; a catch-up trail is available at other times. No late-night wait needed."
+  },
+  "welcome.note4": {
+    "zh-TW": "海灘現在可以散步、坐在木棧道聽海，留下探索紀錄。先享受風景；撿貝殼、買賣與種菜尚未開放。",
+    "en": "Walk along the beach, listen to the waves on the boardwalk and record your visit. Shell gathering, trading and farming are not available yet."
+  },
+  "welcome.how": {
+    "zh-TW": "怎麼開始",
+    "en": "How to start"
+  },
+  "welcome.gain": {
+    "zh-TW": "會留下什麼",
+    "en": "What you take away"
+  },
+  "welcome.how0": {
+    "zh-TW": "在島嶼地圖點選地點即可前往；上方「回家」能直接回到自己的小屋。",
+    "en": "Tap a place on the island map to enter. Use Home in the top navigation to return to your cottage."
+  },
+  "welcome.how1": {
+    "zh-TW": "進入廣場，在布告欄寫下問候；按「看看廣場布告欄」可記錄第一個探索步驟。",
+    "en": "Enter the square and write a greeting on the noticeboard. Choose Read the noticeboard to record a first exploration step."
+  },
+  "welcome.how2": {
+    "zh-TW": "進入小屋後點家具互動；調整布置後記得儲存。居民拜訪可接受、稍後或婉拒。",
+    "en": "Tap furniture to interact in your cottage. Save after decorating. You may accept, defer or decline resident visits."
+  },
+  "welcome.how3": {
+    "zh-TW": "進入森林，選擇散步，再按「安靜觀察野生朋友」；想遇見山羌可走補遇步道。",
+    "en": "Enter the woods, take a walk, then choose Observe wildlife quietly. Use the catch-up trail to meet a muntjac."
+  },
+  "welcome.how4": {
+    "zh-TW": "選一個想先體驗的地方，按下方按鈕出發。導覽隨時能從地圖重新觀看。",
+    "en": "Choose a place below and set off. You can replay this tour from the map at any time."
+  },
+  "welcome.gain0": {
+    "zh-TW": "導覽不會代替你完成任務。親自探索五個角落後，可在冒險手帳領取初次冒險紀念卡。",
+    "en": "The tour does not complete quests for you. Explore the five corners yourself, then claim your first adventure keepsake in the journal."
+  },
+  "welcome.gain1": {
+    "zh-TW": "問候會顯示給其他島民；任務是否完成、下一步去哪裡，都能在冒險手帳查看。",
+    "en": "Other residents can see your greeting. The journal shows quest progress and where to go next."
+  },
+  "welcome.gain2": {
+    "zh-TW": "儲存的布置重新登入後仍保留；完成一次居民來訪聊天，可領取朋友來訪紀念卡。",
+    "en": "Saved decor stays when you sign in again. Complete a resident visit conversation to earn a visitor keepsake."
+  },
+  "welcome.gain3": {
+    "zh-TW": "散步與觀察分別留下進度；完成森林與海灘的探索，可解鎖自然朋友紀念卡。",
+    "en": "Walking and observation each record progress. Complete the woodland and beach activities to unlock a nature keepsake."
+  },
+  "welcome.gain4": {
+    "zh-TW": "紀念卡會保存於冒險收藏，不會換成金幣；不需要每日報到，也沒有缺席處罰。",
+    "en": "Keepsake cards stay in your adventure collection; they are not coins. No daily attendance or absence penalty."
+  },
+  "welcome.next": {
+    "zh-TW": "下一步 →",
+    "en": "Next →"
+  },
+  "welcome.prev": {
+    "zh-TW": "← 上一步",
+    "en": "← Previous"
+  },
+  "welcome.later": {
+    "zh-TW": "稍後再看，自由探索",
+    "en": "Explore now; tour later"
+  },
+  "welcome.start": {
+    "zh-TW": "開始五分鐘導覽",
+    "en": "Start the five-minute tour"
+  },
+  "welcome.replay": {
+    "zh-TW": "重新觀看導覽",
+    "en": "Replay the welcome tour"
+  },
+  "welcome.resume": {
+    "zh-TW": "繼續上次導覽",
+    "en": "Resume the tour"
+  },
+  "welcome.visit": {
+    "zh-TW": "先去這裡體驗",
+    "en": "Try this place first"
+  },
+  "welcome.finish": {
+    "zh-TW": "完成導覽，出發吧",
+    "en": "Finish the tour and set off"
+  },
+  "welcome.choice": {
+    "zh-TW": "我想先去",
+    "en": "I’d like to start at"
+  },
+  "welcome.helloName": {
+    "zh-TW": "很高興認識你",
+    "en": "Lovely to meet you"
+  },
+  "welcome.languages": {
+    "zh-TW": "導覽語言",
+    "en": "Tour language"
+  },
+  "welcome.detail0": {
+    "zh-TW": "讓剛登島的朋友認識你。發佈後會顯示在榕樹廣場布告欄。",
+    "en": "Introduce yourself to new arrivals. Your greeting will appear on the Banyan Square noticeboard."
+  },
+  "welcome.detail1": {
+    "zh-TW": "招呼預覽",
+    "en": "Greeting preview"
+  },
+  "welcome.detail2": {
+    "zh-TW": "目前公開的招呼",
+    "en": "Your published greeting"
+  },
+  "welcome.detail3": {
+    "zh-TW": "招呼已保存，島民可以在廣場看到。",
+    "en": "Greeting saved. Residents can see it in the square."
+  },
+  "welcome.detail4": {
+    "zh-TW": "主線任務",
+    "en": "Main quest"
+  },
+  "welcome.detail5": {
+    "zh-TW": "支線任務",
+    "en": "Side quest"
+  },
+  "welcome.detail6": {
+    "zh-TW": "每日散步",
+    "en": "Daily walk"
+  },
+  "welcome.detail7": {
+    "zh-TW": "隱藏發現",
+    "en": "Hidden discovery"
+  },
+  "welcome.detail8": {
+    "zh-TW": "紀念卡會保存在冒險收藏，不會兌換成金幣。",
+    "en": "Keepsake cards stay in your adventure collection; they are not exchangeable for coins."
+  },
+  "welcome.detail9": {
+    "zh-TW": "接受拜訪並回小屋聊天",
+    "en": "Accept a visit and chat at home"
+  },
+  "welcome.detail10": {
+    "zh-TW": "到觀景坡或補遇步道看看山羌",
+    "en": "Meet a muntjac at the overlook or catch-up trail"
+  },
+  "welcome.detail11": {
+    "zh-TW": "接受後回小屋，找到朋友並分享喜歡的角落；完成後回手帳領取朋友來訪紀念卡。",
+    "en": "After accepting, go home and share your favorite corner with your visitor. Return to the journal to claim your visitor keepsake."
+  },
+  "welcome.street": {
+    "zh-TW": "海邊生活街",
+    "en": "Seaside Living Street"
+  },
+  "welcome.streetPlay": {
+    "zh-TW": "喝咖啡、閱讀，逛逛生活街的主題空間。",
+    "en": "Enjoy coffee, reading and the living street’s themed spaces."
+  },
+  "welcome.sportsPlay": {
+    "zh-TW": "進入運動場景，選一項運動；也可以到果嶺試一次推球。",
+    "en": "Enter a sports scene, choose an activity, or try putting on the green."
+  },
+  "welcome.nomadPlay": {
+    "zh-TW": "選一個空位坐下，再選工作、閱讀或休息；咖啡角落能拿飲品。",
+    "en": "Choose an empty seat, then work, read or rest. Pick up a drink at the Coffee Corner."
   }
 }

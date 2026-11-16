@@ -1,3 +1,4 @@
+import {welcomeTourMarkup,welcomeTourClient} from './welcome-tour.js';
 import {adventureStations,adventureQuests,adventurePeriod,adventureDay,adventureWildlife,adventureGreeting,adventureReady,adventureIssue,adventureRecord,adventureProgress,adventureClaim,adventurePreference,adventureEscape,adventureCss,adventureForm} from './adventure.js';
 import {nomadSeats,nomadResidents,nomadProject,nomadTransition,nomadNpcTask,nomadLivingMarkup,nomadLivingClient} from './nomad-living.js';
 import {nomadSite,nomadBuildModel,nomadStyles,nomadConstructionArt,nomadMarkup} from './nomad-house.js';
@@ -32,11 +33,12 @@ function resortIdea(){return html('<article class="resort-idea idea-page"><span 
 
 export default {async fetch(request,env){
  const path=new URL(request.url).pathname;
+ if(path==='/welcome-tour.js'&&request.method==='GET')return new Response('('+welcomeTourClient.toString()+')();',{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
  if(path==='/i18n/runtime.js'&&request.method==='GET')return new Response(i18nRuntime(),{headers:{'Content-Type':'text/javascript; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
  const response=path==='/about'&&request.method==='GET'?resortIdea():await app.fetch(request,env);
  if(!response.headers.get('Content-Type')?.includes('text/html'))return response;
  let profile=null,code='';try{const key=islanderOf(request);if(key){profile=await readPassportProfile(env.DB,key);if(profile){const row=await env.DB.prepare('SELECT member_no FROM island_credentials WHERE visitor_key=?').bind(key).first();if(row)code=memberLabel(row.member_no);}}}catch{}
- const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11,12].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/world/nomad'?12:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(request.method==='GET'&&response.status===200&&profile&&['/world','/islands','/dock/quests','/dock/cabin','/dock/square'].includes(path)){try{if(await adventureReady(env.DB))content=await adventureEnhance(content,path,new URL(request.url),env.DB,islanderOf(request));}catch{/* Keep existing scenes usable during an adventure outage. */}}if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v87.2'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v87.2" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
+ const at=['/world','/islands'].includes(path)?(new URL(request.url).searchParams.get('at')==='home'?11:[1,5,7,9,11,12].includes(Number(new URL(request.url).searchParams.get('at')))?Number(new URL(request.url).searchParams.get('at')):9):path.startsWith('/dock/cabin')||path.startsWith('/world/home')?11:path==='/world/nomad'?12:path==='/dock/sports'?5:path==='/world/nature'||path==='/world/sadness'?7:['/dock/career','/dock/mba','/dock/finance','/dock/network','/dock/square'].includes(path)?1:9;let content=await response.text();if(request.method==='GET'&&response.status===200&&profile&&['/world','/islands','/dock/quests','/dock/cabin','/dock/square'].includes(path)){try{if(await adventureReady(env.DB))content=await adventureEnhance(content,path,new URL(request.url),env.DB,islanderOf(request));}catch{/* Keep existing scenes usable during an adventure outage. */}}if(!['/world','/islands','/about'].includes(path))content=content.replaceAll('href="/world"','href="/world?at='+at+'"');if(path==='/world/emerald')content=content.replace('<main>','<main><a class="scene-return" href="/world?at='+at+'">← 回熊熊渡假村</a>');const out=content.replace('<main>','<style>'+resortChromeCss+upgradeCss+'</style>'+resortTopbar(profile,code,path).replace('href="/world"','href="/world?at='+at+'"')+'<main>').replace('</main>','<footer class="resort-footer"><a data-i18n="nav.about" href="/about">'+'關於 Bear Atlas · 創作理念'+'</a></footer></main>');const localizedHeaders=new Headers(response.headers);const csp=localizedHeaders.get('Content-Security-Policy');if(csp){localizedHeaders.set('Content-Security-Policy',/script-src [^;]*/.test(csp)?csp.replace(/script-src [^;]*/,"script-src 'self'"):csp+"; script-src 'self'");}return new Response(i18nProtectHtml(out).replace(/(<script src=")([^"]+)(")/g,(_,prefix,src,suffix)=>prefix+src+(src.includes('?')?'&':'?')+'release=v87.3'+suffix).replace('<meta charset="utf-8">','<meta charset="utf-8"><script src="/i18n/runtime.js?release=v87.3" defer></script>'),{status:response.status,statusText:response.statusText,headers:localizedHeaders});
 }};
 
 const tokenPattern=/^[a-f0-9]{48}$/;
@@ -1560,7 +1562,7 @@ async function islandSquare(request,db,url,visitor,profile){
      const message=adventureGreeting(parsed.fields.get('message'));
      if(!message){error='招呼限 120 字，請使用友善文字，不加入連結、聯絡方式或控制字元。';status=400;}else{
       const now=Date.now();const saved=await db.prepare('INSERT INTO island_custom_greetings(visitor_key,message,updated_at) VALUES(?,?,?) ON CONFLICT(visitor_key) DO UPDATE SET message=excluded.message,updated_at=excluded.updated_at,visible=1 WHERE island_custom_greetings.updated_at<=?').bind(visitor,message,now,now-30000).run();
-      if(!saved.meta.changes){error='請稍等 30 秒再更新招呼。';status=429;}else return dockRedirect('/dock/square#noticeboard');
+      if(!saved.meta.changes){error='請稍等 30 秒再更新招呼。';status=429;}else return dockRedirect(parsed.fields.get('return')==='harbor'?'/world?at=9&greeting=saved#harbor-greeting':'/dock/square?greeting=saved#noticeboard');
      }
     }
    }else if(action==='greet'&&Object.hasOwn(greetings,option)){
@@ -1571,7 +1573,7 @@ async function islandSquare(request,db,url,visitor,profile){
    else if(action==='ungreet'){
     await db.prepare('DELETE FROM island_board_greetings WHERE visitor_key=?').bind(visitor).run();
     if(await adventureReady(db))await db.prepare('UPDATE island_custom_greetings SET visible=0 WHERE visitor_key=?').bind(visitor).run();
-    return dockRedirect('/dock/square#noticeboard');
+    return dockRedirect(parsed.fields.get('return')==='harbor'?'/world?at=9#harbor-greeting':'/dock/square#noticeboard');
    }
    else if((action==='join'||action==='leave')&&Object.hasOwn(weeklyActivities,option)){
     if(action==='join')await db.prepare('INSERT OR IGNORE INTO island_weekly_activities(week,activity,visitor_key) VALUES(?,?,?)').bind(week,option,visitor).run();
@@ -1610,6 +1612,7 @@ async function islandSquare(request,db,url,visitor,profile){
   return '<article class="dock-life-card"><h3>'+a.title+'</h3><p>'+a.note+'</p>'+(a.port?'<a href="/dock/'+a.port+'">前往練習 ↗</a>':'')+
    '<div class="dock-activity-meta"><small>'+(row?.count||0)+' 位島民參加'+(joined?' · 你已加入':'')+'</small><form method="post"><input type="hidden" name="option" value="'+id+'"><button name="action" value="'+(joined?'leave':'join')+'" type="submit">'+(joined?'退出活動':'加入活動')+'</button></form></div></article>';
  }).join('');
+ const customOwn=await adventureReady(db)?await db.prepare('SELECT message,visible FROM island_custom_greetings WHERE visitor_key=?').bind(visitor).first():null;
  const [meetups,residents]=await Promise.all([squareMeetups(db,visitor,url,draft,edit),squareResidents(db,visitor,url)]);
  return harborHtml('<style>'+dockStyles+squareStyles+'</style><header class="sq-intro"><span class="trip-tag">JADE HARBOUR / TOWN SQUARE</span><h1>榕樹廣場</h1>'+
   '<p>認識島上的熊熊，找一團想去的活動。</p><nav class="sq-nav" aria-label="廣場導覽">'+
@@ -1618,7 +1621,7 @@ async function islandSquare(request,db,url,visitor,profile){
   (error?dockError(error):'')+'<div class="sq-layout">'+meetups+residents+'</div><details class="sq-stroll"><summary>到廣場散步</summary>'+worldScene(true,memberAvatar(profile,true))+'</details>'+
   '<section class="sq-section sq-more" aria-label="布告欄與本週小任務"><section id="noticeboard" class="dock-section"><h2>島民布告欄</h2>'+(board?'<ul class="dock-greetings">'+board+'</ul>':'<p>還沒有人打招呼。可以從你開始。</p>')+
   '<form method="post"><label>選一句招呼<select name="option">'+options+'</select></label><small>發佈後，你的熊熊和暱稱會顯示給已登島的島民。你可以隨時撤下。</small><button name="action" value="greet" type="submit">'+(ownGreeting?'更新招呼':'發佈招呼')+'</button></form>'+
-  '<form method="post"><label>寫一句招呼<input name="message" maxlength="120" required></label><small>最多 120 字，每 30 秒可更新一次。</small><button name="action" value="greet-custom">發佈自訂招呼</button></form><form method="post"><button name="action" value="ungreet">撤下我的招呼</button></form>'+
+  greetingEditor(customOwn,'square')+
   (ownGreeting?'<form class="dock-withdraw" method="post"><button name="action" value="ungreet" type="submit">撤下我的招呼</button></form>':'')+'</section>'+
   '<section id="weekly-activities" class="dock-section"><h2>本週島上活動</h2><p>從 '+week.replaceAll('-','/')+' 起，可自由加入、各自找時間完成。</p>'+activities+'</section></section>',status,undefined,worldSceneHeaders);
 }
@@ -3868,8 +3871,9 @@ async function adventureEnhance(content,path,url,db,key){
   if(pref.tour_auto&&pref.tour_status==='new'){
    await db.prepare("UPDATE island_adventure_preferences SET tour_status='active',tour_auto=0 WHERE visitor_key=? AND tour_status='new'").bind(key).run();pref=await adventurePreference(db,key);
   }
-  content=content.replace('<details class="hb-welcome"',mapGuideMarkup(pref)+'<details class="hb-welcome" data-server-guide="true"');
+  content=content.replace('<details class="hb-welcome"',mapGuideMarkup(pref,await readPassportProfile(db,key))+'<details class="hb-welcome" data-server-guide="true"');
   if(pref.tour_status==='active'||pref.tour_replay)content=content.replace('data-public-harbor','data-tour-stop="'+mapGuideStops[pref.tour_step||0]+'" data-public-harbor');
+  if(station?.id==='dock'){const own=await db.prepare('SELECT message,visible FROM island_custom_greetings WHERE visitor_key=?').bind(key).first();block+=greetingEditor(own,'harbor')+(url.searchParams.get('greeting')==='saved'?'<p role="status">招呼已保存，島民可以在廣場看到。</p>':'');}
   if(station?.id==='dock')block+='<div class="adventure">'+adventureForm('station',await adventureIssue(db,key,'dock'),'向港口揮揮手','<input type="hidden" name="scene" value="dock">')+'</div>';
   station=null;
  }
@@ -3907,10 +3911,15 @@ async function adventureRoute(request,env,url){
    if(!['map-tour-next','map-tour-prev','map-tour-finish'].includes(action)||!/^[0-4]$/.test(f.get('step')||'')||step!==(pref.tour_step||0)||!(pref.tour_status==='active'||pref.tour_replay))return page('<p>互動已更新，請回到場景再試。</p><a href="/world">回渡假村</a>',409);
    const target=action==='map-tour-prev'?Math.max(0,step-1):Math.min(4,step+1);
    if(action==='map-tour-finish'){
+    if(f.has('choice')&&!['square','home','forest','beach','sports','nomad'].includes(f.get('choice')))return page('<p>請使用頁面上的互動。</p>',400);
     if(step!==4)return page('<p>請使用頁面上的互動。</p>',400);
-    await db.prepare("UPDATE island_adventure_preferences SET tour_status='complete',tour_replay=0 WHERE visitor_key=? AND tour_step=?").bind(key,step).run();return dockRedirect('/world#island-tour');
+    await db.prepare("UPDATE island_adventure_preferences SET tour_status='complete',tour_replay=0 WHERE visitor_key=? AND tour_step=?").bind(key,step).run();const destinations={square:'/dock/square',home:'/dock/cabin',forest:'/world/forest',beach:'/world/beach',sports:'/dock/sports',nomad:'/world/nomad'};return dockRedirect(destinations[f.get('choice')]||'/world#island-tour');
    }
    await db.prepare('UPDATE island_adventure_preferences SET tour_step=? WHERE visitor_key=? AND tour_step=?').bind(target,key,step).run();return dockRedirect('/world?at='+mapGuideStops[target]+'#island-tour');
+  }
+  if(action==='tour-resume'){
+   if(!await mapGuideReady(db))return page('<p>冒險功能暫時無法使用，原本的資料仍保留。</p>',503);
+   await db.prepare("UPDATE island_adventure_preferences SET tour_replay=1,tour_status=CASE WHEN tour_status='complete' THEN 'complete' ELSE 'active' END WHERE visitor_key=?").bind(key).run();return dockRedirect('/world#island-tour');
   }
   if(action==='tour-start'||action==='tour-skip'){
    await db.prepare('INSERT INTO island_adventure_preferences(visitor_key,tour_status,tour_replay) VALUES(?,?,?) ON CONFLICT(visitor_key) DO UPDATE SET tour_replay=excluded.tour_replay,tour_status=CASE WHEN island_adventure_preferences.tour_status=\'complete\' THEN \'complete\' ELSE excluded.tour_status END').bind(key,action==='tour-start'?'active':'skipped',action==='tour-start'?1:0).run();
@@ -3963,11 +3972,17 @@ async function adventureRoute(request,env,url){
  let body='<h1>冒險手帳</h1><time datetime="'+day+'">'+day+'</time><p>Ari 陪你認識島上五個角落，約五分鐘。隨時可跳過，不影響自由探索。</p>';
  if(url.searchParams.has('feedback'))body+='<p role="status">進度與收藏已保存，重複操作不會重複發獎。</p>';
  body+='<nav><a href="/world#island-tour">地圖新手導覽</a><a href="/world">回渡假村</a><a href="/dock/quests">居民委託</a><a href="/dock/memories">原有紀念冊</a><a href="/dock/events">本週島上故事</a></nav><h2>五分鐘導覽</h2>'+adventureForm('tour-start','',pref.tour_status==='complete'?'重新觀看導覽':'開始或繼續導覽')+adventureForm('tour-skip','','跳過導覽，自由探索')+'<ol>'+adventureStations.map(s=>'<li><a href="'+s.path+'">'+s.label+'</a></li>').join('')+'</ol><p>可以回到任何一站；已完成的進度會保留。</p>';
- for(const q of progress){if(q.kind==='hidden'&&!q.complete)continue;body+='<article><h2>'+q.title+'</h2><p>'+q.note+'</p><p>'+q.done+' / '+q.events.length+'</p><p>'+q.reward+'</p>'+(q.claimed?'<p>已收進冒險收藏</p>'+memoryArt(q.reward):q.complete?adventureForm('claim','','收下紀念卡','<input type="hidden" name="quest" value="'+q.id+'"><input type="hidden" name="period" value="'+q.period+'">'):'<p>自由探索，慢慢完成就好。</p>')+'</article>';}
- body+='<h2>朋友來敲門</h2><p>每天最多一位新朋友，不會自動跳出打擾。稍後會安靜一小時；拒絕不影響友情或獎勵。</p>'+adventureForm('npc-setting','',pref.npc_enabled?'關閉 NPC 拜訪':'開啟 NPC 拜訪','<input type="hidden" name="enabled" value="'+(pref.npc_enabled?'0':'1')+'">');
+ const {results:questEvents}=await db.prepare('SELECT event,period FROM island_adventure_events WHERE visitor_key=?').bind(key).all();
+ for(const q of progress){if(q.kind==='hidden'&&!q.complete)continue;
+  const done=e=>questEvents.some(r=>r.event===e&&(!q.period||(q.repeat==='weekly'?r.period>=q.period&&r.period<=day:r.period===q.period)));
+  const links=q.events.map(e=>{const station=adventureStations.find(s=>s.event===e);return {event:e,path:station?.path||(e==='npc:conversation'?'/dock/adventure#npc-visits':'/world/forest'),label:station?.action||(e==='npc:conversation'?'接受拜訪並回小屋聊天':e==='wildlife:rare'?'到觀景坡或補遇步道看看山羌':'安靜觀察野生朋友')};});
+  body+='<article class="adventure-quest"><small>'+({main:'主線任務',side:'支線任務',daily:'每日散步',hidden:'隱藏發現'})[q.kind]+'</small><h2>'+q.title+'</h2><p>'+q.note+'</p><p>'+q.done+' / '+q.events.length+'</p><ul>'+links.map(l=>'<li>'+ (done(l.event)?'<span>已完成</span> · '+l.label:'<a href="'+l.path+'">'+l.label+' →</a>')+'</li>').join('')+'</ul><p>'+q.reward+'</p><small>紀念卡會保存在冒險收藏，不會兌換成金幣。</small>'+(q.claimed?'<p role="status">已收進冒險收藏</p>'+memoryArt(q.reward):q.complete?adventureForm('claim','','收下紀念卡','<input type="hidden" name="quest" value="'+q.id+'"><input type="hidden" name="period" value="'+q.period+'">'):'<p>自由探索，慢慢完成就好。</p>')+'</article>';
+ }
+
+ body+='<h2 id="npc-visits">朋友來敲門</h2><p>每天最多一位新朋友，不會自動跳出打擾。稍後會安靜一小時；拒絕不影響友情或獎勵。</p>'+adventureForm('npc-setting','',pref.npc_enabled?'關閉 NPC 拜訪':'開啟 NPC 拜訪','<input type="hidden" name="enabled" value="'+(pref.npc_enabled?'0':'1')+'">');
  const hidden='<input type="hidden" name="period" value="'+day+'">';
  if(pref.npc_enabled){
-  if(!visit||visit.status==='later'&&visit.next_at<=now)body+='<p>'+npc.name+'</p><p>朋友想來聽你分享小屋最喜歡的角落；聊完可完成來訪任務。</p>'+['accept','later','decline'].map((v,i)=>adventureForm('npc-'+v,'',['接受來訪','稍後再說','今天先休息'][i],hidden)).join('');
+  if(!visit||visit.status==='later'&&visit.next_at<=now)body+='<figure style="max-width:80px">'+neighborAvatar(...npc.id.split('-').map(Number),harborNeighbors[Number(npc.id[0])][Number(npc.id[2])][2])+'</figure><p>'+npc.name+'</p><p>朋友想來聽你分享小屋最喜歡的角落；聊完可完成來訪任務。</p><p>接受後回小屋，找到朋友並分享喜歡的角落；完成後回手帳領取朋友來訪紀念卡。</p>'+['accept','later','decline'].map((v,i)=>adventureForm('npc-'+v,'',['接受來訪','稍後再說','今天先休息'][i],hidden)).join('');
   else if(visit.status==='accepted'){body+='<p>'+npc.name+'</p><p>喜歡窗邊的光，還是桌邊的安靜？朋友陪你留下今天的小回憶。</p><a href="/dock/cabin">回小屋看看</a>';}
   else body+='<p>今天的拜訪選擇已保存。</p>';
  }
@@ -3986,18 +4001,7 @@ function adventureGuideNav(station,pref){
  return '<nav class="adventure">'+(previous?'<a href="'+previous.path+'">← 上一站</a>':'')+(next?'<a href="'+next.path+'">下一站 →</a>':'<a href="/dock/adventure">冒險手帳</a>')+'</nav>';
 }
 const mapGuideStops=[9,1,11,7,7];
-const mapGuideNotes=[
- '歡迎來到島上！我是 Ari。港口是出發與接朋友的地方，先在地圖上認識你的新生活。',
- '榕樹廣場可以認識居民、打招呼和找活動。點地圖上的居民，就能聊聊。',
- '這裡是你的小屋入口。家具、服裝與收藏都會跟著你的島民證保存。',
- '從自然休憩區走進雪松森林，可以觀察動物；錯過時段也有補遇步道。',
- '貝殼海灘適合聽海放空。現在已認識五個角落，接著想去哪裡，由你決定。'
-];
 async function mapGuideReady(db){try{await db.prepare('SELECT tour_step,tour_auto FROM island_adventure_preferences LIMIT 0').all();return true;}catch{return false;}}
-function mapGuideMarkup(pref){
- const active=pref.tour_status==='active'||pref.tour_replay,step=pref.tour_step||0,station=adventureStations[step];
- const css='<style>.map-welcome{margin:12px 0 18px;padding:16px;border:1px solid #b8c8aa;border-radius:18px;background:#f5f1df;color:#29483c}.map-welcome header{display:flex;gap:12px;align-items:center}.map-welcome header svg{width:64px;height:76px;flex:none}.map-welcome h2{font-size:1.12rem;margin:4px 0}.map-welcome p{line-height:1.7}.map-welcome nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.map-welcome form{margin:0}.map-welcome button,.map-welcome a{min-height:44px;padding:8px 13px;border:1px solid #b8c8aa;border-radius:12px;background:#e4ecd8;font:inherit}main .map-welcome a:link,main .map-welcome a:visited{color:#29483c;text-decoration:none}.map-welcome summary{cursor:pointer;min-height:44px;font-weight:700}.map-welcome :focus-visible{outline:3px solid #54734b;outline-offset:2px}.hb-stage[data-tour-stop="9"] [data-stop="9"],.hb-stage[data-tour-stop="1"] [data-stop="1"],.hb-stage[data-tour-stop="11"] [data-stop="11"],.hb-stage[data-tour-stop="7"] [data-stop="7"]{outline:4px solid #c28c4e;outline-offset:3px;background:#fff3cf}@media(max-width:600px){.map-welcome{padding:12px}.map-welcome header svg{width:48px;height:58px}.map-welcome nav>*{flex:1 1 auto}.map-welcome button{width:100%}}</style>';
- if(!active)return css+'<details id="island-tour" class="map-welcome" data-map-guide="closed"><summary>地圖新手導覽</summary><p>想再認識島上的角落嗎？Ari 會在地圖上陪你走一遍。</p>'+adventureForm('tour-start','','在地圖重新看導覽')+'</details>';
- const control=(action,label)=>adventureForm(action,'',label,'<input type="hidden" name="step" value="'+step+'">');
- return css+'<section id="island-tour" class="map-welcome" data-map-guide="active" data-map-guide-step="'+step+'" aria-label="地圖新手導覽"><header>'+neighborAvatar(7,4,harborNeighbors[7][4][2])+'<div><small>Ari · '+(step+1)+' / 5</small><h2>'+station.label+'</h2></div></header><p>'+mapGuideNotes[step]+'</p><nav>'+(step>0?control('map-tour-prev','← 上一步'):'')+control(step===4?'map-tour-finish':'map-tour-next',step===4?'完成導覽，自由探索':'下一步 →')+adventureForm('tour-skip','','跳過導覽，自由探索')+'<a href="'+station.path+'">去這裡看看</a></nav></section>';
-}
+function mapGuideMarkup(pref,profile){return welcomeTourMarkup(pref,neighborAvatar(7,4,harborNeighbors[7][4][2]),escapeUser(profile?.nickname||''));}
+
+function greetingEditor(own,where){return '<section class="adventure" id="harbor-greeting" data-greeting-editor><h3>寫一句招呼</h3><p>讓剛登島的朋友認識你。發佈後會顯示在榕樹廣場布告欄。</p><form method="post" action="/dock/square"><input type="hidden" name="return" value="'+where+'"><label>寫一句招呼<input data-greeting-input name="message" maxlength="120" required value="'+escape(own?.message||'')+'"></label><small>最多 120 字，每 30 秒可更新一次。</small><p>招呼預覽</p><output data-greeting-preview translate="no" data-user-content>'+escapeUser(own?.message||'')+'</output><p data-greeting-count translate="no">'+[...(own?.message||'')].length+' / 120</p><button name="action" value="greet-custom">發佈自訂招呼</button></form>'+(own?.visible?'<p role="status">目前公開的招呼</p><p translate="no" data-user-content>'+escapeUser(own.message)+'</p><form method="post" action="/dock/square"><input type="hidden" name="return" value="'+where+'"><button name="action" value="ungreet">撤下我的招呼</button></form>':'')+'</section><script src="/welcome-tour.js" defer></script>';}
