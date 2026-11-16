@@ -14,7 +14,7 @@ const origin='https://adventure.test',audit=createI18nAudit();
 const get=async(path,k=key)=>audit.response(await worker.fetch(new Request(origin+path,{headers:{Cookie:k?'atlas_islander='+k:''}}),{DB}),path);
 const post=async(fields,k=key,path='/dock/adventure',host=origin)=>audit.response(await worker.fetch(new Request(origin+path,{method:'POST',headers:{Cookie:'atlas_islander='+k,Origin:host,'Sec-Fetch-Site':host===origin?'same-origin':'cross-site','Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fields)}),{DB}),path+' POST');
 const html=async(path)=>await(await get(path)).text();
-const token=text=>text.match(/name="token" value="([^"]+)"/)?.[1];
+const token=text=>text.match(/name="action" value="station"[\s\S]*?name="token" value="([^"]+)"/)?.[1];
 const count=table=>sql.prepare('SELECT count(*) n FROM '+table).get().n;
 assert.equal(adventureDay(Date.parse('2026-11-15T15:59:59Z')),'2026-11-15');assert.equal(adventureDay(Date.parse('2026-11-15T16:00:00Z')),'2026-11-16');
 assert.equal(adventureWildlife(Date.parse('2026-11-16T06:00:00Z')).rare,true);assert.equal(adventureWildlife(Date.parse('2026-11-16T13:00:00Z')).rare,false);
@@ -39,10 +39,10 @@ assert.equal((await adventureProgress(DB,key))[0].claimed,true);
 // Reward check and unique insertion happen in a single SQL statement, including daily period.
 await Promise.all([adventureClaim(DB,key,'daily'),adventureClaim(DB,key,'daily')]);assert.equal(count('island_adventure_rewards'),2);
 assert.equal((await post({action:'claim',quest:'daily',period:'1999-01-01'})).status,409);
-let forest=await html('/world/forest'),wildToken=[...forest.matchAll(/name="token" value="([^"]+)"/g)][1][1];
+let forest=await html('/world/forest'),wildToken=forest.match(/name="action" value="observe"[\s\S]*?name="token" value="([^"]+)"/)[1];
 assert.equal((await post({action:'observe',token:wildToken,event:'wildlife:rare'})).status,400);
 assert.equal((await post({action:'observe',token:wildToken})).status,303);
-forest=await html('/world/forest');wildToken=[...forest.matchAll(/name="token" value="([^"]+)"/g)][1][1];assert.equal((await post({action:'catchup',token:wildToken})).status,303);
+forest=await html('/world/forest');wildToken=forest.match(/name="action" value="observe"[\s\S]*?name="token" value="([^"]+)"/)[1];assert.equal((await post({action:'catchup',token:wildToken})).status,303);
 await post({action:'claim',quest:'rare'});await post({action:'claim',quest:'nature'});assert.equal(count('island_adventure_rewards'),4);const weekly=(await adventureProgress(DB,key)).find(q=>q.id==='woodland-week');assert.equal(weekly.complete,true);await post({action:'claim',quest:'woodland-week',period:weekly.period});await post({action:'claim',quest:'woodland-week',period:weekly.period});assert.equal(count('island_adventure_rewards'),5);assert.equal((await adventureProgress(DB,key,Date.now()+7*86400000)).find(q=>q.id==='woodland-week').complete,false);
 const expired=await adventureIssue(DB,key,'beach',1000);assert.equal(await adventureRecord(DB,key,'beach',expired,'beach:listen','2000-01-01',1801000),false);
 // Failure during the event insert rolls the token consumption back, so retry is safe.

@@ -19,7 +19,7 @@ export const welcomeCopy={
  note1:['廣場有島民招呼、居民與活動。可以自己寫一句問候，也能查看揪團的時間與內容，再決定是否參加。','The square brings together greetings, residents and activities. Write a greeting or read a meetup’s time and details before joining.'],
  note2:['家具、服裝與收藏都跟著你的島民證保存。回家後可以布置、坐下或休息；想讓居民來坐坐，到冒險手帳接受今天的拜訪。','Furniture, clothes and keepsakes stay with your passport. Decorate, sit or rest at home. Accept today’s resident visit in the adventure journal when you want company.'],
  note3:['森林裡有松鼠、藍鵲與貓頭鷹，會隨台灣時間輪替。山羌在每日 14:00–21:00 出現；其他時間有補遇步道，不必等到半夜。','Squirrels, blue magpies and owls rotate by Taiwan time. Muntjacs appear daily from 14:00–21:00; a catch-up trail is available at other times. No late-night wait needed.'],
- note4:['海灘現在可以散步、坐在木棧道聽海，留下探索紀錄。先享受風景；撿貝殼、買賣與種菜尚未開放。','Walk along the beach, listen to the waves on the boardwalk and record your visit. Shell gathering, trading and farming are not available yet.'],
+ note4:['海灘可以散步、聽海，也能點貝殼收進背包。帶回小屋展示，或到海風小舖交換素材與擺飾；種菜尚未開放。','Walk, listen to the waves and tap shells to collect them. Display finds at home or visit the Sea Breeze Shop to exchange materials and decor. Farming is not available yet.'],
  how:['怎麼開始','How to start'],gain:['會留下什麼','What you take away'],
  how0:['在島嶼地圖點選地點即可前往；上方「回家」能直接回到自己的小屋。','Tap a place on the island map to enter. Use Home in the top navigation to return to your cottage.'],
  how1:['進入廣場，在布告欄寫下問候；按「看看廣場布告欄」可記錄第一個探索步驟。','Enter the square and write a greeting on the noticeboard. Choose Read the noticeboard to record a first exploration step.'],
@@ -30,7 +30,7 @@ export const welcomeCopy={
  gain1:['問候會顯示給其他島民；任務是否完成、下一步去哪裡，都能在冒險手帳查看。','Other residents can see your greeting. The journal shows quest progress and where to go next.'],
  gain2:['儲存的布置重新登入後仍保留；完成一次居民來訪聊天，可領取朋友來訪紀念卡。','Saved decor stays when you sign in again. Complete a resident visit conversation to earn a visitor keepsake.'],
  gain3:['散步與觀察分別留下進度；完成森林與海灘的探索，可解鎖自然朋友紀念卡。','Walking and observation each record progress. Complete the woodland and beach activities to unlock a nature keepsake.'],
- gain4:['紀念卡會保存於冒險收藏，不會換成金幣；不需要每日報到，也沒有缺席處罰。','Keepsake cards stay in your adventure collection; they are not coins. No daily attendance or absence penalty.'],
+ gain4:['紀念卡會留在冒險收藏，還能額外領一次島幣。島幣只在島內使用；不需要每日報到，也沒有缺席處罰。','Keepsake cards stay in your collection and offer a one-time island coin bonus. Coins are only for island use. No daily attendance or absence penalty.'],
  next:['下一步 →','Next →'],prev:['← 上一步','← Previous'],later:['稍後再看，自由探索','Explore now; tour later'],start:['開始五分鐘導覽','Start the five-minute tour'],replay:['重新觀看導覽','Replay the welcome tour'],resume:['繼續上次導覽','Resume the tour'],visit:['先去這裡體驗','Try this place first'],finish:['完成導覽，出發吧','Finish the tour and set off'],choice:['我想先去','I’d like to start at'],helloName:['很高興認識你','Lovely to meet you'],languages:['導覽語言','Tour language'],
 };
 function welcomeText(key,tag='p'){return '<'+tag+' data-i18n="welcome.'+key+'">'+welcomeCopy[key][0]+'</'+tag+'>';}

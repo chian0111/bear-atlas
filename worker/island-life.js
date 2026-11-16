@@ -137,6 +137,7 @@ export function cabin3DClient(){
  const canvas=display.querySelector('canvas'),ctx=canvas?.getContext('2d');
  if(!ctx)return;
  const game=display.closest?.('[data-cabin-game]');
+ let collectionItems=[];try{collectionItems=JSON.parse(game?.querySelector?.('[data-collection-room-shelf]')?.dataset.collectionItems||'[]').filter(r=>Number.isInteger(r.slot)&&r.slot>=1&&r.slot<=4&&['scallop','spiral','clam','pinecone','leaf','mobile','frame','vase','tray'].includes(r.item_id));}catch{}
  const fallback=display.querySelector('.cabin-scene'),controls=display.querySelector('[data-cabin-camera]');
  let roomTransition=false;
  let yaw=.72,pitch=.55,zoom=1,frame=0;
@@ -309,6 +310,20 @@ export function cabin3DClient(){
     else{box(-2.595,1.77,-.8,.025,.43,.025,'#6c8e64');leaf(-2.56,1.9,-.8,0,.24,.24,'#78976b');leaf(-2.56,2,-.8,0,.23,-.2,'#78976b');}
    }
   }
+  // A wall-mounted collection shelf: no floor footprint, layout writes or movement blockers.
+  if(game&&room==='living'&&leftVisible&&!editMode){
+   layer=0;furniture=null;box(-2.75,1.65,.2,.45,.075,2.05,'#b4946a');
+   for(const r of collectionItems){const x=-2.38,y=1.73,z=.43+(r.slot-1)*.48,id=r.item_id;
+    if(id==='vase'){cylinder(x,y,z,.10,.23,'#e6ddc6',8);cylinder(x,y+.23,z,.045,.10,'#e6ddc6',8);leaf(x,y+.32,z,0,.20,.12,'#78976b');}
+    else if(id==='tray')cylinder(x,y,z,.16,.04,'#d0ad79',12);
+    else if(id==='frame'){box(x-.08,y,z-.16,.06,.37,.32,'#bc956b');box(x-.015,y+.04,z-.12,.01,.28,.24,'#fff4d8');leaf(x,y+.06,z-.08,0,.22,.12,'#c9ad61');}
+    else if(id==='mobile'){box(x-.04,y,z-.025,.04,.39,.04,'#a5825d');box(x-.04,y+.36,z-.18,.04,.03,.36,'#a5825d');for(const dz of [-.12,0,.12]){box(x,y+.17,z+dz,.015,.17,.015,'#b89c74');poly([[x+.02,y+.08,z+dz],[x+.02,y+.19,z+dz-.055],[x+.02,y+.23,z+dz],[x+.02,y+.19,z+dz+.055]],'#e8c5a1');}}
+    else if(id==='pinecone'){for(let i=0;i<4;i++)cylinder(x,y+i*.065,z,.11-i*.019,.065,i%2?'#b3875e':'#caa279',7);}
+    else if(id==='leaf')leaf(x,y,z-.13,0,.26,.25,'#d5b764');
+    else{const color=id==='scallop'?'#eac6a4':id==='spiral'?'#e8b8a2':'#a8c4ca';poly([[x,y,z],[x,y+.13,z-.15],[x,y+.24,z-.10],[x,y+.27,z],[x,y+.24,z+.10],[x,y+.13,z+.15]],color);for(const dz of [-.08,0,.08])box(x+.005,y+.02,z+dz,.008,.17,.01,'#f4ddc1');}
+   }
+  }
+  canvas.dataset.collectionItems=JSON.stringify(collectionItems);
   const fullLayout=previewLayout||layout;
   for(const entry of instances?Object.entries(fullLayout):[[null,null]]){
   meshInstance=entry[0];meshType=instances?bedroomCatalog[entry[1].furniture_type].mesh:null;

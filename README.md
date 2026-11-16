@@ -1,10 +1,17 @@
-# Sites Worker ESM starter
+# Bear Atlas
 
-Use this starter for a static microsite, click counter, or simple internal UI whose state is browser-scoped. It has no dependencies and needs no install.
+A small island world with resident passports, cottages, animal neighbors and quiet activities. Continue this existing Site and preserve player data.
 
-Edit `worker/index.js`, then publish through the Sites hosting workflow with this starter's build and validation in `commands`.
+## V88 — Island Collection & Economy
 
-The build copies only `worker/index.js` and `.openai/hosting.json`. Do not add standalone asset files. Embed any essential raster bytes in `worker/index.js` and serve or reference them as a data URL.
+Beachcombing and woodland finds now feed a persistent backpack, nine-item catalog, cottage display shelf, virtual shop, material crafting and one-item gifts. Existing furniture, outfits and keepsakes remain available. No real-money payments.
+
+- Play: https://atlas-sports-reply.kitty50228.chatgpt.site
+- Backpack: `/dock/collection`; shop: `/dock/shop`; guide: `/dock/catalog`.
+- Acceptance, checks and rollback: [docs/V88-ACCEPTANCE.md](docs/V88-ACCEPTANCE.md).
+- Runtime is a dependency-free Cloudflare Worker ESM with the existing D1 binding. The build combines the Worker modules and generated bilingual catalog. Additive migrations live in `drizzle/`.
+
+## Build and publish
 
 Pass these argument arrays as `commands`:
 

@@ -918,8 +918,8 @@
     "en": "Squirrels, blue magpies and owls rotate by Taiwan time. Muntjacs appear daily from 14:00–21:00; a catch-up trail is available at other times. No late-night wait needed."
   },
   "welcome.note4": {
-    "zh-TW": "海灘現在可以散步、坐在木棧道聽海，留下探索紀錄。先享受風景；撿貝殼、買賣與種菜尚未開放。",
-    "en": "Walk along the beach, listen to the waves on the boardwalk and record your visit. Shell gathering, trading and farming are not available yet."
+    "zh-TW": "海灘可以散步、聽海，也能點貝殼收進背包。帶回小屋展示，或到海風小舖交換素材與擺飾；種菜尚未開放。",
+    "en": "Walk, listen to the waves and tap shells to collect them. Display finds at home or visit the Sea Breeze Shop to exchange materials and decor. Farming is not available yet."
   },
   "welcome.how": {
     "zh-TW": "怎麼開始",
@@ -966,8 +966,8 @@
     "en": "Walking and observation each record progress. Complete the woodland and beach activities to unlock a nature keepsake."
   },
   "welcome.gain4": {
-    "zh-TW": "紀念卡會保存於冒險收藏，不會換成金幣；不需要每日報到，也沒有缺席處罰。",
-    "en": "Keepsake cards stay in your adventure collection; they are not coins. No daily attendance or absence penalty."
+    "zh-TW": "紀念卡會留在冒險收藏，還能額外領一次島幣。島幣只在島內使用；不需要每日報到，也沒有缺席處罰。",
+    "en": "Keepsake cards stay in your collection and offer a one-time island coin bonus. Coins are only for island use. No daily attendance or absence penalty."
   },
   "welcome.next": {
     "zh-TW": "下一步 →",
@@ -1076,5 +1076,429 @@
   "welcome.nomadPlay": {
     "zh-TW": "選一個空位坐下，再選工作、閱讀或休息；咖啡角落能拿飲品。",
     "en": "Choose an empty seat, then work, read or rest. Pick up a drink at the Coffee Corner."
+  },
+  "collection.title": {
+    "zh-TW": "島嶼收藏",
+    "en": "Island collection"
+  },
+  "collection.bag": {
+    "zh-TW": "我的背包",
+    "en": "My backpack"
+  },
+  "collection.shop": {
+    "zh-TW": "海風小舖",
+    "en": "Sea Breeze Shop"
+  },
+  "collection.catalog": {
+    "zh-TW": "收藏圖鑑",
+    "en": "Collection guide"
+  },
+  "collection.ledger": {
+    "zh-TW": "收支與交換紀錄",
+    "en": "Activity ledger"
+  },
+  "collection.shelf": {
+    "zh-TW": "小屋展示架",
+    "en": "Cottage display shelf"
+  },
+  "collection.coins": {
+    "zh-TW": "島幣",
+    "en": "Island coins"
+  },
+  "collection.intro": {
+    "zh-TW": "把路上的小發現，變成家裡喜歡的角落。",
+    "en": "Turn little discoveries into a favorite corner at home."
+  },
+  "collection.beach": {
+    "zh-TW": "海灘拾貝",
+    "en": "Beachcombing"
+  },
+  "collection.forest": {
+    "zh-TW": "林間拾趣",
+    "en": "Woodland finds"
+  },
+  "collection.home": {
+    "zh-TW": "回小屋看展示",
+    "en": "See your cottage display"
+  },
+  "collection.journal": {
+    "zh-TW": "冒險手帳",
+    "en": "Adventure journal"
+  },
+  "collection.map": {
+    "zh-TW": "回島嶼地圖",
+    "en": "Back to the island map"
+  },
+  "collection.beachNote": {
+    "zh-TW": "每天有六枚屬於你的貝殼。點畫面上的貝殼收進背包，不會搶走其他島民的發現。",
+    "en": "Six shells are yours to discover each day. Tap a shell in the scene to collect it without taking another resident’s find."
+  },
+  "collection.forestNote": {
+    "zh-TW": "只拾取步道上的落葉與松果，不採摘活植物。今天有三份小發現。",
+    "en": "Collect only fallen leaves and pinecones on the trail, leaving living plants untouched. Three little finds await today."
+  },
+  "collection.reset": {
+    "zh-TW": "每天台灣時間 00:00 更新；沒有連續登入要求，錯過不扣分。",
+    "en": "Finds refresh at 00:00 Taiwan time. No streaks, attendance requirement or absence penalty."
+  },
+  "collection.emptyScene": {
+    "zh-TW": "今天的小發現都收好了。可以回家展示，或明天再來散步。",
+    "en": "You have collected today’s finds. Display them at home or return for another walk tomorrow."
+  },
+  "collection.pick": {
+    "zh-TW": "收進背包",
+    "en": "Collect"
+  },
+  "collection.found": {
+    "zh-TW": "已收好",
+    "en": "Collected"
+  },
+  "collection.success": {
+    "zh-TW": "已保存。背包、島幣與紀錄已一起更新。",
+    "en": "Saved. Your backpack, coins and ledger were updated together."
+  },
+  "collection.replay": {
+    "zh-TW": "這筆操作已完成，沒有重複扣款或發放物品。",
+    "en": "This action was already completed. Nothing was charged or granted twice."
+  },
+  "collection.conflict": {
+    "zh-TW": "物品、餘額或展示位置已變動；本次沒有扣款。請重新開啟背包再試。",
+    "en": "Your items, balance or display changed. Nothing was charged. Reopen your backpack and try again."
+  },
+  "collection.unavailable": {
+    "zh-TW": "收藏功能暫時無法使用，原本的遊戲資料仍保留。",
+    "en": "Collections are temporarily unavailable. Your existing game data is preserved."
+  },
+  "collection.login": {
+    "zh-TW": "先登入島民證，讓收藏跟著你保存。",
+    "en": "Sign in with your resident passport to save your collection."
+  },
+  "collection.signin": {
+    "zh-TW": "登入或領取島民證",
+    "en": "Sign in or get a passport"
+  },
+  "collection.invalid": {
+    "zh-TW": "請使用頁面上的操作，再試一次。",
+    "en": "Please use the controls on this page and try again."
+  },
+  "collection.expired": {
+    "zh-TW": "這個操作已過期，請重新開啟原頁再試。",
+    "en": "This action has expired. Reopen the page to try again."
+  },
+  "collection.quantity": {
+    "zh-TW": "持有數量",
+    "en": "Owned"
+  },
+  "collection.available": {
+    "zh-TW": "可交換數量",
+    "en": "Available to exchange"
+  },
+  "collection.reserved": {
+    "zh-TW": "展示中的物品會保留；先從展示架收回，才能交換或贈送。",
+    "en": "Displayed items are reserved. Return them to your backpack before exchanging or gifting."
+  },
+  "collection.emptyBag": {
+    "zh-TW": "背包還很輕。去海邊拾起第一枚貝殼吧。",
+    "en": "Your backpack is still light. Find your first shell at the beach."
+  },
+  "collection.emptyShelf": {
+    "zh-TW": "還沒有展示物品。從背包選一件喜歡的收藏，放進四個展示位置。",
+    "en": "Nothing is on display yet. Choose a keepsake in your backpack and place it in one of four slots."
+  },
+  "collection.display": {
+    "zh-TW": "放上展示架",
+    "en": "Put on display"
+  },
+  "collection.clear": {
+    "zh-TW": "收回背包",
+    "en": "Return to backpack"
+  },
+  "collection.slot": {
+    "zh-TW": "展示位置",
+    "en": "Display slot"
+  },
+  "collection.manage": {
+    "zh-TW": "整理展示架",
+    "en": "Arrange your display"
+  },
+  "collection.price": {
+    "zh-TW": "需要島幣",
+    "en": "Coin price"
+  },
+  "collection.sell": {
+    "zh-TW": "交換一件，換取島幣",
+    "en": "Exchange one for coins"
+  },
+  "collection.sellGain": {
+    "zh-TW": "可獲得島幣",
+    "en": "Coins received"
+  },
+  "collection.buy": {
+    "zh-TW": "購買一件",
+    "en": "Buy one"
+  },
+  "collection.craft": {
+    "zh-TW": "交換材料，製作一件",
+    "en": "Trade materials to make one"
+  },
+  "collection.need": {
+    "zh-TW": "需要材料",
+    "en": "Materials needed"
+  },
+  "collection.short": {
+    "zh-TW": "目前數量不足，先去探索或收回展示中的物品。",
+    "en": "Not enough available yet. Explore or return displayed items to your backpack."
+  },
+  "collection.poor": {
+    "zh-TW": "島幣不足，可以交換多餘素材，或領取冒險獎勵。",
+    "en": "Not enough coins. Exchange spare materials or claim an adventure reward."
+  },
+  "collection.virtual": {
+    "zh-TW": "完全虛擬的島內商店。島幣不能購買、提領或兌換現金；沒有真實付款。",
+    "en": "A fully virtual island shop. Coins cannot be bought, withdrawn or exchanged for cash. No real payments."
+  },
+  "collection.legacy": {
+    "zh-TW": "原有家具與服裝照常可用，不必重新購買。這裡販售的是新增的展示收藏。",
+    "en": "Your existing furniture and clothes remain available without repurchasing. This shop offers new display keepsakes."
+  },
+  "collection.gift": {
+    "zh-TW": "送一件給朋友",
+    "en": "Give one to a friend"
+  },
+  "collection.member": {
+    "zh-TW": "朋友的島民編號",
+    "en": "Friend’s resident ID"
+  },
+  "collection.prepare": {
+    "zh-TW": "確認收件島民",
+    "en": "Review recipient"
+  },
+  "collection.review": {
+    "zh-TW": "確認這份小禮物",
+    "en": "Review this little gift"
+  },
+  "collection.recipient": {
+    "zh-TW": "收件島民",
+    "en": "Recipient"
+  },
+  "collection.giftNote": {
+    "zh-TW": "送出後會從你的背包移到對方背包。請核對暱稱與島民編號。",
+    "en": "The item moves from your backpack to theirs. Check the nickname and resident ID before sending."
+  },
+  "collection.send": {
+    "zh-TW": "確認送出一件",
+    "en": "Send this one item"
+  },
+  "collection.cancel": {
+    "zh-TW": "先不送，回背包",
+    "en": "Cancel and return to backpack"
+  },
+  "collection.noMember": {
+    "zh-TW": "找不到這位島民，或編號是你自己。請核對對方島民證。",
+    "en": "That resident was not found, or the ID is your own. Check your friend’s passport."
+  },
+  "collection.giftSuccess": {
+    "zh-TW": "小禮物已送進朋友的背包。",
+    "en": "Your gift is now in your friend’s backpack."
+  },
+  "collection.rewards": {
+    "zh-TW": "把冒險回憶帶進日常",
+    "en": "Bring adventure memories into daily life"
+  },
+  "collection.rewardNote": {
+    "zh-TW": "每張已領取的冒險紀念卡，可額外領一次 10 島幣。原紀念卡會保留，不會被消耗。",
+    "en": "Each claimed adventure keepsake offers a one-time bonus of 10 coins. The original keepsake stays with you."
+  },
+  "collection.claim": {
+    "zh-TW": "領取這張紀念卡的島幣",
+    "en": "Claim coins for this keepsake"
+  },
+  "collection.allClaimed": {
+    "zh-TW": "目前可領的島幣都已收好。新的冒險回憶會出現在這裡。",
+    "en": "All available bonuses have been claimed. New adventure memories will appear here."
+  },
+  "collection.oldCollection": {
+    "zh-TW": "原有紀念卡與收藏",
+    "en": "Existing keepsakes and collections"
+  },
+  "collection.oldNote": {
+    "zh-TW": "舊紀念卡、家具解鎖與故事回憶仍在原本的位置。下方入口可繼續查看。",
+    "en": "Your original cards, furniture unlocks and story memories remain in their original places. Use the links below to visit them."
+  },
+  "collection.memories": {
+    "zh-TW": "故事紀念冊",
+    "en": "Story memories"
+  },
+  "collection.furniture": {
+    "zh-TW": "居民委託與家具",
+    "en": "Resident quests and furniture"
+  },
+  "collection.noHistory": {
+    "zh-TW": "還沒有收支或交換紀錄。第一枚貝殼會替你開始記錄。",
+    "en": "No activity yet. Your first shell will start the story."
+  },
+  "collection.next": {
+    "zh-TW": "下一頁",
+    "en": "Next page"
+  },
+  "collection.prev": {
+    "zh-TW": "上一頁",
+    "en": "Previous page"
+  },
+  "collection.discovered": {
+    "zh-TW": "已發現",
+    "en": "Discovered"
+  },
+  "collection.undiscovered": {
+    "zh-TW": "尚未發現",
+    "en": "Not discovered"
+  },
+  "collection.ordinary": {
+    "zh-TW": "常見",
+    "en": "Common"
+  },
+  "collection.unusual": {
+    "zh-TW": "少見",
+    "en": "Uncommon"
+  },
+  "collection.material": {
+    "zh-TW": "自然素材",
+    "en": "Natural material"
+  },
+  "collection.decor": {
+    "zh-TW": "展示擺飾",
+    "en": "Display decor"
+  },
+  "collection.sourceBeach": {
+    "zh-TW": "來源：海灘拾貝",
+    "en": "Source: beachcombing"
+  },
+  "collection.sourceForest": {
+    "zh-TW": "來源：林間拾趣",
+    "en": "Source: woodland finds"
+  },
+  "collection.sourceShop": {
+    "zh-TW": "來源：海風小舖",
+    "en": "Source: Sea Breeze Shop"
+  },
+  "collection.sourceCraft": {
+    "zh-TW": "來源：材料製作",
+    "en": "Source: material crafting"
+  },
+  "collection.materialAction": {
+    "zh-TW": "製作耗材",
+    "en": "Craft materials"
+  },
+  "collection.pickAction": {
+    "zh-TW": "拾取",
+    "en": "Collected"
+  },
+  "collection.sellAction": {
+    "zh-TW": "素材交換",
+    "en": "Material exchange"
+  },
+  "collection.buyAction": {
+    "zh-TW": "商店購買",
+    "en": "Shop purchase"
+  },
+  "collection.craftAction": {
+    "zh-TW": "材料製作",
+    "en": "Crafted"
+  },
+  "collection.giftAction": {
+    "zh-TW": "贈送朋友",
+    "en": "Gift sent"
+  },
+  "collection.receivedAction": {
+    "zh-TW": "朋友贈禮",
+    "en": "Gift received"
+  },
+  "collection.displayAction": {
+    "zh-TW": "放上展示架",
+    "en": "Put on display"
+  },
+  "collection.clearAction": {
+    "zh-TW": "收回展示",
+    "en": "Removed from display"
+  },
+  "collection.rewardAction": {
+    "zh-TW": "冒險獎勵",
+    "en": "Adventure bonus"
+  },
+  "collection.scallop": {
+    "zh-TW": "奶油扇貝",
+    "en": "Cream scallop"
+  },
+  "collection.scallopNote": {
+    "zh-TW": "溫柔的扇形紋路，適合收藏，也能製成海風吊飾。",
+    "en": "Soft fan-shaped ridges. Keep one or craft a seaside mobile."
+  },
+  "collection.spiral": {
+    "zh-TW": "蜜桃螺殼",
+    "en": "Peach spiral shell"
+  },
+  "collection.spiralNote": {
+    "zh-TW": "小小的螺旋，像把海浪的聲音捲在裡面。",
+    "en": "A tiny spiral that seems to hold the sound of the waves."
+  },
+  "collection.clam": {
+    "zh-TW": "霧藍蛤殼",
+    "en": "Mist-blue clam shell"
+  },
+  "collection.clamNote": {
+    "zh-TW": "圓潤的藍灰色殼面，帶回家留住一點海色。",
+    "en": "A rounded blue-gray shell to bring a little sea color home."
+  },
+  "collection.pinecone": {
+    "zh-TW": "落地松果",
+    "en": "Fallen pinecone"
+  },
+  "collection.pineconeNote": {
+    "zh-TW": "只撿自然落下的松果，留住森林的小小形狀。",
+    "en": "A naturally fallen pinecone, a little woodland shape to keep."
+  },
+  "collection.leaf": {
+    "zh-TW": "金色落葉",
+    "en": "Golden fallen leaf"
+  },
+  "collection.leafNote": {
+    "zh-TW": "步道邊的完整落葉，可以製作植物相框。",
+    "en": "A fallen leaf from the trail, ready for a botanical frame."
+  },
+  "collection.mobile": {
+    "zh-TW": "海風貝殼吊飾",
+    "en": "Seaside shell mobile"
+  },
+  "collection.mobileNote": {
+    "zh-TW": "用三枚奶油扇貝製成，放上展示架就有海邊的心情。",
+    "en": "Made from three cream scallops. A seaside mood for your display shelf."
+  },
+  "collection.frame": {
+    "zh-TW": "落葉小相框",
+    "en": "Fallen-leaf frame"
+  },
+  "collection.frameNote": {
+    "zh-TW": "用兩片金色落葉製成，替小屋留一個森林角落。",
+    "en": "Made from two golden leaves, a woodland corner for your cottage."
+  },
+  "collection.vase": {
+    "zh-TW": "奶油陶花瓶",
+    "en": "Cream ceramic vase"
+  },
+  "collection.vaseNote": {
+    "zh-TW": "霧面陶器與一枝小葉子，適合安靜的小屋。",
+    "en": "Matte ceramic and a little sprig for a quiet cottage."
+  },
+  "collection.tray": {
+    "zh-TW": "藤編收藏盤",
+    "en": "Woven keepsake tray"
+  },
+  "collection.trayNote": {
+    "zh-TW": "一只淺淺的藤盤，把喜歡的日常留在眼前。",
+    "en": "A shallow woven tray, a little reminder of favorite days."
+  },
+  "collection.beachFooter": {
+    "zh-TW": "海浪會把新的小發現帶到沙灘。喜歡的貝殼，可以帶回小屋收藏。",
+    "en": "The waves bring little discoveries to shore. Bring a favorite shell home to keep."
   }
 }
