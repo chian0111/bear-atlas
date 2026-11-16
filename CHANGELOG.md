@@ -1,3 +1,7 @@
+# V90.2 — Economic Engine
+
+Shared deterministic weekly simulated market, fixed-basket BCPI and weighted volume BBI, immutable raw snapshots, traceable three-event cycle, lightweight history charts and resettable independent supply-demand experiments. Additive0021 only; no changes to player assets or shop prices. Deployed platform96, runtime82d6113; native deployment appgdep_6afa920225448191a57d0b704474344b succeeded.
+
 # V90.1 — Bear Economic Observatory
 
 Physical seventh resort building, cozy indoor study and optional bilingual Professor Maple dialogue. Phase 0 verified V86.3/V87.3/V88/V89 deployments. No migration or player-asset changes. BBI/BCPI and playable simulation remain V90.2. Deployed as platform95, runtime c7fd6c4, native deployment appgdep_6afa8d65a41881918de918d070bb5975 succeeded.

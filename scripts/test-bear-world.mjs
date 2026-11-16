@@ -23,14 +23,15 @@ const DB={prepare(query){const p=sql.prepare(query);function bind(...args){retur
 const origin='https://guest.test',env={DB,SPORTS_RSVP_RELAY_KEY:'integration-test-local-only-secret-value'};
 // V90.1: public, read-only research house; no financial mutations or invented snapshots.
 {
+ await worker.fetch(new Request('https://guest.test/world/observatory'),env);
  const before=sql.prepare('SELECT total_changes() n').get().n;
  for(const topic of ['', 'today','why','index','experiment','<script>']){
   const r=await worker.fetch(new Request('https://guest.test/world/observatory?topic='+encodeURIComponent(topic)),env);
   assert.equal(r.status,200);const body=await i18nAudit.response(r,'/world/observatory '+topic).then(r=>r.text());
   assert.ok(body.includes('data-observatory-npc="economist-maple"'));
   assert.ok(body.includes('href="/world?at=14"'));
-  assert.ok(!body.includes('<script>')&&!body.includes('BBI 100'));
-  assert.equal((body.match(/aria-current="page"/g)||[]).length,['today','why','index','experiment'].includes(topic)?1:0);
+  assert.ok(!body.includes('<script>')&&body.includes('economy.label'));
+  assert.equal((body.match(/<nav class="obs-options"[\s\S]*?<\/nav>/)[0].match(/aria-current="page"/g)||[]).length,['today','why','index','experiment'].includes(topic)?1:0);
  }
  for(const method of ['POST','PUT','DELETE'])assert.equal((await worker.fetch(new Request('https://guest.test/world/observatory',{method}),env)).status,405);
  assert.equal(sql.prepare('SELECT total_changes() n').get().n,before,'public research visits cannot mutate player assets');
@@ -778,7 +779,7 @@ assert.ok((await (await get('/dock/career',friend)).text()).includes('海邊咖�
 const about=await (await get('/about')).text();assert.equal((about.match(/<figure class="resort-scene">/g)||[]).length,4);
 assert.match(nature,/TOWN \/ 05/);assert.ok(!nature.includes('看看漂流瓶'));assert.ok(!upgradedMap.includes('class="hb-bottle-pin"'));
 const cabin81=await (await get('/dock/cabin',friend)).text();assert.match(cabin81,/data-game-sheet="menu"/);assert.match(cabin81,/cabin-resort-return/);assert.ok(!cabin81.includes('叩叩！'));
-const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/src="\/i18n\/runtime.js\?release=v90-1"/);assert.match(englishAbout,/有自己的家，也有可以走走的世界/);assert.match(englishAbout,/data-locale="en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
+const englishAbout=await (await get('/about?lang=en')).text();assert.match(englishAbout,/src="\/i18n\/runtime.js\?release=v90-2"/);assert.match(englishAbout,/有自己的家，也有可以走走的世界/);assert.match(englishAbout,/data-locale="en"/);assert.ok(!cabin81.includes('熊熊限定'));assert.match(cabin81,/class="game-status"/);
 console.log('49 distinct residents, WebGL fallback, five facility prototypes, nature garden and illustrated philosophy passed.');
 
 for(const [path,at]of [['/dock/career',1],['/dock/sports',5],['/world/nature',7],['/dock/cabin',11]]){const page=await (await get(path,friend)).text();assert.ok(page.includes('href="/world?at='+at+'"'),path);const map=await (await get('/world?at='+at,friend)).text();assert.ok(map.includes('data-initial="'+at+'"'));}

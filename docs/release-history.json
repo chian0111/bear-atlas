@@ -690,6 +690,13 @@
       "commit": "c7fd6c4387d4cfeef3a26f9340b4589c6a607122",
       "deployment_id": "appgdep_6afa8d65a41881918de918d070bb5975",
       "archive_sha256": "sha256:6d15b7a882d3eeef4ff9dc35b3dbeacc7b9203e2ed76e5cb0b8d5ede8fc27ee6"
+    },
+    {
+      "version": 96,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_c096ed807c588191b62ca5077a2ebf33",
+      "commit": "82d61133d5422b36362be07f78a4aad9c99eaefe",
+      "deployment_id": "appgdep_6afa920225448191a57d0b704474344b",
+      "archive_sha256": "sha256:a664b20d1ddd2122994e1dd2912a524e7f49f1cdea0731d1d8e27b0621095c7a"
     }
   ],
   "candidates": [
@@ -765,6 +772,23 @@
       "deployment_id": "appgdep_6afa8d65a41881918de918d070bb5975",
       "runtime_commit": "c7fd6c4387d4cfeef3a26f9340b4589c6a607122",
       "platform_version": 95
+    },
+    {
+      "release": "V90.2",
+      "branch": "feature/v89-bear-economic-observatory",
+      "base_source_commit": "5d7d71ee81dd8dcb272a62b1556151b0675ddff3",
+      "status": "deployed",
+      "report": "docs/V90.2-ACCEPTANCE.md",
+      "migration": "0021_economic_observatory",
+      "formula_version": "bear-sim-1",
+      "remaining_limits": [
+        "actual iPhone Safari and installed Web App",
+        "V90.3 quest/news",
+        "V90.4 mobile acceptance"
+      ],
+      "deployment_id": "appgdep_6afa920225448191a57d0b704474344b",
+      "platform_version": 96,
+      "runtime_commit": "82d61133d5422b36362be07f78a4aad9c99eaefe"
     }
   ]
 }

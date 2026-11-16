@@ -1,3 +1,7 @@
+# V90.2 熊熊經濟觀測站 · Economic Engine
+
+Official shared simulation, BBI/BCPI, fixed goods basket and supply-demand lab. Every number is labelled simulated; original shop/player economy remains separate. [Model, tests and rollback](docs/V90.2-ACCEPTANCE.md). Quest and weekly bulletin remain V90.3.
+
 # V90.1 熊熊經濟觀測站
 
 New resort building and bilingual Professor Maple conversations. Indices and active market simulations are pending V90.2. [Phase 0](docs/V90-PHASE0.md) · [V90.1 acceptance](docs/V90.1-ACCEPTANCE.md).

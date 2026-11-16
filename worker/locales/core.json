@@ -2128,5 +2128,301 @@
   "observatory.mapHint": {
     "zh-TW": "走進木石小研究所，與楓教授聊聊生活中的價格",
     "en": "Visit the little wood-and-stone research house and talk with Professor Maple about everyday prices"
+  },
+  "economy.label": {
+    "zh-TW": "官方島嶼模擬 · 非玩家市場統計",
+    "en": "Official island simulation · Not player market statistics"
+  },
+  "economy.heading": {
+    "zh-TW": "島嶼經濟觀察桌",
+    "en": "Island economy desk"
+  },
+  "economy.period": {
+    "zh-TW": "本期（台灣時間）",
+    "en": "Current period (Taiwan time)"
+  },
+  "economy.base": {
+    "zh-TW": "基期：2026/11/09，指數 = 100",
+    "en": "Base: 2026/11/09, index = 100"
+  },
+  "economy.bbi": {
+    "zh-TW": "BBI 熊熊景氣指數",
+    "en": "BBI · Bear Business Index"
+  },
+  "economy.bcpi": {
+    "zh-TW": "BCPI 熊熊物價指數",
+    "en": "BCPI · Bear Consumer Price Index"
+  },
+  "economy.indexUnit": {
+    "zh-TW": "單位：指數點",
+    "en": "Unit: index points"
+  },
+  "economy.week": {
+    "zh-TW": "週增率",
+    "en": "Week-over-week"
+  },
+  "economy.baseChange": {
+    "zh-TW": "相較基期",
+    "en": "Change from base"
+  },
+  "economy.annual": {
+    "zh-TW": "年增率",
+    "en": "Year-over-year"
+  },
+  "economy.insufficient": {
+    "zh-TW": "資料未滿 12 個月",
+    "en": "Less than 12 months of data"
+  },
+  "economy.none": {
+    "zh-TW": "基期無前期",
+    "en": "No previous base period"
+  },
+  "economy.why": {
+    "zh-TW": "本週為什麼變動？",
+    "en": "Why did it change this week?"
+  },
+  "economy.stable": {
+    "zh-TW": "平穩的一週",
+    "en": "A stable week"
+  },
+  "economy.harvest": {
+    "zh-TW": "胡蘿蔔大豐收",
+    "en": "A plentiful carrot harvest"
+  },
+  "economy.festival": {
+    "zh-TW": "島嶼咖啡節",
+    "en": "Island coffee festival"
+  },
+  "economy.building": {
+    "zh-TW": "新建築施工",
+    "en": "New construction"
+  },
+  "economy.harvestStory": {
+    "zh-TW": "本期胡蘿蔔供給增加 40%，需求不變。價格模型因此向下調整；模擬產出上升，但成交量受需求限制。",
+    "en": "Carrot supply rises 40% while demand stays unchanged. The price model moves down; simulated output rises, but demand limits matched quantity."
+  },
+  "economy.festivalStory": {
+    "zh-TW": "咖啡節使咖啡需求增加 40%，供給因增產增加 20%。需求增幅較大，模型價格上升，成交量與咖啡館銷量也增加。",
+    "en": "Coffee demand rises 40% and production raises supply 20%. Demand rises faster, so the model price increases along with matched quantity and café volume."
+  },
+  "economy.buildingStory": {
+    "zh-TW": "施工使木材需求增加 30%，供給暫時不變。模型價格上升；成交量受到供給限制。",
+    "en": "Construction raises wood demand 30% while supply stays unchanged. The model price rises; supply limits matched quantity."
+  },
+  "economy.stableStory": {
+    "zh-TW": "本期沒有供需衝擊，所有商品回到基期條件。與上期的漲跌仍可能反映上一事件結束。",
+    "en": "There is no supply or demand shock this period. All goods return to base conditions. Weekly changes can still reflect the end of the previous event."
+  },
+  "economy.expiry": {
+    "zh-TW": "事件只作用於這一週，下週按排程重新從基期計算，不會無限疊加。",
+    "en": "An event lasts one week. The next period recalculates from the base; shocks never accumulate indefinitely."
+  },
+  "economy.previousEnd": {
+    "zh-TW": "週增率同時包含本期事件開始及上期事件結束；下方可比較兩期資料。",
+    "en": "Weekly changes include both this event starting and the previous event ending. Compare the two snapshots below."
+  },
+  "economy.harvestBenefit": {
+    "zh-TW": "買菜居民的成本較低；農夫每份收入承壓。可以留意需求，再決定分批採收或交換。",
+    "en": "Shoppers face lower costs; farmers face pressure on revenue per carrot. Observe demand before harvesting or exchanging in batches."
+  },
+  "economy.festivalBenefit": {
+    "zh-TW": "咖啡館銷售量增加，咖啡原料供應者可能受益；喝咖啡的居民面臨較高價格。可以預先備料或選擇其他飲品。",
+    "en": "Cafés sell more and coffee suppliers may benefit; residents face higher coffee prices. Preparing inputs or choosing other drinks are possible responses."
+  },
+  "economy.buildingBenefit": {
+    "zh-TW": "木材供應者可能受益，施工與家具製作者承受材料成本壓力。可以分批採購或延後非必要工程。",
+    "en": "Wood suppliers may benefit while builders and furniture makers face input cost pressure. Buying in batches or delaying optional work are possible responses."
+  },
+  "economy.stableBenefit": {
+    "zh-TW": "居民可以按自己的步調探索。這裡沒有每日測驗、排名或懲罰。",
+    "en": "Residents can explore at their own pace. There are no daily tests, rankings or penalties."
+  },
+  "economy.prices": {
+    "zh-TW": "固定商品籃子與本期價格",
+    "en": "Fixed basket and current prices"
+  },
+  "economy.priceUnit": {
+    "zh-TW": "價格單位：模擬島幣／份；數量單位：模型份／週",
+    "en": "Prices: simulated coins per unit; quantities: model units per week"
+  },
+  "economy.carrot": {
+    "zh-TW": "胡蘿蔔",
+    "en": "Carrot"
+  },
+  "economy.pumpkin": {
+    "zh-TW": "南瓜",
+    "en": "Pumpkin"
+  },
+  "economy.coffee": {
+    "zh-TW": "咖啡",
+    "en": "Coffee"
+  },
+  "economy.fish": {
+    "zh-TW": "魚",
+    "en": "Fish"
+  },
+  "economy.wood": {
+    "zh-TW": "木材",
+    "en": "Wood"
+  },
+  "economy.materials": {
+    "zh-TW": "基本家具材料",
+    "en": "Basic furniture materials"
+  },
+  "economy.price": {
+    "zh-TW": "本期價格",
+    "en": "Current price"
+  },
+  "economy.basePrice": {
+    "zh-TW": "基期價格",
+    "en": "Base price"
+  },
+  "economy.basketQty": {
+    "zh-TW": "固定籃子數量",
+    "en": "Fixed basket quantity"
+  },
+  "economy.supply": {
+    "zh-TW": "供給",
+    "en": "Supply"
+  },
+  "economy.demand": {
+    "zh-TW": "需求",
+    "en": "Demand"
+  },
+  "economy.matched": {
+    "zh-TW": "模型成交量",
+    "en": "Model matched quantity"
+  },
+  "economy.basketCost": {
+    "zh-TW": "一籃子總成本",
+    "en": "Total basket cost"
+  },
+  "economy.history": {
+    "zh-TW": "每週指數紀錄",
+    "en": "Weekly index history"
+  },
+  "economy.chart": {
+    "zh-TW": "指數走勢 · 基期 100",
+    "en": "Index history · Base 100"
+  },
+  "economy.historyNote": {
+    "zh-TW": "僅顯示已到期的模擬期間，最多最近 13 期；不是實際市場歷史。",
+    "en": "Only simulated periods that have started are shown, up to the latest 13; this is not actual market history."
+  },
+  "economy.method": {
+    "zh-TW": "打開研究筆記：公式與來源",
+    "en": "Open the research notes: formulas and source"
+  },
+  "economy.formula": {
+    "zh-TW": "價格 = 基期價格 × √（需求比率／供給比率），限制在基期價格的 0.5～2 倍。模型成交量 = 供給與需求的較小值。這是簡化教學模型，不代表真實市場的精確預測。",
+    "en": "Price = base price × √(demand ratio / supply ratio), bounded at 0.5–2× the base price. Matched quantity = the smaller of supply and demand. This is a simplified learning model, not a precise real-market forecast."
+  },
+  "economy.bbiMethod": {
+    "zh-TW": "BBI = 100 ×（成交量比率 × 40% + 產出比率 × 25% + 咖啡館銷量比率 × 20% + 固定基價加權的 NPC 消費量比率 × 15%）。每個比率都相對基期；這是重疊活動指標的組合，不是 GDP 或交易金額加總。",
+    "en": "BBI = 100 × (matched-volume ratio × 40% + output ratio × 25% + café-volume ratio × 20% + fixed-base-price-weighted NPC consumption-volume ratio × 15%). Each ratio is relative to the base. This is a composite of overlapping activity indicators, not GDP or a sum of transaction amounts."
+  },
+  "economy.bcpiMethod": {
+    "zh-TW": "BCPI = 100 × Σ（本期價格 × 固定籃子數量）／Σ（基期價格 × 固定籃子數量）。籃子與基期價格不隨事件改變。",
+    "en": "BCPI = 100 × Σ(current price × fixed basket quantity) / Σ(base price × fixed basket quantity). The basket and base prices do not change with events."
+  },
+  "economy.contributions": {
+    "zh-TW": "BBI 相較基期的成分貢獻（指數點）",
+    "en": "BBI component contributions from base (index points)"
+  },
+  "economy.trades": {
+    "zh-TW": "模型成交量 · 40%",
+    "en": "Matched volume · 40%"
+  },
+  "economy.output": {
+    "zh-TW": "模型產出 · 25%",
+    "en": "Model output · 25%"
+  },
+  "economy.cafe": {
+    "zh-TW": "咖啡館銷量 · 20%",
+    "en": "Café volume · 20%"
+  },
+  "economy.consumption": {
+    "zh-TW": "NPC 消費量 · 15%",
+    "en": "NPC consumption volume · 15%"
+  },
+  "economy.provenance": {
+    "zh-TW": "計算版本與原始快照",
+    "en": "Calculation version and raw snapshot"
+  },
+  "economy.sourceNote": {
+    "zh-TW": "來源：伺服器共用的確定性模擬。每週一 00:00（台灣時間）換期，首次讀取會保存缺少的快照；不需要玩家登入次數，也不會讀寫玩家資產。",
+    "en": "Source: shared deterministic server simulation. Periods change Monday at 00:00 Taiwan time. The first read saves missing snapshots. Login counts are not used and player assets are not read or written."
+  },
+  "economy.raw": {
+    "zh-TW": "查看已保存的原始資料（JSON）",
+    "en": "View saved raw data (JSON)"
+  },
+  "economy.lab": {
+    "zh-TW": "供需實驗桌",
+    "en": "Supply and demand lab"
+  },
+  "economy.labNote": {
+    "zh-TW": "這是你的獨立試算，與官方每週快照分開。不改變商店價格、產量、島幣或背包；重設就回到相同的基期。",
+    "en": "This is your separate experiment, independent of official weekly snapshots. It does not change shop prices, crop output, coins or inventory. Reset returns to the same base."
+  },
+  "economy.reset": {
+    "zh-TW": "重設實驗",
+    "en": "Reset experiment"
+  },
+  "economy.normal": {
+    "zh-TW": "一般衝擊",
+    "en": "Standard shock"
+  },
+  "economy.strong": {
+    "zh-TW": "加強衝擊",
+    "en": "Stronger shock"
+  },
+  "economy.experimentResult": {
+    "zh-TW": "實驗結果 · 非官方指數",
+    "en": "Experiment result · Not official indices"
+  },
+  "economy.labModel": {
+    "zh-TW": "一般衝擊沿用事件設定；加強衝擊把供需相對基期的增幅加倍，每次都重新計算，不會累積。",
+    "en": "Standard shocks use the event definition. Stronger shocks double supply/demand increases from the base. Every selection recalculates without accumulating."
+  },
+  "economy.unavailable": {
+    "zh-TW": "研究資料暫時無法讀取，請稍後再試。原本的島嶼活動仍可使用。",
+    "en": "Research data is temporarily unavailable. Please try again later. Existing island activities remain available."
+  },
+  "economy.openDesk": {
+    "zh-TW": "打開經濟觀察桌",
+    "en": "Open the economy desk"
+  },
+  "economy.openLab": {
+    "zh-TW": "走到供需實驗桌",
+    "en": "Visit the supply and demand lab"
+  },
+  "economy.weeklyPending": {
+    "zh-TW": "經濟週報與胡蘿蔔支線任務將在 V90.3 開放。",
+    "en": "The economic bulletin and carrot side quest arrive in V90.3."
+  },
+  "economy.currentTalk": {
+    "zh-TW": "這週的價格與活動可以在觀察桌一起看。點開「本週為什麼變動」，再比較各種商品。",
+    "en": "Explore this week’s prices and activity together at the economy desk. Open “Why did it change this week?” and compare the goods."
+  },
+  "economy.indexTalk": {
+    "zh-TW": "BBI 看活動量，BCPI 看固定籃子的價格。兩者是共用的模擬指數；我把公式、基期與快照都留在研究筆記裡了。",
+    "en": "BBI follows activity volume; BCPI follows fixed-basket prices. Both are shared simulated indices. Their formulas, base and snapshots are in the research notes."
+  },
+  "economy.labTalk": {
+    "zh-TW": "到實驗桌選擇豐收、咖啡節或施工，看看供給、需求與價格如何一起變動。想重來，隨時可以重設。",
+    "en": "At the lab, choose a harvest, coffee festival or construction event to see supply, demand and prices change together. Reset whenever you like."
+  },
+  "economy.annualMethod": {
+    "zh-TW": "年增率需有滿 12 個月的週資料；比較去年同日或之前最近一期。週增率 = 本期／上期 − 1；相較基期 = 指數／100 − 1。",
+    "en": "Year-over-year requires 12 months of weekly data, using the nearest period on or before the same date last year. Weekly change = current / previous − 1; base change = index / 100 − 1."
+  },
+  "economy.periodEnd": {
+    "zh-TW": "事件結束／下次換期",
+    "en": "Event ends / next period"
+  },
+  "economy.modelBounds": {
+    "zh-TW": "調整的是模型商品市場；島上現有商店與玩家交易仍沿用原系統。",
+    "en": "Only the model market changes; existing island shops and player exchanges keep their current rules."
   }
 }

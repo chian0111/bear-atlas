@@ -141,6 +141,13 @@
       "when": 1794880800000,
       "tag": "0020_garden_nature",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "6",
+      "when": 1794888000000,
+      "tag": "0021_economic_observatory",
+      "breakpoints": true
     }
   ]
 }
