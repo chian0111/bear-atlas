@@ -674,6 +674,15 @@
       "deployment_id": "appgdep_6afa545e5b44819190fb03c21208a0f3",
       "deployment_status": "succeeded",
       "archive_sha256": "sha256:57724c569605e820d5b3519c98affc766efc231a4736f6c9951e0c68a0f8e11f"
+    },
+    {
+      "version": 94,
+      "product_release": "V89",
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_5ea99626a52881919f560ebfbfb4eb00",
+      "commit": "3d29fae3a2e7cf40a6883862ade737b417493819",
+      "deployment_id": "appgdep_6afa73c8938c819181f0f5b7d5da3a3a",
+      "deployment_status": "succeeded",
+      "archive_sha256": "sha256:f1033ad10e6d6195dc6a9554da01eeaed94c804c6e351562d83e5949725826f0"
     }
   ],
   "candidates": [

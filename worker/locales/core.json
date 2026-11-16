@@ -918,8 +918,8 @@
     "en": "Squirrels, blue magpies and owls rotate by Taiwan time. Muntjacs appear daily from 14:00–21:00; a catch-up trail is available at other times. No late-night wait needed."
   },
   "welcome.note4": {
-    "zh-TW": "海灘可以散步、聽海，也能點貝殼收進背包。帶回小屋展示，或到海風小舖交換素材與擺飾；種菜尚未開放。",
-    "en": "Walk, listen to the waves and tap shells to collect them. Display finds at home or visit the Sea Breeze Shop to exchange materials and decor. Farming is not available yet."
+    "zh-TW": "海灘可以散步、聽海，也能點貝殼收進背包。帶回小屋展示，或到海風小舖交換素材與擺飾；也能到花園種菜、灌溉稻田，或到池邊釣魚。",
+    "en": "Walk, listen to the waves and tap shells to collect them. Display finds at home or visit the Sea Breeze Shop to exchange materials and decor. You can also grow a garden, tend a rice paddy or fish by the pond."
   },
   "welcome.how": {
     "zh-TW": "怎麼開始",
@@ -1500,5 +1500,505 @@
   "collection.beachFooter": {
     "zh-TW": "海浪會把新的小發現帶到沙灘。喜歡的貝殼，可以帶回小屋收藏。",
     "en": "The waves bring little discoveries to shore. Bring a favorite shell home to keep."
+  },
+  "garden.needsWater": {
+    "zh-TW": "等待澆水",
+    "en": "Needs watering"
+  },
+  "garden.seedling": {
+    "zh-TW": "小小幼苗",
+    "en": "Little seedling"
+  },
+  "garden.growing": {
+    "zh-TW": "慢慢長大",
+    "en": "Growing gently"
+  },
+  "garden.ripe": {
+    "zh-TW": "成熟了，隨時可以收成",
+    "en": "Ripe and waiting for you"
+  },
+  "garden.title": {
+    "zh-TW": "海岸小花園",
+    "en": "Seaside little garden"
+  },
+  "garden.tag": {
+    "zh-TW": "把日子種慢一點",
+    "en": "Let the days grow slowly"
+  },
+  "garden.intro": {
+    "zh-TW": "三格菜圃、一格稻田。種下、澆水，再去島上散步；作物會在離線時繼續長大。",
+    "en": "Three garden beds and one rice paddy. Plant, water, then wander the island. Crops keep growing while you are away."
+  },
+  "garden.gentle": {
+    "zh-TW": "只需澆一次水。成熟後會一直等你，不會枯萎、腐壞或因缺席扣分。",
+    "en": "Water once. Ripe crops wait for you without wilting, spoiling or absence penalties."
+  },
+  "garden.starter": {
+    "zh-TW": "領取一次免費種子包",
+    "en": "Claim your free starter seeds"
+  },
+  "garden.starterNote": {
+    "zh-TW": "香草、胡蘿蔔、番茄各兩包，稻種一包。每位島民可領一次，之後可用島幣補種。",
+    "en": "Two herb, carrot and tomato seed packs each, plus one rice seed pack. Once per resident; more seeds are available for island coins."
+  },
+  "garden.beds": {
+    "zh-TW": "菜圃",
+    "en": "Garden bed"
+  },
+  "garden.paddy": {
+    "zh-TW": "小小稻田",
+    "en": "Little rice paddy"
+  },
+  "garden.empty": {
+    "zh-TW": "空地，等你種下第一顆種子",
+    "en": "An empty plot for your next seed"
+  },
+  "garden.plant": {
+    "zh-TW": "種下",
+    "en": "Plant"
+  },
+  "garden.water": {
+    "zh-TW": "澆水，開始生長",
+    "en": "Water to start growing"
+  },
+  "garden.irrigate": {
+    "zh-TW": "灌水，開始生長",
+    "en": "Water the rice paddy"
+  },
+  "garden.harvest": {
+    "zh-TW": "收成兩份，放進背包",
+    "en": "Harvest two into your backpack"
+  },
+  "garden.readyAt": {
+    "zh-TW": "預計成熟時間（台灣）",
+    "en": "Ready at (Taiwan time)"
+  },
+  "garden.remaining": {
+    "zh-TW": "約剩分鐘",
+    "en": "Minutes remaining"
+  },
+  "garden.minutes": {
+    "zh-TW": "分鐘",
+    "en": "minutes"
+  },
+  "garden.growth": {
+    "zh-TW": "澆水後成長時間",
+    "en": "Growth time after watering"
+  },
+  "garden.refresh": {
+    "zh-TW": "查看最新生長",
+    "en": "Check growth"
+  },
+  "garden.seeds": {
+    "zh-TW": "購買種子",
+    "en": "Get more seeds"
+  },
+  "garden.bag": {
+    "zh-TW": "我的背包",
+    "en": "My backpack"
+  },
+  "garden.pond": {
+    "zh-TW": "池邊釣魚",
+    "en": "Pond fishing"
+  },
+  "garden.trades": {
+    "zh-TW": "物物交換",
+    "en": "Item exchange"
+  },
+  "garden.forest": {
+    "zh-TW": "到森林散步",
+    "en": "Walk in the woods"
+  },
+  "garden.map": {
+    "zh-TW": "回島嶼地圖",
+    "en": "Back to the island map"
+  },
+  "garden.noSeed": {
+    "zh-TW": "目前沒有適合這格的種子。先領種子包，或到海風小舖看看。",
+    "en": "No suitable seed is available. Claim your starter pack or visit the shop."
+  },
+  "garden.variety": {
+    "zh-TW": "種出香草、胡蘿蔔與番茄，就能在商店發現向日葵種子。",
+    "en": "Harvest herbs, carrots and tomatoes to discover sunflower seeds in the shop."
+  },
+  "garden.pondIntro": {
+    "zh-TW": "在池邊坐一會，二十秒後可以收竿。沒有快反應要求，晚一點回來也不會錯過。",
+    "en": "Sit by the pond. Your line is ready after twenty seconds, with no reflex test or missed catch if you return later."
+  },
+  "garden.cast": {
+    "zh-TW": "坐下釣一會",
+    "en": "Cast a line and relax"
+  },
+  "garden.catch": {
+    "zh-TW": "收竿，把發現收進背包",
+    "en": "Reel in your pond find"
+  },
+  "garden.waiting": {
+    "zh-TW": "魚漂正輕輕晃動，稍後再看看。",
+    "en": "The float is drifting gently. Check again in a moment."
+  },
+  "garden.catchReady": {
+    "zh-TW": "可以收竿了，不必趕。",
+    "en": "Ready to reel in. There is no rush."
+  },
+  "garden.pondRules": {
+    "zh-TW": "每天最多六次新下竿，收竿後休息兩分鐘。沒有魚餌費用；養殖與繁殖尚未開放。",
+    "en": "Up to six new casts per Taiwan day, with a two-minute rest after reeling in. No bait cost. Breeding and aquaculture are not available yet."
+  },
+  "garden.rest": {
+    "zh-TW": "池邊先休息一下，再開始下一次。",
+    "en": "Rest by the pond before casting again."
+  },
+  "garden.limit": {
+    "zh-TW": "今天已經釣過六次。可以去花園看看，明天再來。",
+    "en": "You have fished six times today. Visit the garden and return another day."
+  },
+  "garden.tradeTitle": {
+    "zh-TW": "島民物物交換",
+    "en": "Resident item exchange"
+  },
+  "garden.tradeIntro": {
+    "zh-TW": "你先放一件物品暫存，對方核對後再交出一件。雙方的背包會一起更新；不使用島幣，也沒有真實付款。",
+    "en": "Set aside one item. Your friend reviews the offer and gives one item in return. Both backpacks update together, without coins or real payments."
+  },
+  "garden.member": {
+    "zh-TW": "對方島民編號",
+    "en": "Other resident’s ID"
+  },
+  "garden.offer": {
+    "zh-TW": "我願意交出一件",
+    "en": "I offer one"
+  },
+  "garden.want": {
+    "zh-TW": "希望換到一件",
+    "en": "I would like one"
+  },
+  "garden.review": {
+    "zh-TW": "核對交換內容",
+    "en": "Review the exchange"
+  },
+  "garden.reviewTitle": {
+    "zh-TW": "先核對，再送出邀請",
+    "en": "Review before sending an offer"
+  },
+  "garden.target": {
+    "zh-TW": "對方島民",
+    "en": "Other resident"
+  },
+  "garden.give": {
+    "zh-TW": "交出",
+    "en": "Give"
+  },
+  "garden.receive": {
+    "zh-TW": "換取",
+    "en": "Receive"
+  },
+  "garden.confirmPost": {
+    "zh-TW": "確認暫存物品並送出邀請",
+    "en": "Set aside this item and send offer"
+  },
+  "garden.postNote": {
+    "zh-TW": "送出後，交出的物品會暫存，不會同時留在可用背包。對方有二十四小時接受；你可隨時撤回並取回物品。",
+    "en": "Your offered item is held aside and removed from available inventory. Your friend has twenty-four hours to accept. You may cancel and reclaim it at any time."
+  },
+  "garden.emptyTrade": {
+    "zh-TW": "還沒有交換邀請。可以先到背包看看多餘的素材。",
+    "en": "No exchange offers yet. Check your backpack for spare finds."
+  },
+  "garden.own": {
+    "zh-TW": "我送出的邀請",
+    "en": "My outgoing offer"
+  },
+  "garden.incoming": {
+    "zh-TW": "收到的交換邀請",
+    "en": "Incoming exchange offer"
+  },
+  "garden.pending": {
+    "zh-TW": "等待對方確認",
+    "en": "Awaiting confirmation"
+  },
+  "garden.accepted": {
+    "zh-TW": "交換已完成",
+    "en": "Exchange completed"
+  },
+  "garden.cancelled": {
+    "zh-TW": "已撤回並退回物品",
+    "en": "Cancelled and item returned"
+  },
+  "garden.declined": {
+    "zh-TW": "已婉拒並退回物品",
+    "en": "Declined and item returned"
+  },
+  "garden.expired": {
+    "zh-TW": "邀請已過期；發起人可取回暫存物品。",
+    "en": "This offer expired. The sender can reclaim the held item."
+  },
+  "garden.accept": {
+    "zh-TW": "確認交出一件並完成交換",
+    "en": "Give one and complete this exchange"
+  },
+  "garden.decline": {
+    "zh-TW": "婉拒，退回對方物品",
+    "en": "Decline and return the offered item"
+  },
+  "garden.cancel": {
+    "zh-TW": "撤回並取回我的物品",
+    "en": "Cancel and reclaim my item"
+  },
+  "garden.back": {
+    "zh-TW": "先不交換，回邀請列表",
+    "en": "Return without sending"
+  },
+  "garden.noItem": {
+    "zh-TW": "目前沒有可交換的物品，或需要的物品還不足。展示中的物品需先收回背包。",
+    "en": "No item is available, or the required item is missing. Return displayed items to your backpack before trading."
+  },
+  "garden.badMember": {
+    "zh-TW": "請核對對方島民編號；不能和自己交換相同物品。",
+    "en": "Check the resident ID. You cannot trade with yourself or exchange identical items."
+  },
+  "garden.expires": {
+    "zh-TW": "到期時間（台灣）",
+    "en": "Expires at (Taiwan time)"
+  },
+  "garden.saved": {
+    "zh-TW": "已保存，背包與進度已一起更新。",
+    "en": "Saved. Your backpack and progress were updated together."
+  },
+  "garden.replay": {
+    "zh-TW": "這次操作已完成，沒有重複消耗或發放。",
+    "en": "This action was already completed. Nothing was spent or granted twice."
+  },
+  "garden.conflict": {
+    "zh-TW": "進度、物品或邀請已改變；本次沒有消耗物品。請重新整理再試。",
+    "en": "Progress, items or the offer changed. Nothing was consumed. Refresh and try again."
+  },
+  "garden.oldToken": {
+    "zh-TW": "操作已過期，請重新開啟這個頁面。",
+    "en": "This action expired. Reopen this page."
+  },
+  "garden.invalid": {
+    "zh-TW": "請使用頁面上的操作。",
+    "en": "Please use the controls on this page."
+  },
+  "garden.unavailable": {
+    "zh-TW": "田園功能暫時無法使用，原本的資料仍保留。",
+    "en": "Garden features are temporarily unavailable. Your existing data is preserved."
+  },
+  "garden.login": {
+    "zh-TW": "登入島民證，照顧自己的花園與收藏。",
+    "en": "Sign in with your passport to care for your garden and collection."
+  },
+  "garden.signin": {
+    "zh-TW": "登入或領取島民證",
+    "en": "Sign in or get a passport"
+  },
+  "garden.next": {
+    "zh-TW": "下一頁",
+    "en": "Next page"
+  },
+  "garden.prev": {
+    "zh-TW": "上一頁",
+    "en": "Previous page"
+  },
+  "collection.seed": {
+    "zh-TW": "種子",
+    "en": "Seed"
+  },
+  "collection.produce": {
+    "zh-TW": "田園收成",
+    "en": "Garden produce"
+  },
+  "collection.fish": {
+    "zh-TW": "池邊發現",
+    "en": "Pond find"
+  },
+  "collection.sourceGarden": {
+    "zh-TW": "來源：自己的花園或稻田",
+    "en": "Source: your garden or rice paddy"
+  },
+  "collection.sourcePond": {
+    "zh-TW": "來源：池邊釣魚",
+    "en": "Source: pond fishing"
+  },
+  "collection.seed_herb": {
+    "zh-TW": "香草種子",
+    "en": "Herb seeds"
+  },
+  "collection.seed_herbNote": {
+    "zh-TW": "種下後澆一次水，五分鐘後可收成。",
+    "en": "Plant and water once. Ready to harvest in five minutes."
+  },
+  "collection.seed_carrot": {
+    "zh-TW": "胡蘿蔔種子",
+    "en": "Carrot seeds"
+  },
+  "collection.seed_carrotNote": {
+    "zh-TW": "種下後澆一次水，十五分鐘後可收成。",
+    "en": "Plant and water once. Ready to harvest in fifteen minutes."
+  },
+  "collection.seed_tomato": {
+    "zh-TW": "番茄種子",
+    "en": "Tomato seeds"
+  },
+  "collection.seed_tomatoNote": {
+    "zh-TW": "種下後澆一次水，三十分鐘後可收成。",
+    "en": "Plant and water once. Ready to harvest in thirty minutes."
+  },
+  "collection.seed_rice": {
+    "zh-TW": "稻種",
+    "en": "Rice seeds"
+  },
+  "collection.seed_riceNote": {
+    "zh-TW": "種在第四格稻田，灌水後六十分鐘可收成。",
+    "en": "Plant in paddy plot four. Ready sixty minutes after watering."
+  },
+  "collection.seed_sunflower": {
+    "zh-TW": "向日葵種子",
+    "en": "Sunflower seeds"
+  },
+  "collection.seed_sunflowerNote": {
+    "zh-TW": "收成過香草、胡蘿蔔與番茄後解鎖；澆水後四十五分鐘開花。",
+    "en": "Unlock after harvesting herbs, carrots and tomatoes. Blooms forty-five minutes after watering."
+  },
+  "collection.herb": {
+    "zh-TW": "新鮮香草",
+    "en": "Fresh herbs"
+  },
+  "collection.herbNote": {
+    "zh-TW": "自己種出的清香，可展示、換島幣、交換或送朋友。",
+    "en": "Homegrown fragrance to display, sell, trade or give to a friend."
+  },
+  "collection.carrot": {
+    "zh-TW": "田園胡蘿蔔",
+    "en": "Garden carrot"
+  },
+  "collection.carrotNote": {
+    "zh-TW": "一顆種子收成兩份，讓小小菜圃有真實的回饋。",
+    "en": "One seed yields two carrots, a little reward from your garden."
+  },
+  "collection.tomato": {
+    "zh-TW": "紅潤番茄",
+    "en": "Ripe tomato"
+  },
+  "collection.tomatoNote": {
+    "zh-TW": "成熟後會一直等你，不會因晚登入而腐壞。",
+    "en": "Ripe tomatoes wait for you and never spoil because you signed in late."
+  },
+  "collection.rice": {
+    "zh-TW": "金色稻穗",
+    "en": "Golden rice"
+  },
+  "collection.riceNote": {
+    "zh-TW": "從小小稻田收成的稻穗，可帶回小屋展示。",
+    "en": "Harvested from your little paddy, ready for a cottage display."
+  },
+  "collection.sunflower": {
+    "zh-TW": "小小向日葵",
+    "en": "Little sunflower"
+  },
+  "collection.sunflowerNote": {
+    "zh-TW": "種過三種蔬菜後的新發現，替小屋留一束陽光。",
+    "en": "A discovery after growing three crops, a little sunshine for your cottage."
+  },
+  "collection.silverfish": {
+    "zh-TW": "銀色小溪魚",
+    "en": "Silver stream fish"
+  },
+  "collection.silverfishNote": {
+    "zh-TW": "池邊的遊戲收藏，可展示、交換或贈送，不含真實交易。",
+    "en": "A virtual pond keepsake to display, trade or gift, with no real-world transaction."
+  },
+  "collection.pondcarp": {
+    "zh-TW": "池塘小鯉魚",
+    "en": "Little pond carp"
+  },
+  "collection.pondcarpNote": {
+    "zh-TW": "釣起後收進共用背包；養殖與繁殖尚未開放。",
+    "en": "A catch for your shared backpack. Breeding and aquaculture are not available yet."
+  },
+  "collection.garden": {
+    "zh-TW": "我的花園",
+    "en": "My garden"
+  },
+  "collection.trades": {
+    "zh-TW": "物物交換",
+    "en": "Item exchange"
+  },
+  "collection.locked": {
+    "zh-TW": "收成香草、胡蘿蔔、番茄後解鎖。",
+    "en": "Unlock by harvesting herbs, carrots and tomatoes."
+  },
+  "collection.starterAction": {
+    "zh-TW": "領取種子包",
+    "en": "Starter seeds"
+  },
+  "collection.starter_seedAction": {
+    "zh-TW": "種子包入袋",
+    "en": "Starter seed credit"
+  },
+  "collection.plantAction": {
+    "zh-TW": "種植",
+    "en": "Planted"
+  },
+  "collection.plant_seedAction": {
+    "zh-TW": "種植耗用種子",
+    "en": "Seed used"
+  },
+  "collection.waterAction": {
+    "zh-TW": "澆水",
+    "en": "Watered"
+  },
+  "collection.harvestAction": {
+    "zh-TW": "收成",
+    "en": "Harvested"
+  },
+  "collection.castAction": {
+    "zh-TW": "池邊下竿",
+    "en": "Cast a line"
+  },
+  "collection.catchAction": {
+    "zh-TW": "池邊收竿",
+    "en": "Reeled in"
+  },
+  "collection.trade_postAction": {
+    "zh-TW": "交換暫存物品",
+    "en": "Item held for exchange"
+  },
+  "collection.trade_acceptAction": {
+    "zh-TW": "確認交換",
+    "en": "Exchange accepted"
+  },
+  "collection.trade_cancelAction": {
+    "zh-TW": "撤回交換",
+    "en": "Exchange cancelled"
+  },
+  "collection.trade_declineAction": {
+    "zh-TW": "婉拒交換",
+    "en": "Exchange declined"
+  },
+  "collection.trade_receivedAction": {
+    "zh-TW": "交換取得物品",
+    "en": "Exchange item received"
+  },
+  "collection.trade_paidAction": {
+    "zh-TW": "交換交出物品",
+    "en": "Exchange item sent"
+  },
+  "collection.trade_returnedAction": {
+    "zh-TW": "交換物品退回",
+    "en": "Exchange item returned"
+  },
+  "garden.gardenQuestTitle": {
+    "zh-TW": "田園與林間的約定",
+    "en": "A promise between garden and woodland"
+  },
+  "garden.gardenQuestNote": {
+    "zh-TW": "收成一回、觀察野生朋友，再到池邊收竿。",
+    "en": "Harvest once, observe a wild friend, then reel in a pond find."
+  },
+  "garden.gardenQuestReward": {
+    "zh-TW": "田園自然紀念卡",
+    "en": "Garden and nature keepsake"
   }
 }

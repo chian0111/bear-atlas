@@ -12,7 +12,8 @@ export const adventureQuests=[
  {id:'rare',kind:'hidden',title:'林間的驚喜',note:'每日下午與晚間都能相遇，白天也有補遇步道。',events:['wildlife:rare'],reward:'山羌觀察紀念卡'},
  {id:'daily',kind:'daily',title:'今天慢慢走',note:'台灣時間每天更新，錯過不扣分。',events:['forest:walk','beach:listen'],reward:'今日散步紀念卡'},
  {id:'woodland-week',kind:'side',repeat:'weekly',title:'本週的林間約定',note:'本週到森林觀察山羌，再去海邊聽海。下週仍有新的機會。',events:['wildlife:rare','beach:listen'],reward:'林海週記紀念卡'},
- {id:'visit',kind:'side',title:'留一張椅子給朋友',note:'接受一位既有居民來訪，完成一次小屋聊天。',events:['npc:conversation'],reward:'朋友來訪紀念卡'}
+ {id:'visit',kind:'side',title:'留一張椅子給朋友',note:'接受一位既有居民來訪，完成一次小屋聊天。',events:['npc:conversation'],reward:'朋友來訪紀念卡'},
+ {id:'garden-nature',kind:'side',title:'田園與林間的約定',note:'收成一回、觀察野生朋友，再到池邊收竿。',events:['garden:harvest','wildlife:common','pond:catch'],reward:'田園自然紀念卡'}
 ];
 export function adventureDay(now=Date.now()){return new Date(now+28800000).toISOString().slice(0,10);}
 export function adventurePeriod(q,now=Date.now()){if(q.kind==='daily')return adventureDay(now);if(q.repeat==='weekly'){const day=Math.floor((now+28800000)/86400000),monday=day-((day+3)%7+7)%7;return new Date(monday*86400000).toISOString().slice(0,10);}return '';}

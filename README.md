@@ -2,14 +2,15 @@
 
 A small island world with resident passports, cottages, animal neighbors and quiet activities. Continue this existing Site and preserve player data.
 
-## V88 — Island Collection & Economy
+## V89 — Farming & Nature
 
-Beachcombing and woodland finds now feed a persistent backpack, nine-item catalog, cottage display shelf, virtual shop, material crafting and one-item gifts. Existing furniture, outfits and keepsakes remain available. No real-money payments.
+Grow herbs, carrots, tomatoes and rice, then discover sunflowers. Plants grow on server time while you are away and never wither. Fish by the pond and exchange one item for another with a named resident through reviewed escrow. All produce uses the existing backpack, virtual wallet, gift flow and cottage display shelf. No real-money payments.
 
 - Play: https://atlas-sports-reply.kitty50228.chatgpt.site
+- Garden: `/world/garden`; pond: `/world/pond`; exchange: `/dock/trades`.
 - Backpack: `/dock/collection`; shop: `/dock/shop`; guide: `/dock/catalog`.
-- Acceptance, checks and rollback: [docs/V88-ACCEPTANCE.md](docs/V88-ACCEPTANCE.md).
-- Runtime is a dependency-free Cloudflare Worker ESM with the existing D1 binding. The build combines the Worker modules and generated bilingual catalog. Additive migrations live in `drizzle/`.
+- Acceptance, checks and rollback: [docs/V89-ACCEPTANCE.md](docs/V89-ACCEPTANCE.md).
+- Runtime is a dependency-free Cloudflare Worker ESM with the existing D1 binding. The build combines Worker modules and the generated bilingual catalog. Additive migrations live in `drizzle/`.
 
 ## Build and publish
 

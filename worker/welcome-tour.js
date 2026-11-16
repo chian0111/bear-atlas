@@ -19,7 +19,7 @@ export const welcomeCopy={
  note1:['廣場有島民招呼、居民與活動。可以自己寫一句問候，也能查看揪團的時間與內容，再決定是否參加。','The square brings together greetings, residents and activities. Write a greeting or read a meetup’s time and details before joining.'],
  note2:['家具、服裝與收藏都跟著你的島民證保存。回家後可以布置、坐下或休息；想讓居民來坐坐，到冒險手帳接受今天的拜訪。','Furniture, clothes and keepsakes stay with your passport. Decorate, sit or rest at home. Accept today’s resident visit in the adventure journal when you want company.'],
  note3:['森林裡有松鼠、藍鵲與貓頭鷹，會隨台灣時間輪替。山羌在每日 14:00–21:00 出現；其他時間有補遇步道，不必等到半夜。','Squirrels, blue magpies and owls rotate by Taiwan time. Muntjacs appear daily from 14:00–21:00; a catch-up trail is available at other times. No late-night wait needed.'],
- note4:['海灘可以散步、聽海，也能點貝殼收進背包。帶回小屋展示，或到海風小舖交換素材與擺飾；種菜尚未開放。','Walk, listen to the waves and tap shells to collect them. Display finds at home or visit the Sea Breeze Shop to exchange materials and decor. Farming is not available yet.'],
+ note4:['海灘可以散步、聽海，也能點貝殼收進背包。帶回小屋展示，或到海風小舖交換素材與擺飾；也能到花園種菜、灌溉稻田，或到池邊釣魚。','Walk, listen to the waves and tap shells to collect them. Display finds at home or visit the Sea Breeze Shop to exchange materials and decor. You can also grow a garden, tend a rice paddy or fish by the pond.'],
  how:['怎麼開始','How to start'],gain:['會留下什麼','What you take away'],
  how0:['在島嶼地圖點選地點即可前往；上方「回家」能直接回到自己的小屋。','Tap a place on the island map to enter. Use Home in the top navigation to return to your cottage.'],
  how1:['進入廣場，在布告欄寫下問候；按「看看廣場布告欄」可記錄第一個探索步驟。','Enter the square and write a greeting on the noticeboard. Choose Read the noticeboard to record a first exploration step.'],

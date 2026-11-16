@@ -137,7 +137,7 @@ export function cabin3DClient(){
  const canvas=display.querySelector('canvas'),ctx=canvas?.getContext('2d');
  if(!ctx)return;
  const game=display.closest?.('[data-cabin-game]');
- let collectionItems=[];try{collectionItems=JSON.parse(game?.querySelector?.('[data-collection-room-shelf]')?.dataset.collectionItems||'[]').filter(r=>Number.isInteger(r.slot)&&r.slot>=1&&r.slot<=4&&['scallop','spiral','clam','pinecone','leaf','mobile','frame','vase','tray'].includes(r.item_id));}catch{}
+ let collectionItems=[];try{collectionItems=JSON.parse(game?.querySelector?.('[data-collection-room-shelf]')?.dataset.collectionItems||'[]').filter(r=>Number.isInteger(r.slot)&&r.slot>=1&&r.slot<=4&&['scallop','spiral','clam','pinecone','leaf','mobile','frame','vase','tray','herb','carrot','tomato','rice','sunflower','silverfish','pondcarp'].includes(r.item_id));}catch{}
  const fallback=display.querySelector('.cabin-scene'),controls=display.querySelector('[data-cabin-camera]');
  let roomTransition=false;
  let yaw=.72,pitch=.55,zoom=1,frame=0;
@@ -314,7 +314,15 @@ export function cabin3DClient(){
   if(game&&room==='living'&&leftVisible&&!editMode){
    layer=0;furniture=null;box(-2.75,1.65,.2,.45,.075,2.05,'#b4946a');
    for(const r of collectionItems){const x=-2.38,y=1.73,z=.43+(r.slot-1)*.48,id=r.item_id;
-    if(id==='vase'){cylinder(x,y,z,.10,.23,'#e6ddc6',8);cylinder(x,y+.23,z,.045,.10,'#e6ddc6',8);leaf(x,y+.32,z,0,.20,.12,'#78976b');}
+    if(['herb','carrot','tomato','rice','sunflower'].includes(id)){
+     cylinder(x,y,z,.10,.10,'#c7ac7d',8);box(x-.012,y+.08,z-.01,.024,.30,.024,'#769761');leaf(x,y+.19,z,0,.15,.12,'#88a570');
+     if(id==='tomato')cylinder(x,y+.18,z+.08,.08,.09,'#ce8f75',8);
+     if(id==='carrot')poly([[x+.02,y+.08,z-.09],[x+.02,y+.08,z+.09],[x+.02,y-.06,z]],'#d9a06b');
+     if(id==='rice')for(const dz of [-.06,.06])cylinder(x,y+.32,z+dz,.035,.06,'#dbc782',6);
+     if(id==='sunflower'){cylinder(x,y+.35,z,.13,.035,'#e2c06f',10);cylinder(x,y+.39,z,.065,.025,'#987e4e',8);}
+    }
+    else if(id==='silverfish'||id==='pondcarp'){cylinder(x,y,z,.17,.19,'#b2d5cf',12);poly([[x+.02,y+.10,z-.10],[x+.02,y+.16,z],[x+.02,y+.10,z+.10],[x+.02,y+.05,z]],id==='pondcarp'?'#caa57b':'#d4e0ce');}
+    else if(id==='vase'){cylinder(x,y,z,.10,.23,'#e6ddc6',8);cylinder(x,y+.23,z,.045,.10,'#e6ddc6',8);leaf(x,y+.32,z,0,.20,.12,'#78976b');}
     else if(id==='tray')cylinder(x,y,z,.16,.04,'#d0ad79',12);
     else if(id==='frame'){box(x-.08,y,z-.16,.06,.37,.32,'#bc956b');box(x-.015,y+.04,z-.12,.01,.28,.24,'#fff4d8');leaf(x,y+.06,z-.08,0,.22,.12,'#c9ad61');}
     else if(id==='mobile'){box(x-.04,y,z-.025,.04,.39,.04,'#a5825d');box(x-.04,y+.36,z-.18,.04,.03,.36,'#a5825d');for(const dz of [-.12,0,.12]){box(x,y+.17,z+dz,.015,.17,.015,'#b89c74');poly([[x+.02,y+.08,z+dz],[x+.02,y+.19,z+dz-.055],[x+.02,y+.23,z+dz],[x+.02,y+.19,z+dz+.055]],'#e8c5a1');}}
