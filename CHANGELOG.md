@@ -1,3 +1,7 @@
+## V91.4
+
+Bounded orders verified; expired orders in paginated history; safer retry navigation. Physical Safari/PWA acceptance remains unverified.
+
 # V91.3 — Atomic delivery and rewards
 
 Accepted NPC orders can be delivered using shared available inventory; one transaction debits produce, credits coins and records receipts. Resident thanks and order history included.

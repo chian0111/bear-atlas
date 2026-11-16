@@ -1,3 +1,4 @@
+import {gardenIssue,gardenApply} from '../worker/garden.js';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -31,6 +32,25 @@ const competing=await farmIssue(DB,a,carrot.id,'deliver',time);const outcomes=aw
 const herb=offers.find(o=>o.item_id==='herb');const decline=await farmIssue(DB,a,herb.id,'decline',time);assert.equal((await farmApply(DB,a,decline,time)).status,303);assert.equal((await farmApply(DB,a,await farmIssue(DB,a,herb.id,'accept',time),time)).status,409);
 const tomato=offers.find(o=>o.item_id==='tomato');assert.equal((await farmApply(DB,a,await farmIssue(DB,a,tomato.id,'accept',time),time)).status,303);assert.equal((await farmApply(DB,a,await farmIssue(DB,a,tomato.id,'cancel',time),time)).status,303);
 await farmOffers(DB,b,time);const expired=sql.prepare('SELECT * FROM island_farm_orders WHERE visitor_key=? LIMIT 1').get(b);const stale=await farmIssue(DB,b,expired.id,'accept',time);assert.equal((await farmApply(DB,b,stale,time+1800001)).status,409);const afterExpiry=await farmIssue(DB,b,expired.id,'accept',expired.expires_at);assert.equal((await farmApply(DB,b,afterExpiry,expired.expires_at)).status,409);
+// Bounded active orders across weeks, wallet overflow and expiry leave assets untouched.
+const c='c'.repeat(48);sql.prepare('INSERT INTO island_passports VALUES(?,?,?,?,?)').run(c,'Boundary tester','rabbit','picnic',1);sql.prepare('INSERT INTO island_credentials(visitor_key) VALUES(?)').run(c);
+await farmOffers(DB,c,time);const capped=sql.prepare('SELECT * FROM island_farm_orders WHERE visitor_key=?').all(c);
+for(const order of capped)assert.equal((await farmApply(DB,c,await farmIssue(DB,c,order.id,'accept',time),time)).status,303);
+await farmOffers(DB,c,time+economyConfig.weekMs);const fourth=sql.prepare('SELECT * FROM island_farm_orders WHERE visitor_key=? AND period=2 LIMIT 1').get(c);
+assert.equal((await farmApply(DB,c,await farmIssue(DB,c,fourth.id,'accept',time+economyConfig.weekMs),time+economyConfig.weekMs)).status,409);
+const target=capped.find(o=>o.item_id==='carrot');sql.prepare('INSERT INTO island_collection_inventory VALUES(?,?,?,?)').run(c,'carrot',2,time);
+sql.prepare('UPDATE island_collection_wallets SET coins=999999 WHERE visitor_key=?').run(c);
+assert.equal((await farmApply(DB,c,await farmIssue(DB,c,target.id,'deliver',time),time)).status,409);
+assert.equal(sql.prepare('SELECT quantity FROM island_collection_inventory WHERE visitor_key=? AND item_id=?').get(c,'carrot').quantity,2);
+assert.equal(sql.prepare('SELECT coins FROM island_collection_wallets WHERE visitor_key=?').get(c).coins,999999);
+sql.prepare('UPDATE island_collection_wallets SET coins=0 WHERE visitor_key=?').run(c);
+const escrow=await gardenIssue(DB,c,'trade_post',{item:'carrot',want:'seed_carrot',target:b,reference:crypto.randomUUID()},time);assert.equal((await gardenApply(DB,c,escrow,time)).status,303);
+assert.equal((await farmApply(DB,c,await farmIssue(DB,c,target.id,'deliver',time),time)).status,409);
+assert.equal(sql.prepare('SELECT quantity FROM island_collection_inventory WHERE visitor_key=? AND item_id=?').get(c,'carrot').quantity,1);
+const overdue=time+1209600000;assert.equal((await farmApply(DB,c,await farmIssue(DB,c,target.id,'deliver',overdue),overdue)).status,409);
+assert.equal((await farmApply(DB,c,await farmIssue(DB,c,target.id,'cancel',overdue),overdue)).status,303);
+const noStock=capped.find(o=>o.item_id==='herb');assert.equal((await farmApply(DB,c,await farmIssue(DB,c,noStock.id,'deliver',time),time)).status,409);
+assert.equal(sql.prepare('SELECT count(*) n FROM island_collection_ledger WHERE visitor_key=? AND kind LIKE \'farm_%\'').get(c).n,0);
 const state=await economyOfficial(DB,time);assert.equal(state.current.bbi,102.5);assert.equal(state.current.bcpi,economySnapshot(1).bcpi);
 for(const path of ['/world/farm-orders','/world/garden','/dock/collection']){const response=await get(path,{Cookie:'atlas_islander='+a});assert.equal(response.status,200,path);}
 assert.equal((await get('/world/farm-orders?page=bad',{Cookie:'atlas_islander='+a})).status,400);
