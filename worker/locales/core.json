@@ -3500,5 +3500,53 @@
   "nav.garden": {
     "zh-TW": "花園",
     "en": "Garden"
+  },
+  "garden.chooseSeed": {
+    "zh-TW": "播種 · 選擇種子",
+    "en": "Plant · choose seeds"
+  },
+  "garden.noPlotSeed": {
+    "zh-TW": "這格暫時沒有適合的種子。",
+    "en": "No suitable seeds for this plot yet."
+  },
+  "garden.careGuide": {
+    "zh-TW": "種植小提醒",
+    "en": "Growing tips"
+  },
+  "garden.overview": {
+    "zh-TW": "菜圃近況",
+    "en": "Your plots at a glance"
+  },
+  "garden.readyCount": {
+    "zh-TW": "可收成",
+    "en": "Ready to harvest"
+  },
+  "garden.waterCount": {
+    "zh-TW": "待澆水",
+    "en": "Needs watering"
+  },
+  "garden.emptyCount": {
+    "zh-TW": "空地",
+    "en": "Empty plots"
+  },
+  "garden.harvestSaved": {
+    "zh-TW": "已收成並放進背包",
+    "en": "Harvested into your backpack"
+  },
+  "garden.bagTotal": {
+    "zh-TW": "背包目前持有",
+    "en": "Now in your backpack"
+  },
+  "garden.deliverReady": {
+    "zh-TW": "有作物可以交付已接訂單",
+    "en": "You can deliver an accepted crop order"
+  },
+  "garden.needSeeds": {
+    "zh-TW": "空地還缺適合的種子，可直接到商店種子區補種。",
+    "en": "An empty plot needs suitable seeds. Visit the seed section to restock."
+  },
+  "collection.seedShop": {
+    "zh-TW": "種子專區",
+    "en": "Seeds"
   }
 }

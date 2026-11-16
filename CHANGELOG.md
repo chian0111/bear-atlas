@@ -1,3 +1,7 @@
+# V96.2 — 菜圃優先、減少花園重複入口（已正式部署）
+
+Removed repeated Garden navigation and generic next-step footer. Added plot status summary, local seed disclosure, conditional seed/order cues, verified local harvest receipt and same-plot return. Original crop timing, tokens, balances, inventory, trades and permissions preserved. See docs/V96.2-ACCEPTANCE.md.
+
 # V96.1 — 廣場與花園直達、居民故事按鈕對比（已正式部署）
 
 Fixed header links directly to Square and Garden; removed unrelated bottom shortcuts from Square. Resident story actions now keep readable dark text and pale backgrounds across link states. Existing data, routes and permissions retained. See docs/V96.1-ACCEPTANCE.md.

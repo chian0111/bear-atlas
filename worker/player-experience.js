@@ -29,7 +29,7 @@ export function playerExperienceClient(){
   }catch{/* Native forms stay usable when session storage is unavailable. */}
   document.addEventListener('submit',event=>{
    if(event.defaultPrevented||event.target.method?.toLowerCase()!=='post'||!event.target.checkValidity()||navigator.onLine===false)return;
-   if(!location.pathname.startsWith('/dock/adventure')&&!location.pathname.startsWith('/dock/quests'))return;
+   if(!location.pathname.startsWith('/dock/adventure')&&!location.pathname.startsWith('/dock/quests')&&location.pathname!=='/world/garden')return;
    try{const target=event.target.closest('[id]');sessionStorage.setItem(slot,JSON.stringify({path:location.pathname,at:Date.now(),y:window.scrollY,anchor:target?.id,offset:target?.getBoundingClientRect().top,open:[...document.querySelectorAll('details[id][open]')].map(d=>d.id)}));}catch{}
   });
  }

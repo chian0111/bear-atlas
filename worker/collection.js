@@ -1,7 +1,7 @@
 import {pocketT,pocketUtilities,pocketSource,pocketOrders} from './pocket.js';
 import {natureItems,natureItemCopy,natureItemArt} from './nature-catalog.js';
 // V88 — all quantities, prices and counterparties come from server-owned operations.
-export const collectionCopy={
+export const collectionCopy={seedShop:["種子專區","Seeds"],
  farm_deliverAction:['訂單作物交付','Order produce delivered'],farm_incomeAction:['居民訂單報酬','Resident order reward'],
  ...natureItemCopy,
  title:['島嶼收藏','Island collection'],bag:['我的背包','My backpack'],shop:['海風小舖','Sea Breeze Shop'],catalog:['收藏圖鑑','Collection guide'],ledger:['收支與交換紀錄','Activity ledger'],shelf:['小屋展示架','Cottage display shelf'],coins:['熊熊幣','Bear coins'],intro:['把路上的小發現，變成家裡喜歡的角落。','Turn little discoveries into a favorite corner at home.'],
@@ -134,8 +134,8 @@ export async function collectionRoute(request,env,url,ctx){
   body+='<aside class="pocket-section" data-pocket-receipt><h2>'+pocketT('receipt')+'</h2><p>'+collectionText(received.id)+' · '+pocketT('owned')+' '+qty(received.id)+'</p>'+pocketT('receiptNote','p')+'<nav><a href="'+href+'#item-'+received.id+'">'+pocketT('checkItem')+'</a>'+(received.display!==false&&qty(received.id)>0?'<a href="'+href+'&view=display#item-'+received.id+'">'+pocketT('displayNow')+'</a>':'')+'</nav></aside>';
  }
  if(mode==='shop'){
-  body+=collectionText('virtual','p')+collectionText('legacy','p')+'<div class="collection-grid">';
-  for(const item of collectionCatalog.filter(i=>i.price||i.material)){
+  body+=(url.searchParams.get('category')==='seeds'?'<h2 id="shop-seeds">'+collectionText('seedShop')+'</h2>':'')+collectionText('virtual','p')+collectionText('legacy','p')+'<div class="collection-grid">';
+  for(const item of collectionCatalog.filter(i=>(i.price||i.material)&&(url.searchParams.get('category')!=='seeds'||i.type==='seed'))){
    const can=item.price?wallet.coins>=item.price:free(item.material)>=item.count;
    body+='<article class="collection-card">'+collectionArt(item.id)+'<h2>'+collectionText(item.id)+'</h2><p class="pocket-shop-stock">'+pocketT('owned')+' '+qty(item.id)+'</p>'+collectionText(item.id+'Note','p')+'<p>'+collectionText(item.price?'price':'need')+' · '+(item.price?item.price:collectionText(item.material)+' × '+item.count)+'</p>';
    if(item.material){const material=collectionCatalog.find(i=>i.id===item.material),[sourceLabel,sourcePath]=pocketSource(material);body+='<p class="pocket-shop-stock">'+pocketT('materials')+' '+Math.max(0,free(item.material))+' / '+item.count+'</p>';if(!can)body+='<a href="'+sourcePath+'">'+pocketT(sourceLabel)+'</a>';}

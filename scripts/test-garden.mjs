@@ -67,5 +67,17 @@ for(const p of ['/world/garden','/world/pond','/dock/trades','/dock/shop','/dock
 assert.equal((await get('/dock/trades?page=bad')).status,400);
 assert.deepEqual(sql.prepare('SELECT * FROM island_passports').all(),snapshot);
 sql.exec('ALTER TABLE island_garden_fishing RENAME TO garden_missing_fixture');assert.equal((await get('/world/garden')).status,503);assert.equal((await get('/dock/collection')).status,200);sql.exec('ALTER TABLE garden_missing_fixture RENAME TO island_garden_fishing');
+// V96.2 uses existing authoritative harvest receipts and account-owned state.
+const focused=await html('/world/garden?garden=saved&receipt='+harvest);
+assert.ok(focused.includes('data-garden-receipt'));assert.ok(focused.includes('garden.harvestSaved'));assert.ok(focused.includes('id="garden-plot-1"'));
+assert.ok(!(await html('/world/garden?receipt='+harvest,b)).includes('data-garden-receipt'));
+const pending=await gardenIssue(DB,a,'harvest',{slot:1,revision:0,crop:'herb',item:'herb'});
+assert.ok(!(await html('/world/garden?receipt='+pending)).includes('data-garden-receipt'));
+assert.ok(!focused.includes('<nav class="garden-nav">'));assert.ok(!focused.includes('data-simple-next'));assert.ok(focused.includes('data-pocket-nav'));assert.ok(focused.indexOf('class="garden-plots"')<focused.indexOf('class="garden-care"'));
+const replay=await post({action:'apply',token:harvest});assert.equal(replay.status,303);assert.ok(replay.headers.get('Location').includes('receipt='+harvest+'#garden-plot-1'));
+const seedShop=await html('/dock/shop?category=seeds');assert.ok(seedShop.includes('id="shop-seeds"'));assert.ok(seedShop.includes('collection.seed_herb'));assert.ok(!seedShop.includes('collection.vaseNote'));
+const fresh=await html('/world/garden',c);assert.ok(!fresh.includes('data-garden-seeds'));assert.ok(fresh.includes('garden.starter'));
+sql.prepare("UPDATE island_collection_inventory SET quantity=0 WHERE visitor_key=? AND item_id LIKE 'seed_%'").run(a);
+assert.ok((await html('/world/garden')).includes('data-garden-seeds'));
 assert.deepEqual(audit.report().missing,[]);
 console.log('V89 PASS: starter once, account isolation, seed debit, stale plot revision, paddy restriction, server timing/offline growth, watering replay, atomic harvest rollback, fishing wait/cooldown, variety unlock, escrow bilateral trade/expiry/cancel/decline/failure rollback, display reservation, unchanged legacy identity and bilingual fallback.');

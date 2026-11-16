@@ -74,7 +74,7 @@ const life=sql.prepare('SELECT * FROM island_farm_orders WHERE visitor_key=? AND
 assert.equal((await collectionApply(DB,d,await collectionIssue(DB,d,'buy',{item:'tray',coins:-8},time+300000),time+300000)).status,303);
 assert.equal((await collectionApply(DB,d,await collectionIssue(DB,d,'display',{item:'tray',slot:1},time+300000),time+300000)).status,303);
 const cottage=await get('/dock/cabin',{Cookie:'atlas_islander='+d});assert.equal(cottage.status,200);assert.equal(sql.prepare('SELECT item_id FROM island_collection_displays WHERE visitor_key=?').get(d).item_id,'tray');
-for(const path of ['/world','/world/garden','/world/farm-orders','/dock/shop','/dock/collection'])assert.ok((await(await get(path,{Cookie:'atlas_islander='+d})).text()).includes(path==='/world'?'simple-directions':['/dock/shop','/dock/collection','/world/farm-orders'].includes(path)?'data-pocket-nav':'data-simple-next'));
+for(const path of ['/world','/world/garden','/world/farm-orders','/dock/shop','/dock/collection'])assert.ok((await(await get(path,{Cookie:'atlas_islander='+d})).text()).includes(path==='/world'?'simple-directions':['/dock/shop','/dock/collection','/world/farm-orders','/world/garden'].includes(path)?'data-pocket-nav':'data-simple-next'));
 const homeHtml=await(await get('/world')).text();const primary=homeHtml.match(/<nav class="simple-directions"[\s\S]*?<\/nav>/)[0];assert.equal((primary.match(/<a /g)||[]).length,3);assert.ok(homeHtml.includes('<details class="econ-home-details">'));assert.ok(!homeHtml.includes('<details class="econ-home-details" open'));
 const bagHtml=await(await get('/dock/collection',{Cookie:'atlas_islander='+d})).text();const nav=bagHtml.match(/<nav class="pocket-tabs">[\s\S]*?<\/nav>/)[0];assert.equal((nav.match(/<a /g)||[]).length,4);assert.match(nav,/href="\/dock\/collection" aria-current="page"/);
 const state=await economyOfficial(DB,time);assert.equal(state.current.bbi,102.5);assert.equal(state.current.bcpi,economySnapshot(1).bcpi);
@@ -82,5 +82,15 @@ for(const path of ['/world/market','/world/farm-orders','/world/garden','/dock/c
 assert.equal((await get('/world/farm-orders?page=bad',{Cookie:'atlas_islander='+a})).status,400);
 const post=async(fields,key=a,foreign=false)=>worker.fetch(new Request(origin+'/world/farm-orders',{method:'POST',headers:{Cookie:'atlas_islander='+key,Origin:foreign?'https://evil.test':origin,'Sec-Fetch-Site':foreign?'cross-site':'same-origin','Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fields)}),env);
 assert.equal((await post({token:deliver,quantity:999})).status,400);assert.equal((await post({token:deliver},a,true)).status,403);assert.equal((await post({token:deliver},b)).status,403);assert.equal((await post({token:deliver},'')).status,403);
+// Only an accepted, unexpired order with enough unreserved stock prompts delivery in the garden.
+await farmOffers(DB,b,Date.now());
+const gardenOffer=sql.prepare("SELECT * FROM island_farm_orders WHERE visitor_key=? AND status='offered' ORDER BY created_at DESC LIMIT 1").get(b);
+assert.ok(gardenOffer);
+assert.equal((await farmApply(DB,b,await farmIssue(DB,b,gardenOffer.id,'accept',Date.now()),Date.now())).status,303);
+sql.prepare('INSERT INTO island_collection_inventory(visitor_key,item_id,quantity,first_at) VALUES(?,?,?,?) ON CONFLICT(visitor_key,item_id) DO UPDATE SET quantity=excluded.quantity').run(b,gardenOffer.item_id,gardenOffer.quantity,Date.now());
+const gardenReady=await(await get('/world/garden',{Cookie:'atlas_islander='+b})).text();assert.ok(gardenReady.includes('data-garden-delivery'));assert.ok(gardenReady.includes('#order-'+gardenOffer.id));
+assert.ok(!(await(await get('/world/garden',{Cookie:'atlas_islander='+d})).text()).includes('#order-'+gardenOffer.id));
+sql.prepare('UPDATE island_collection_inventory SET quantity=0 WHERE visitor_key=? AND item_id=?').run(b,gardenOffer.item_id);
+assert.ok(!(await(await get('/world/garden',{Cookie:'atlas_islander='+b})).text()).includes('#order-'+gardenOffer.id));
 assert.equal(audit.report().missing.length,0,JSON.stringify(audit.report().missing));
 console.log('V91 PASS: three unique offers/week, fixed accepted terms, owner/origin/token guards, no acceptance debit, display reservation, atomic delivery rollback, competing/replayed settlement, dual ledger, cancellation/decline/expiry, independent official indices and bilingual pages. Stage='+farmOrderStage);

@@ -1,0 +1,123 @@
+{
+  "tested_at_taipei": "2026-11-17T00:00:14.100460+08:00",
+  "baseline_runtime": "d707b3668b2c5c6a555a26ab12bf3d0f7724296a",
+  "isolated": true,
+  "tests": [
+    {
+      "command": "node --experimental-sqlite scripts/test-adventure.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.5
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-bear-world.mjs",
+      "exit_code": 0,
+      "duration_seconds": 2.71
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-beta-ui.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.06
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-cabin-activities.mjs",
+      "exit_code": 0,
+      "duration_seconds": 26.97
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-cabin-save.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.06
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-collection.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.31
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-economy-submit.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.06
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-economy.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.22
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-farm-orders.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.26
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-garden.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.24
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-golf.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.07
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-i18n.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.13
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-nomad-house.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.06
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-nomad-living.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.07
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-observatory.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.06
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-player-experience.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.05
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-public-scenes.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.05
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-recovery-reminder.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.05
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-resort-navigation.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.05
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-sad-island.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.07
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-sports-venues.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.06
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-story.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.18
+    },
+    {
+      "command": "node --experimental-sqlite scripts/test-task-return.mjs",
+      "exit_code": 0,
+      "duration_seconds": 0.05
+    }
+  ],
+  "passed": true
+}

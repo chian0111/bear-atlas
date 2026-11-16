@@ -17,6 +17,10 @@ assert.equal(task.open,true);assert.equal(parent.open,true);assert.equal(scroll.
 const form={method:'post',checkValidity:()=>true,closest:()=>task,getAttribute:()=>null,setAttribute(){}};
 for(const fn of listeners.submit)fn({target:form,defaultPrevented:false});
 const captured=JSON.parse(storage.get('bear-atlas-task-return'));assert.equal(captured.path,location.pathname);assert.equal(captured.anchor,task.id);assert.deepEqual(captured.open,[task.id,parent.id]);
+// Garden actions capture the same plot position and restore its measured offset.
+location.pathname='/world/garden';
+for(const fn of listeners.submit)fn({target:{...form},defaultPrevented:false});
+assert.equal(JSON.parse(storage.get('bear-atlas-task-return')).path,'/world/garden');
 // Storage failures cannot break native submission or unrelated scene navigation.
 sessionStorage.getItem=()=>{throw Error('blocked');};assert.doesNotThrow(()=>playerExperienceClient());
 console.log('Task return: measured-header position, expanded groups, native form capture and blocked-storage fallback passed.');
