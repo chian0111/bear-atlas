@@ -2980,5 +2980,157 @@
   "market.invalid": {
     "zh-TW": "頁碼無效，請返回市場。",
     "en": "Invalid page. Please return to the market."
+  },
+  "idea.title": {
+    "zh-TW": "Bear Atlas｜關於這座小島",
+    "en": "Bear Atlas | About This Little Island"
+  },
+  "idea.lead": {
+    "zh-TW": "留一個角落，給不用努力的自己。",
+    "en": "A little corner where you don’t have to try so hard."
+  },
+  "idea.p1": {
+    "zh-TW": "在現實生活裡，我們忙著工作、追趕進度，努力做好每一個選擇。",
+    "en": "In everyday life, we work, chase deadlines and try to make the right choices."
+  },
+  "idea.p2": {
+    "zh-TW": "所以，我想創造一個小小的世界，讓人偶爾放下「應該」，照著自己的心情過一天。",
+    "en": "So I wanted to create a little world where you can set aside the ‘shoulds’ for a while and spend a day your own way."
+  },
+  "idea.p3": {
+    "zh-TW": "這裡有溫暖的小屋、會散步的動物居民、可以慢慢探索的森林，還有一片不必趕路的海岸。",
+    "en": "Here, there are warm cottages, wandering animal neighbours, forests to explore slowly and a coast with no need to hurry."
+  },
+  "idea.p4": {
+    "zh-TW": "你可以安靜獨處，也可以邀請朋友來家裡坐坐。",
+    "en": "Spend some quiet time alone, or invite a friend to visit your cottage."
+  },
+  "idea.p5": {
+    "zh-TW": "不需要天天登入，不需要和誰比較，也不必完成所有任務。",
+    "en": "You don’t need to log in every day, compare yourself with anyone or finish every quest."
+  },
+  "idea.p6": {
+    "zh-TW": "今天想種菜，就去花園走走；想休息，就讓海風陪你待一會兒。",
+    "en": "If you feel like growing something, wander into the garden. If you need a rest, let the sea breeze keep you company."
+  },
+  "idea.h1": {
+    "zh-TW": "讓日常，慢慢長成故事",
+    "en": "Let everyday moments become stories"
+  },
+  "idea.p7": {
+    "zh-TW": "隨著 Bear Atlas 長大，島上也漸漸有了自己的日常。",
+    "en": "As Bear Atlas grows, the island is finding a daily rhythm of its own."
+  },
+  "idea.p8": {
+    "zh-TW": "花園裡的收成，可以成為咖啡館的一份點心；海邊拾起的貝殼，可以留在小屋裡，紀念某次散步。",
+    "en": "A garden harvest can become a café snack. A shell found by the sea can stay in your cottage as a memory of a walk."
+  },
+  "idea.p9": {
+    "zh-TW": "你可以幫居民完成一張小訂單，到市場看看攤位上的商品，或走進經濟觀測站，聽楓教授聊聊本週的島嶼故事。",
+    "en": "Help a neighbour with a small order, browse the market stalls, or visit the Economic Observatory to hear Professor Maple’s island story for the week."
+  },
+  "idea.p10": {
+    "zh-TW": "每一次探索，都可能讓你多認識一位居民、多理解一件小事，也替自己的生活留下一點記憶。",
+    "en": "Each visit might help you meet a neighbour, understand something new and keep a little memory of your own."
+  },
+  "idea.h2": {
+    "zh-TW": "在生活裡，遇見一點經濟學",
+    "en": "Discover a little economics through life"
+  },
+  "idea.q1": {
+    "zh-TW": "為什麼胡蘿蔔豐收了，每一份的價格卻可能下降？",
+    "en": "Why might the price of each carrot fall after a plentiful harvest?"
+  },
+  "idea.q2": {
+    "zh-TW": "為什麼島上開始蓋新房子，木材的需求就增加了？",
+    "en": "Why does building new cottages increase demand for wood?"
+  },
+  "idea.p11": {
+    "zh-TW": "這些問題，也可以從一籃收成、一張訂單和一段居民的對話開始理解。",
+    "en": "A basket of produce, a small order and a conversation with a neighbour can be the beginning of an answer."
+  },
+  "idea.p12": {
+    "zh-TW": "Bear Atlas 希望把經濟學放進可以觀察、可以體驗的生活故事裡。島上的模擬市場與指數，讓好奇的人有機會看看：供給、需求與價格，如何彼此影響。",
+    "en": "Bear Atlas brings economics into everyday stories you can observe and experience. The simulated market and indices offer curious visitors a way to see how supply, demand and prices influence one another."
+  },
+  "idea.p13": {
+    "zh-TW": "未來，我也希望逐步探索熊熊銀行、利率與更多金融故事。這些想法會隨著小島慢慢發展，讓每一步都先成為值得體驗的生活。",
+    "en": "In the future, I hope to explore Bear Bank, interest rates and more financial stories. These ideas will develop slowly with the island, with each step grounded in a worthwhile experience."
+  },
+  "idea.p14": {
+    "zh-TW": "而你始終可以自由選擇。",
+    "en": "And the choice will always be yours."
+  },
+  "idea.p15": {
+    "zh-TW": "喜歡研究的人，可以多問幾個為什麼；只想看海的人，也能安心看海。",
+    "en": "If you love exploring ideas, ask a few more questions. If you only want to watch the sea, you can simply stay by the shore."
+  },
+  "idea.h3": {
+    "zh-TW": "朋友是陪伴，自在是前提",
+    "en": "Company, with room to be yourself"
+  },
+  "idea.p16": {
+    "zh-TW": "我喜歡的社交，是彼此靠近時感到舒服，安靜下來時也不必勉強。",
+    "en": "The kind of connection I love feels comfortable when we come closer, and just as comfortable when we fall quiet."
+  },
+  "idea.p17": {
+    "zh-TW": "一句簡單的招呼、一次小屋拜訪，或分享自己布置的角落，都可以是一種溫暖的連結。",
+    "en": "A simple hello, a cottage visit or sharing a corner you’ve decorated can be a warm way to connect."
+  },
+  "idea.p18": {
+    "zh-TW": "Bear Atlas 希望保留獨處的自由，也為相遇留一點空間。你可以決定什麼時候開門，什麼時候把時間留給自己。",
+    "en": "Bear Atlas leaves room for both solitude and meeting others. You decide when to open your door and when to keep some time for yourself."
+  },
+  "idea.h4": {
+    "zh-TW": "一座會慢慢長大的世界",
+    "en": "A world that grows slowly"
+  },
+  "idea.p19": {
+    "zh-TW": "從第一間小屋，到森林、花園、市場與經濟觀測站，每一個新角落，都是這座島慢慢成長的痕跡。",
+    "en": "From the first cottage to the forest, garden, market and Economic Observatory, every new corner is part of the island’s gradual growth."
+  },
+  "idea.p20": {
+    "zh-TW": "我希望每一次更新，都能讓居民的日常更有故事，讓不同地方產生自然的連結，也讓你回來時，找到一點熟悉、一點新鮮。",
+    "en": "I hope each update adds a little story to daily life, connects the island’s places naturally and gives you something familiar and something new to return to."
+  },
+  "idea.p21": {
+    "zh-TW": "有時候，值得回來的理由很小。",
+    "en": "Sometimes, a reason to return is a very small thing."
+  },
+  "idea.p22": {
+    "zh-TW": "可能是一份剛完成的點心、一間終於布置好的房間，也可能只是想再聽一會兒海浪。",
+    "en": "A freshly made snack. A room you’ve finally arranged just right. Or simply a wish to listen to the waves a little longer."
+  },
+  "idea.p23": {
+    "zh-TW": "願你在這裡，找到舒服的生活節奏。",
+    "en": "May you find a comfortable rhythm of life here."
+  },
+  "idea.end": {
+    "zh-TW": "一座可以安心停留，也能帶著好奇慢慢探索的熊熊島嶼。",
+    "en": "A little island where you can feel at home and explore at your own pace."
+  },
+  "idea.by": {
+    "zh-TW": "— Kitty · Creator of Bear Atlas",
+    "en": "— Kitty · Creator of Bear Atlas"
+  },
+  "idea.back": {
+    "zh-TW": "回小島散步",
+    "en": "Take a walk on the island"
+  },
+  "idea.cap1": {
+    "zh-TW": "沿著熟悉的小路，找到今天想停留的角落。",
+    "en": "Follow a familiar path to the corner you’d like to stay in today."
+  },
+  "idea.cap2": {
+    "zh-TW": "一間亮著暖燈的小屋，留給自己的時間。",
+    "en": "A warmly lit cottage, and a little time for yourself."
+  },
+  "idea.cap3": {
+    "zh-TW": "一籃收成、一份點心，讓居民的日常連在一起。",
+    "en": "A basket of produce and a café snack connect everyday island life."
+  },
+  "idea.cap4": {
+    "zh-TW": "在小小的研究所，帶著好奇聊聊生活裡的價格。",
+    "en": "A little research house for curious conversations about everyday prices."
   }
 }
