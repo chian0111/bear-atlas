@@ -107,3 +107,9 @@ if(process.env.COLLECTION_QA_SERVER==='1'){
  }catch(error){res.writeHead(500,{'Content-Type':'text/plain'});res.end('Isolated preview error');console.error(error);}});
  server.listen(Number(process.env.PORT||4173),'127.0.0.1',()=>console.log('Isolated collection preview: http://localhost:'+Number(process.env.PORT||4173)+'/__qa/start'));
 }
+
+const balancePage=await html('/dock/shop');
+const top=balancePage.match(/<header class="resort-topbar">[\s\S]*?<\/header>/)[0];
+assert.match(top,/class="bear-coin-balance"/);assert.ok(top.indexOf('bear-coin-balance')<top.indexOf('data-locale="zh-TW"'));assert.ok(top.includes('<svg viewBox="0 0 40 40"'));assert.ok(top.includes('<strong translate="no" data-user-content>'+coins(alice)+'</strong>'));
+const foreignTop=(await html('/dock/shop',bob)).match(/<header class="resort-topbar">[\s\S]*?<\/header>/)[0];assert.ok(foreignTop.includes('<strong translate="no" data-user-content>'+coins(bob)+'</strong>'));
+assert.ok(!(await html('/dock/shop','')).includes('class="bear-coin-balance"'));assert.equal((await get('/dock/shop')).headers.get('Cache-Control'),'private, no-store');

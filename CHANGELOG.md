@@ -1,3 +1,7 @@
+# V96.3 — 花園原地操作與頂部熊熊幣（已正式部署）
+
+Garden plant/water/harvest POSTs update the garden fragment while preserving plot position, with duplicate and network retry safeguards. A bear-face gold coin and server-owned balance sit immediately before language controls. No data reset, migration or settlement changes. See docs/V96.3-ACCEPTANCE.md.
+
 # V96.2 — 菜圃優先、減少花園重複入口（已正式部署）
 
 Removed repeated Garden navigation and generic next-step footer. Added plot status summary, local seed disclosure, conditional seed/order cues, verified local harvest receipt and same-plot return. Original crop timing, tokens, balances, inventory, trades and permissions preserved. See docs/V96.2-ACCEPTANCE.md.

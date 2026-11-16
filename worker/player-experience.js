@@ -15,7 +15,7 @@ export function playerExperienceClient(){
  measure();if(bar&&typeof ResizeObserver!=='undefined')new ResizeObserver(measure).observe(bar);
  window.addEventListener('resize',measure);
  // Restore only a same-page task submission, with its expanded groups. Ordinary navigation keeps native behavior.
- if(typeof location!=='undefined'&&typeof sessionStorage!=='undefined'&&document.querySelector('[data-pocket-nav]')){
+ if(typeof location!=='undefined'&&document.querySelector('[data-pocket-nav]')){
   const slot='bear-atlas-task-return';
   const reveal=target=>{for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;};
   const revealHash=()=>{try{if(location.hash)reveal(document.getElementById(decodeURIComponent(location.hash.slice(1))));}catch{}};
@@ -31,6 +31,31 @@ export function playerExperienceClient(){
    if(event.defaultPrevented||event.target.method?.toLowerCase()!=='post'||!event.target.checkValidity()||navigator.onLine===false)return;
    if(!location.pathname.startsWith('/dock/adventure')&&!location.pathname.startsWith('/dock/quests')&&location.pathname!=='/world/garden')return;
    try{const target=event.target.closest('[id]');sessionStorage.setItem(slot,JSON.stringify({path:location.pathname,at:Date.now(),y:window.scrollY,anchor:target?.id,offset:target?.getBoundingClientRect().top,open:[...document.querySelectorAll('details[id][open]')].map(d=>d.id)}));}catch{}
+  });
+ }
+ // Garden actions update only the garden fragment: no page navigation or late anchor jump.
+ if(typeof location!=='undefined'&&typeof fetch==='function'&&typeof DOMParser!=='undefined'&&location.pathname==='/world/garden'){
+  const saving=new WeakSet();
+  document.addEventListener('submit',async event=>{
+   const form=event.target,plot=form.closest?.('[data-garden-slot]');
+   if(event.defaultPrevented||!plot||form.method?.toLowerCase()!=='post'||!form.checkValidity()||navigator.onLine===false)return;
+   event.preventDefault();if(saving.has(form))return;saving.add(form);
+   const id=plot.id,offset=plot.getBoundingClientRect().top,buttons=[...form.querySelectorAll('button')];
+   buttons.forEach(b=>b.disabled=true);form.setAttribute('aria-busy','true');
+   const message=text=>{let note=plot.querySelector('[data-garden-live-status]');if(!note){note=document.createElement('p');note.dataset.gardenLiveStatus='';note.setAttribute('role','status');plot.append(note);}note.textContent=text;};
+   try{
+    const response=await fetch(form.action,{method:'POST',body:new URLSearchParams(new FormData(form)),credentials:'same-origin',headers:{Accept:'text/html'}});
+    const parsed=new DOMParser().parseFromString(await response.text(),'text/html'),fresh=parsed.querySelector('.garden-page'),current=document.querySelector('.garden-page');
+    if(!response.ok){const failure=Error('garden-save');failure.playerMessage=parsed.querySelector('.garden-page p')?.textContent;throw failure;}if(!fresh||new URL(response.url).pathname!=='/world/garden')throw Error('garden-save');
+    current.replaceWith(fresh);window.BearI18n?.bind?.(fresh);
+    const balance=parsed.querySelector('.bear-coin-balance'),oldBalance=document.querySelector('.bear-coin-balance');if(balance&&oldBalance)oldBalance.replaceWith(balance);
+    try{sessionStorage.removeItem('bear-atlas-task-return');}catch{}
+    const url=new URL(response.url);url.hash='';history.replaceState(history.state,'',url);
+    const target=document.getElementById(id);measure();
+    if(target)window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-offset),behavior:'instant'});
+   }catch(error){
+    message(error.playerMessage||window.BearI18n?.t?.('garden.saveError')||(document.documentElement.lang==='en'?'Connection interrupted. Try this action again to confirm; items will not be issued twice.':'連線中斷，請再次操作確認；不會重複消耗或發放物品。'));
+   }finally{saving.delete(form);buttons.forEach(b=>b.disabled=false);form.removeAttribute('aria-busy');}
   });
  }
  const network=()=>{if(notice)notice.hidden=navigator.onLine!==false;};

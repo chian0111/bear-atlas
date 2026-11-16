@@ -3548,5 +3548,9 @@
   "collection.seedShop": {
     "zh-TW": "種子專區",
     "en": "Seeds"
+  },
+  "garden.saveError": {
+    "zh-TW": "連線中斷，請再次操作確認；不會重複消耗或發放物品。",
+    "en": "Connection interrupted. Try this action again to confirm; items will not be issued twice."
   }
 }

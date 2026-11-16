@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {playerExperienceClient} from '../worker/player-experience.js';
+const handlers=[],storage=new Map();let top=100,fetches=0,replaced=0,scroll,request,release,fail=false;
+const note={textContent:'',dataset:{},setAttribute(){}};
+const plot={id:'garden-plot-2',getBoundingClientRect:()=>({top}),querySelector:()=>note};
+const fresh={},page={replaceWith(value){assert.equal(value,fresh);replaced++;top=180;}},bar={getBoundingClientRect:()=>({height:150})};
+const button={disabled:false},attrs=new Map(),form={method:'post',action:'https://garden.test/world/garden',checkValidity:()=>true,closest:s=>s==='[data-garden-slot]'||s==='[id]'?plot:null,querySelectorAll:()=>[button],setAttribute:(k,v)=>attrs.set(k,v),removeAttribute:k=>attrs.delete(k),getAttribute:k=>attrs.get(k)??null};
+globalThis.document={documentElement:{lang:'zh-TW',style:{setProperty(){}},toggleAttribute(){}},querySelector:s=>s==='.resort-topbar'?bar:s==='.garden-page'?page:s==='[data-pocket-nav]'?{}:null,querySelectorAll:()=>[],getElementById:id=>id===plot.id?plot:null,addEventListener:(name,fn,capture)=>{if(name==='submit'&&!capture)handlers.push(fn);}};
+globalThis.window={scrollY:500,scrollTo:value=>scroll=value,addEventListener(){},BearI18n:{bind(){}}};
+globalThis.location={pathname:'/world/garden',href:'https://garden.test/world/garden',hash:''};globalThis.history={state:null,replaceState(_,__,url){assert.equal(url.hash,'');}};
+globalThis.sessionStorage={getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)};
+Object.defineProperty(globalThis,'navigator',{value:{onLine:true},configurable:true});
+globalThis.DOMParser=class{parseFromString(){return{querySelector:s=>s==='.garden-page'?fresh:null};}};
+globalThis.FormData=class{*[Symbol.iterator](){yield['action','apply'];yield['token','original-server-token'];}};
+globalThis.fetch=async(url,init)=>{fetches++;request=init;await new Promise(r=>release=r);if(fail)throw Error('offline');return{ok:true,url:'https://garden.test/world/garden?garden=saved#garden-plot-2',text:async()=>'<html></html>'};};
+playerExperienceClient();
+const event=()=>({target:form,defaultPrevented:false,preventDefault(){this.defaultPrevented=true;}});
+let pending=[];const first=event();for(const fn of handlers)pending.push(fn(first));assert.equal(first.defaultPrevented,true);assert.equal(button.disabled,true);assert.equal(fetches,1);
+const duplicate=event();for(const fn of handlers)await fn(duplicate);assert.equal(fetches,1);
+release();await Promise.all(pending);assert.equal(replaced,1);assert.equal(scroll.top,580);assert.equal(button.disabled,false);assert.equal(request.body.get('token'),'original-server-token');assert.equal(storage.size,0);
+// Ambiguous transport failure keeps the original token and offers retry; it does not navigate or replay automatically.
+fail=true;pending=[];for(const fn of handlers)pending.push(fn(event()));release();await Promise.all(pending);assert.equal(fetches,2);assert.equal(replaced,1);assert.match(note.textContent,/不會重複/);assert.equal(button.disabled,false);
+Object.defineProperty(globalThis,'sessionStorage',{configurable:true,get(){throw Error('storage denied');}});assert.doesNotThrow(()=>playerExperienceClient());
+console.log('Garden inline: same-plot offset, original server token, duplicate guard, header measurement and ambiguous-network retry passed.');
