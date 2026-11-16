@@ -1,3 +1,7 @@
+# V96 — 任務聚焦、花園捷徑與熊熊幣（已正式部署）
+
+Four primary tabs, one next action per task, folded secondary groups, task POST position retention, resident-card padding, and Carrot Mystery confined to the observatory. Currency labels and practical uses clarified in both languages. Existing data and server settlement preserved. Isolated validation: 23 suites passed; see docs/V96-ACCEPTANCE.md.
+
 # V95 — Backpack, Shop & Tasks navigation（已正式部署）
 
 Consistent three-tab navigation; backpack-first item groups and contextual uses; verified purchase-to-item/display return links; owned/material/shortfall shop cues; unified task overview with private active-order stock. Mobile tabs stay below the measured site header. No schema, settlement, inventory, reward, price or permission changes. Product V95 / platform109 deployed successfully; evidence in docs/V95-ACCEPTANCE.md.

@@ -102,3 +102,9 @@ await html('/dock/adventure');
  await post({action:'ungreet',return:'harbor'},freshKey,'/dock/square');assert.equal(sql.prepare('SELECT visible FROM island_custom_greetings WHERE visitor_key=?').get(freshKey).visible,0);
  const missing=audit.report().missing;assert.deepEqual(missing,[]);
 console.log('V87 PASS: legacy identities, two-account isolation, origin/forgery/replay/expiry guards, atomic retry, five scenes, Taipei rollover, daily/one-time rewards, greeting safety/rate limit, bounded NPC visit/off/later/chat, save/readback and bilingual HTML.');
+
+const taskPage=await html('/dock/adventure');
+const tabs=taskPage.match(/<nav class="pocket-tabs">[\s\S]*?<\/nav>/)[0];
+assert.equal((tabs.match(/<a /g)||[]).length,4);assert.ok(tabs.indexOf('/dock/shop')<tabs.indexOf('/world/garden'));assert.ok(tabs.indexOf('/world/garden')<tabs.indexOf('/dock/adventure'));
+assert.match(taskPage,/<details id="pocket-residents" class="pocket-section">/);assert.match(taskPage,/<details class="pocket-section" id="pocket-orders">/);assert.match(taskPage,/<details id="npc-visits" class="pocket-more">/);
+const gardenPage=await html('/world/garden');assert.match(gardenPage,/href="\/world\/garden" aria-current="page"/);assert.ok(!gardenPage.includes('id="carrot-story"'));

@@ -14,6 +14,25 @@ export function playerExperienceClient(){
  const measure=()=>{if(bar)root.style.setProperty('--atlas-header-space',Math.ceil(bar.getBoundingClientRect().height+18)+'px');};
  measure();if(bar&&typeof ResizeObserver!=='undefined')new ResizeObserver(measure).observe(bar);
  window.addEventListener('resize',measure);
+ // Restore only a same-page task submission, with its expanded groups. Ordinary navigation keeps native behavior.
+ if(typeof location!=='undefined'&&typeof sessionStorage!=='undefined'&&document.querySelector('[data-pocket-nav]')){
+  const slot='bear-atlas-task-return';
+  const reveal=target=>{for(let node=target;node;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;};
+  const revealHash=()=>{try{if(location.hash)reveal(document.getElementById(decodeURIComponent(location.hash.slice(1))));}catch{}};
+  revealHash();window.addEventListener('hashchange',revealHash);
+  try{const saved=JSON.parse(sessionStorage.getItem(slot)||'null');sessionStorage.removeItem(slot);
+   if(saved&&saved.path===location.pathname&&Date.now()-saved.at<120000){
+    saved.open.forEach(id=>{const group=document.getElementById(id);if(group?.tagName==='DETAILS')group.open=true;});
+    const target=saved.anchor&&document.getElementById(saved.anchor);reveal(target);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{measure();window.scrollTo({top:Math.max(0,target?window.scrollY+target.getBoundingClientRect().top-saved.offset:saved.y),behavior:'instant'});}));
+   }
+  }catch{/* Native forms stay usable when session storage is unavailable. */}
+  document.addEventListener('submit',event=>{
+   if(event.defaultPrevented||event.target.method?.toLowerCase()!=='post'||!event.target.checkValidity()||navigator.onLine===false)return;
+   if(!location.pathname.startsWith('/dock/adventure')&&!location.pathname.startsWith('/dock/quests'))return;
+   try{const target=event.target.closest('[id]');sessionStorage.setItem(slot,JSON.stringify({path:location.pathname,at:Date.now(),y:window.scrollY,anchor:target?.id,offset:target?.getBoundingClientRect().top,open:[...document.querySelectorAll('details[id][open]')].map(d=>d.id)}));}catch{}
+  });
+ }
  const network=()=>{if(notice)notice.hidden=navigator.onLine!==false;};
  network();window.addEventListener('online',network);window.addEventListener('offline',network);
  const visibility=()=>root.toggleAttribute('data-atlas-background',document.hidden);

@@ -30,7 +30,7 @@ export const welcomeCopy={
  gain1:['問候會顯示給其他島民；任務是否完成、下一步去哪裡，都能在冒險手帳查看。','Other residents can see your greeting. The journal shows quest progress and where to go next.'],
  gain2:['儲存的布置重新登入後仍保留；完成一次居民來訪聊天，可領取朋友來訪紀念卡。','Saved decor stays when you sign in again. Complete a resident visit conversation to earn a visitor keepsake.'],
  gain3:['散步與觀察分別留下進度；完成森林與海灘的探索，可解鎖自然朋友紀念卡。','Walking and observation each record progress. Complete the woodland and beach activities to unlock a nature keepsake.'],
- gain4:['紀念卡會留在冒險收藏，還能額外領一次島幣。島幣只在島內使用；不需要每日報到，也沒有缺席處罰。','Keepsake cards stay in your collection and offer a one-time island coin bonus. Coins are only for island use. No daily attendance or absence penalty.'],
+ gain4:['紀念卡會留在冒險收藏，還能額外領一次熊熊幣。熊熊幣只在島內使用；不需要每日報到，也沒有缺席處罰。','Keepsake cards stay in your collection and offer a one-time island coin bonus. Coins are only for island use. No daily attendance or absence penalty.'],
  next:['下一步 →','Next →'],prev:['← 上一步','← Previous'],later:['稍後再看，自由探索','Explore now; tour later'],start:['開始五分鐘導覽','Start the five-minute tour'],replay:['重新觀看導覽','Replay the welcome tour'],resume:['繼續上次導覽','Resume the tour'],visit:['先去這裡體驗','Try this place first'],finish:['完成導覽，出發吧','Finish the tour and set off'],choice:['我想先去','I’d like to start at'],helloName:['很高興認識你','Lovely to meet you'],languages:['導覽語言','Tour language'],
 };
 function welcomeText(key,tag='p'){return '<'+tag+' data-i18n="welcome.'+key+'">'+welcomeCopy[key][0]+'</'+tag+'>';}

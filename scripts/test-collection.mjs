@@ -70,7 +70,7 @@ assert.ok(!(await html('/dock/shop?receipt='+buy.token,bob)).includes('data-pock
 assert.ok(!(await html('/dock/shop?receipt='+poor)).includes('data-pocket-receipt'));
 const focused=await html('/dock/collection?item=vase&view=display');assert.match(focused,/id="item-vase"/);assert.match(focused,/<details class="pocket-item-actions" open>/);assert.match(focused,/<details class="pocket-more" id="display" open>/);
 assert.ok(focused.indexOf('id="item-vase"')<focused.indexOf('id="display"'));
-const tabs=focused.match(/<nav class="pocket-tabs">[\s\S]*?<\/nav>/)[0];assert.equal((tabs.match(/<a /g)||[]).length,3);assert.match(tabs,/aria-current="page"/);
+const tabs=focused.match(/<nav class="pocket-tabs">[\s\S]*?<\/nav>/)[0];assert.equal((tabs.match(/<a /g)||[]).length,4);assert.match(tabs,/aria-current="page"/);
 const decor=await html('/dock/collection?filter=decor');assert.match(decor,/id="item-vase"/);assert.ok(!decor.includes('id="item-clam"'));
 const materials=await html('/dock/collection?filter=material');assert.ok(!materials.includes('id="item-vase"'));
 // Review exact recipient before the gift; forged identities/quantities are rejected.

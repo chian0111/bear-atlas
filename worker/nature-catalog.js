@@ -12,7 +12,7 @@ export const natureItemCopy={
  seed_tomato:['番茄種子','Tomato seeds'],seed_tomatoNote:['種下後澆一次水，三十分鐘後可收成。','Plant and water once. Ready to harvest in thirty minutes.'],
  seed_rice:['稻種','Rice seeds'],seed_riceNote:['種在第四格稻田，灌水後六十分鐘可收成。','Plant in paddy plot four. Ready sixty minutes after watering.'],
  seed_sunflower:['向日葵種子','Sunflower seeds'],seed_sunflowerNote:['收成過香草、胡蘿蔔與番茄後解鎖；澆水後四十五分鐘開花。','Unlock after harvesting herbs, carrots and tomatoes. Blooms forty-five minutes after watering.'],
- herb:['新鮮香草','Fresh herbs'],herbNote:['自己種出的清香，可展示、換島幣、交換或送朋友。','Homegrown fragrance to display, sell, trade or give to a friend.'],
+ herb:['新鮮香草','Fresh herbs'],herbNote:['自己種出的清香，可展示、換熊熊幣、交換或送朋友。','Homegrown fragrance to display, sell, trade or give to a friend.'],
  carrot:['田園胡蘿蔔','Garden carrot'],carrotNote:['一顆種子收成兩份，讓小小菜圃有真實的回饋。','One seed yields two carrots, a little reward from your garden.'],
  tomato:['紅潤番茄','Ripe tomato'],tomatoNote:['成熟後會一直等你，不會因晚登入而腐壞。','Ripe tomatoes wait for you and never spoil because you signed in late.'],
  rice:['金色稻穗','Golden rice'],riceNote:['從小小稻田收成的稻穗，可帶回小屋展示。','Harvested from your little paddy, ready for a cottage display.'],
