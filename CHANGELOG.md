@@ -1,3 +1,7 @@
+# V91.3 — Atomic delivery and rewards
+
+Accepted NPC orders can be delivered using shared available inventory; one transaction debits produce, credits coins and records receipts. Resident thanks and order history included.
+
 # V91.2 — Bounded scenario quotes
 
 New NPC offers link to official simulated events with capped prices/quantities; all earlier issued terms remain fixed. No original shop or official-index change.

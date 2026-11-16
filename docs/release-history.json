@@ -736,6 +736,14 @@
       "commit": "88fa76a5537b652ac0b400eeae29de3e6b099a3d",
       "deployment_id": "appgdep_6afac20d5c788191bc0f8dabcef053d5",
       "archive_sha256": "sha256:7715434d705ffc05dd709a2e5f50245e274437390566d8103540362ad75d66e9"
+    },
+    {
+      "release": "V91.3",
+      "version": 102,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_a43908452ab08191aeb13754b56ad120",
+      "commit": "b98bfdd394d0647905df443e2a11f09e3a0062e7",
+      "deployment_id": "appgdep_6afac3e0175c81919574d1190e629e58",
+      "archive_sha256": "sha256:4eedd0c02be2e3516f647b1b71edbbc59458309f914dcd8735eb9f280ac3d05f"
     }
   ],
   "candidates": [
@@ -880,6 +888,15 @@
       "platform_version": 101,
       "deployment_id": "appgdep_6afac20d5c788191bc0f8dabcef053d5",
       "runtime_commit": "88fa76a5537b652ac0b400eeae29de3e6b099a3d"
+    },
+    {
+      "release": "V91.3",
+      "status": "deployed",
+      "report": "docs/V91.3-ACCEPTANCE.md",
+      "branch": "feature/v91-farming-supply",
+      "platform_version": 102,
+      "deployment_id": "appgdep_6afac3e0175c81919574d1190e629e58",
+      "runtime_commit": "b98bfdd394d0647905df443e2a11f09e3a0062e7"
     }
   ]
 }
