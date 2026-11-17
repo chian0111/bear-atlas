@@ -3756,5 +3756,137 @@
   "nav.market": {
     "zh-TW": "市集",
     "en": "Market"
+  },
+  "cozy.living": {
+    "zh-TW": "海邊生活街",
+    "en": "Seaside Living Street"
+  },
+  "cozy.livingHint": {
+    "zh-TW": "一條街，三種慢慢生活的方式。咖啡與閱讀、日常買賣、居民相聚，各有自己的位置。",
+    "en": "One street, three ways to slow down: reading and coffee, everyday trade, and community."
+  },
+  "cozy.books": {
+    "zh-TW": "山丘書屋",
+    "en": "Hillside Book House"
+  },
+  "cozy.booksHint": {
+    "zh-TW": "窗邊閱讀，翻開一段島嶼小故事",
+    "en": "Read a little island story by the window"
+  },
+  "cozy.market": {
+    "zh-TW": "熊熊市集",
+    "en": "Bear Market"
+  },
+  "cozy.marketHint": {
+    "zh-TW": "買食物與擺設、賣收成、接居民訂單",
+    "en": "Buy food and decor, sell harvests and meet resident orders"
+  },
+  "cozy.square": {
+    "zh-TW": "榕樹廣場",
+    "en": "Banyan Square"
+  },
+  "cozy.squareHint": {
+    "zh-TW": "看看居民留言、活動與新朋友",
+    "en": "Find resident messages, activities and new friends"
+  },
+  "cozy.cafe": {
+    "zh-TW": "海邊咖啡館",
+    "en": "Seaside Cafe"
+  },
+  "cozy.cafeHint": {
+    "zh-TW": "喝一口咖啡，坐著看海",
+    "en": "Sip a drink and watch the sea"
+  },
+  "cozy.garden": {
+    "zh-TW": "我的花園",
+    "en": "My garden"
+  },
+  "cozy.gardenHint": {
+    "zh-TW": "種下、澆水，慢慢等收成",
+    "en": "Plant, water and wait for a harvest"
+  },
+  "cozy.pond": {
+    "zh-TW": "池邊釣魚",
+    "en": "Pond fishing"
+  },
+  "cozy.pondHint": {
+    "zh-TW": "放下魚竿，等一個小驚喜",
+    "en": "Cast a line and wait for a little surprise"
+  },
+  "cozy.forest": {
+    "zh-TW": "雪松森林",
+    "en": "Cedar forest"
+  },
+  "cozy.forestHint": {
+    "zh-TW": "散步、拾松果，認識動物朋友",
+    "en": "Walk, collect pinecones and meet wildlife"
+  },
+  "cozy.sell": {
+    "zh-TW": "收成販售",
+    "en": "Sell harvests"
+  },
+  "cozy.buy": {
+    "zh-TW": "海風小舖",
+    "en": "Sea Breeze Shop"
+  },
+  "cozy.orders": {
+    "zh-TW": "居民訂單",
+    "en": "Resident orders"
+  },
+  "cozy.tidal": {
+    "zh-TW": "潮汐攤位 · 花與手作",
+    "en": "Tidal stalls · flowers and crafts"
+  },
+  "cozy.tidalHint": {
+    "zh-TW": "潮汐市集併入生活街的市集區；實際購買與販售都由同一個背包保存。",
+    "en": "Tidal Market is part of the street’s market district. Purchases and sales share the same backpack."
+  },
+  "cozy.read": {
+    "zh-TW": "今天想翻哪一本？",
+    "en": "What would you like to read?"
+  },
+  "cozy.readHint": {
+    "zh-TW": "坐在窗邊，選一本就能翻開。沒有答題、倒數，也不必完成進度。",
+    "en": "Choose a book by the window. No quiz, timer or reading streak."
+  },
+  "cozy.book1": {
+    "zh-TW": "一顆種子的日記",
+    "en": "Diary of a seed"
+  },
+  "cozy.page1": {
+    "zh-TW": "小熊今天只澆了一次水，就去海邊散步。回來時，泥土還很安靜。有些成長，正發生在看不見的地方。",
+    "en": "The bear watered once and went to the shore. The soil was quiet on returning. Some growth happens out of sight."
+  },
+  "cozy.book2": {
+    "zh-TW": "一張留給朋友的椅子",
+    "en": "A chair for a friend"
+  },
+  "cozy.page2": {
+    "zh-TW": "書屋最好的座位不在正中央，而在窗邊。那裡總留著一張空椅子。朋友來了可以坐，今天沒有人來，也很好。",
+    "en": "The best seat is by the window, beside an empty chair. A friend may sit there. A quiet day alone is good too."
+  },
+  "cozy.book3": {
+    "zh-TW": "胡蘿蔔與小餐桌",
+    "en": "Carrots and a small table"
+  },
+  "cozy.page3": {
+    "zh-TW": "今天兩位居民都想做胡蘿蔔湯，花園卻只收成一籃。小熊第一次發現：價格背後，是每個人想要的東西，以及手邊能分享的數量。",
+    "en": "Two neighbors wanted carrot soup, but the garden produced one basket. The bear noticed that prices reflect what people want and how much is available to share."
+  },
+  "cozy.ideaTitle": {
+    "zh-TW": "讓每次小互動，都有溫柔的回應",
+    "en": "A gentle response to every little interaction"
+  },
+  "cozy.ideaBody": {
+    "zh-TW": "在這座島上，收成能帶到市集，買來的小食能慢慢享用，喜歡的擺設能帶回小屋。每一次互動，都應該清楚回應你做了什麼、留下了什麼；不必反覆尋找入口，也不必擔心按下去沒有回音。",
+    "en": "Harvests can go to market, snacks can be enjoyed, and favorite decor can come home. Each interaction should show what happened and what you kept, without searching for the next entrance or wondering whether a tap worked."
+  },
+  "cozy.ideaEconomy": {
+    "zh-TW": "熊熊幣是島上的虛擬交換媒介。種植、分享、買賣與居民訂單，把經濟放回日常選擇裡。這裡的目標不是催促你賺得更多，而是陪你慢慢理解：我們如何照顧自己，也照顧彼此。",
+    "en": "Bear coins are a virtual medium of exchange. Growing, sharing, trading and resident orders bring economics into daily choices. The goal is not to hurry you toward more income, but to explore how we care for ourselves and one another."
+  },
+  "v99.livingCta": {
+    "zh-TW": "逛逛生活街",
+    "en": "Explore Living Street"
   }
 }

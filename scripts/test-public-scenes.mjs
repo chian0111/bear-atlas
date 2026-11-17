@@ -1,5 +1,6 @@
+import {upgradeCss} from '../worker/resort-upgrade.js';
 import assert from 'node:assert/strict';
-import {publicPlaceClient,publicPlaceMarkup,parkWaypoints} from '../worker/public-scenes.js';
+import {publicPlaceClient,publicPlaceMarkup,parkWaypoints,publicPlaceStyle} from '../worker/public-scenes.js';
 function run(kind,reduced=false){
  const el=()=>({dataset:{},hidden:false,disabled:false,textContent:'',handlers:{},style:{setProperty(k,v){this[k]=v;}},classList:{v:new Set(),add(k){this.v.add(k);},remove(k){this.v.delete(k);},toggle(k,on){on?this.v.add(k):this.v.delete(k);}},addEventListener(k,fn){this.handlers[k]=fn;},setAttribute(k,v){this[k]=v;}});
  const root=el(),npc=el(),panel=el(),motion=el(),stage=el(),play=el(),result=el(),card=el(),greet=el(),chat=el(),dismiss=el(),rest=el(),restState=el(),nodes={'[data-place-player]':el(),'[data-place-npc]':npc,'[data-place-npc-panel]':panel,'[data-place-motion]':motion,'.place-stage':stage,'[data-place-play]':play,'[data-place-result]':result,'[data-place-postcard]':card,'[data-place-greet]':greet,'[data-place-chat]':chat,'[data-place-dismiss]':dismiss,'[data-place-rest]':rest,'[data-place-rest-state]':restState};
@@ -16,3 +17,5 @@ function run(kind,reduced=false){
 run('sports');run('sports',true);run('english');
 const fake={tree:()=>'<g data-old-tree/>',house:()=>'<g data-old-house/>'};for(const kind of ['sports','english']){const html=publicPlaceMarkup(kind,'<svg data-player/>','<svg data-resident/>',fake);assert.ok(html.includes('data-old-tree')&&html.includes('data-old-house'));assert.equal((html.match(/data-place-npc /g)||[]).length,1);assert.ok(html.includes('data-place-npc-panel'));assert.ok(html.includes('data-player')&&html.includes('data-resident'));}
 assert.equal(parkWaypoints.length,4);console.log('Bounded NPC walk, dwell idle, click pause, blank dismissal, manual pause, reduced motion, repeatable station postcards, rest and reused assets passed.');
+
+assert.ok(publicPlaceStyle.includes('.place-person.left>svg'));assert.ok(!publicPlaceStyle.includes('.place-person.left svg'));assert.ok(publicPlaceStyle.includes('.place-person.walk>svg'));assert.ok(!publicPlaceStyle.includes('.place-person.walk svg'));assert.ok(upgradeCss.includes('transform-origin:44px 124px'));assert.ok(upgradeCss.includes('transform-origin:76px 124px'));

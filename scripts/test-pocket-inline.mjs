@@ -26,6 +26,11 @@ const before=calls;
 for(let n=0;n<2;n++){const e=saleEvent();for(const fn of listeners.submit)fn(e);assert.equal(e.defaultPrevented,true);}
 await new Promise(resolve=>setTimeout(resolve,0));
 assert.equal(calls,before+1);assert.equal(fetchOptions.method,'POST');assert.equal(fetchOptions.body.get('quantity'),'3');assert.equal(scroll.top,650);assert.equal(fresh.style.minHeight,'1800px');
+// V99: a real food receipt is moved into view below the measured fixed navigation.
+const snack={closest:()=>null,getBoundingClientRect:()=>({top:400})};
+fresh.querySelector=selector=>selector==='[data-snack-receipt]'?snack:null;
+const food=saleEvent();for(const fn of listeners.submit)fn(food);
+await new Promise(resolve=>setTimeout(resolve,0));assert.equal(scroll.top,930);
 // Modified and cross-page links retain normal browser navigation.
 for(const event of [{target:{closest:()=>link},button:0,ctrlKey:true},{target:{closest:()=>({...link,href:'https://test.invalid/world'})},button:0}]){
  event.preventDefault=()=>assert.fail('must retain native navigation');for(const fn of listeners.click)fn(event);

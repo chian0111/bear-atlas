@@ -139,10 +139,23 @@ for(let n=0;n<2;n++){
 }
 assert.equal(qty(alice,'carrot'),2);
 const snackPage=await html('/dock/collection?filter=food');const tea=tokens(card(snackPage,'tea')).find(f=>f.body.includes('collection.eat'));const eatingResponse=await apply(tea.token);
-assert.match(await html(eatingResponse.headers.get('Location')),/snack-moment/);assert.equal(qty(alice,'tea'),0);
+const consumedTea=await html(eatingResponse.headers.get('Location'));assert.match(card(consumedTea,'tea'),/<div class="snack-moment" data-snack-receipt>/);assert.match(card(consumedTea,'tea'),/data-snack-food/);assert.match(card(consumedTea,'tea'),/data-species="rabbit"/);assert.equal(qty(alice,'tea'),0);
 const map=await html('/world');assert.ok(!map.includes('id="harbor-wave"'));assert.ok(!map.includes('data-i18n="simple.home"'));assert.match(map,/留一句島嶼招呼/);
 assert.match(await html('/dock/adventure'),/collection-scene-banner/);assert.match(await html('/dock/shop'),/collection-scene-banner/);
 console.log('V98 bulk selling, forged/replayed quantities, atomic stock conflict rollback, display reservation, zero-stock snack animation and simplified map passed.');
+// V99: actual rendered elements, not class names hidden in CSS, define the visible experience.
+const cleanMap=await html('/world');assert.ok(!cleanMap.includes('<nav class="simple-directions"'));assert.match(cleanMap,/href="\/world\/living" data-stop="1"/);
+const street=await html('/world/living');assert.match(street,/<section class="cozy-district" data-cozy-living>/);
+for(const path of ['/dock/career','/dock/mba','/world/market','/dock/square'])assert.ok(street.includes('href="'+path+'"'));
+assert.match(street,/href="\/world\?at=1"/);
+const nature=await html('/world/nature');assert.match(nature,/<nav class="cozy-tiles"/);for(const icon of ['🌱','🎣','🌲'])assert.ok(nature.includes(icon));
+const library=await html('/dock/mba');assert.match(library,/<svg class="cozy-library-art"/);assert.equal((library.match(/<details class="cozy-book">/g)||[]).length,3);
+const market=await html('/world/market');for(const target of ['/dock/collection?filter=sell','/dock/shop','/world/farm-orders'])assert.ok(market.includes('href="'+target+'"'));
+const about=await html('/about');assert.match(about,/data-i18n="cozy.ideaBody"/);assert.match(about,/data-i18n="cozy.ideaEconomy"/);
+for(const path of ['/dock/collection','/dock/shop','/world/garden','/world/farm-orders']){
+ const response=await get(path),text=await response.text();assert.match(text,/data-i18n="collection.coins"\]:before/);assert.match(text,/class="atlas-coin-icon"/);assert.match(response.headers.get('Content-Security-Policy'),/img-src data:/);
+}
+console.log('V99: actual snack receipt/food/passport actor, simplified map, grouped living district, three books, nature icon buttons, market actions, shared coin art/CSP and updated philosophy passed.');
 assert.deepEqual(audit.report().missing,[]);
 console.log('V88 PASS: server pickups, account isolation, duplicate/competing tokens, Taipei midnight, inventory/display reservation, atomic crafting/sale/purchase/gifts, insufficient funds, injected rollback, legacy quest bonus, bilingual routes, unchanged identities and missing-schema fallback.');
 

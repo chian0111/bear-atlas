@@ -1,0 +1,15 @@
+# V99 — visible daily interactions and clearer places
+
+- Remove the remaining Explore Island / Today's Island Life shortcut navigation; map and daily content remain in place.
+- Fix food receipt HTML that V98 computed but failed to append. The confirmed item card now contains the passport character, food art, animation and remaining stock, including the last serving. Fragment updates position the receipt below fixed navigation; sale scroll behavior stays unchanged. Tests now assert actual rendered divs/actor inside the item card, not a class name that can match a CSS declaration. Reduced-motion users see a still receipt. Runtime asset version bumped to V99 to avoid stale client code.
+- Shared bear-face coin artwork appears as an inline SVG in the site header and backpack/shop wallet, plus currency labels, prices and reward units across pages. Currency pseudo-elements retain the text and use only local data SVGs; restrictive pages allow data images while preserving existing script/form policy.
+- Seaside Living Street becomes a single district entrance with cafe, Hillside Book House, Bear Market and Banyan Square. Map's repeated service row removed. Market groups actual buy/sell/order links; Tidal stalls become a secondary district destination. Existing routes, resident IDs, private journal/practice data and return stops preserved.
+- Book House has a warm window/bookshelf reading room and three expandable short stories, without timers, rewards or data writes. Philosophy adds clear interaction feedback and the role of virtual exchange in gentle everyday choices.
+- Nature area has separate large icon/name/purpose buttons for garden, pond and forest with keyboard focus and narrow-screen layout.
+- Fix sports walk: mirroring and body bob apply only to the outer SVG, not the nested head; keep head viewport dimensions. Reduce body bounce and use opposing paw rotations around hip pivots. Existing bounded path, pause/dwell and reduced-motion behavior retained.
+
+Validation passed: build, ESM artifact, source and compiled collection integration (actual snack receipt, actor species, coin/CSP, living route/return, library, nature, market and philosophy), pocket inline (snack visible offset and stable sale), public scenes (walk/pause/reduced motion), bear world, farm orders, adventure, resort navigation, garden, garden inline, player experience, task return, i18n. No migrations or economy rule changes; no production player data used.
+
+Verification limit: required Sites browser tool cua_repl.js is unavailable. Browser/physical mobile visual acceptance is unverified; no alternate browser tooling was installed.
+
+Publication: pending native deployment.

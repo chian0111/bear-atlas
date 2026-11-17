@@ -1077,6 +1077,11 @@
       "runtime_commit": "bc8525f9498caf6e9140e03b8489ad5d380be2a4",
       "github_implementation_commit": "87eae57e89541fbf222afb3ae315acbc5d10d666",
       "deployment_id": "appgdep_6afb9fb77a508191af3a023cd0117a27"
+    },
+    {
+      "release": "V99",
+      "status": "validated-awaiting-publication",
+      "report": "docs/V99-ACCEPTANCE.md"
     }
   ]
 }

@@ -78,12 +78,14 @@ export function playerExperienceClient(){
     fresh.style.minHeight=height+'px';
     const opened=[...current.querySelectorAll('details[id][open]')].map(d=>d.id);
     const openItems=[...current.querySelectorAll('.collection-card')].filter(card=>card.querySelector('details[open]')).map(card=>card.id);
-    current.replaceWith(fresh);openItems.forEach(id=>{const card=fresh.querySelector('#'+id),d=card?.querySelector('details');if(d)d.open=true;});opened.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true;});window.BearI18n?.bind?.(fresh);
+    current.replaceWith(fresh);
+    const snack=fresh.querySelector('[data-snack-receipt]');if(snack){const card=snack.closest('.collection-card'),details=card?.querySelector('details');if(details)details.open=true;}
+    openItems.forEach(id=>{const card=fresh.querySelector('#'+id),d=card?.querySelector('details');if(d)d.open=true;});opened.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true;});window.BearI18n?.bind?.(fresh);
     const balance=parsed.querySelector('.bear-coin-balance'),old=document.querySelector('.bear-coin-balance');if(balance&&old)old.replaceWith(balance);
     history.replaceState(history.state,'',url.pathname+url.search);try{sessionStorage.removeItem('bear-atlas-task-return');}catch{}
     const oldLink=anchor?.querySelector?.('a[aria-current=page]');if(oldLink)fresh.querySelector('a[aria-current=page]')?.focus({preventScroll:true});
     const target=anchorId&&document.getElementById(anchorId);measure();
-    window.scrollTo({top:Math.max(0,target&&offset!==undefined?window.scrollY+target.getBoundingClientRect().top-offset:y),behavior:'instant'});
+    window.scrollTo({top:Math.max(0,snack?window.scrollY+snack.getBoundingClientRect().top-(bar?.getBoundingClientRect().height||0)-120:target&&offset!==undefined?window.scrollY+target.getBoundingClientRect().top-offset:y),behavior:'instant'});
    }catch{note.textContent=document.documentElement.lang==='en'?'Unable to confirm. Try again; the same action cannot be charged twice.':'無法確認更新，請再試一次；同一筆操作不會重複扣款。';}
    finally{working=false;current.removeAttribute('aria-busy');}
   };
