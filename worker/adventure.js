@@ -1,6 +1,6 @@
 // V87: server-owned actions and idempotent, additive quest rewards. No currency or inventory reset.
 export const adventureStations=[
- {id:'dock',path:'/world?at=9',event:'dock:hello',label:'招呼港口',action:'向港口揮揮手'},
+ {id:'dock',path:'/world?at=9',event:'dock:hello',label:'招呼港口',action:'抵達港口，開始散步'},
  {id:'square',path:'/dock/square',event:'square:notice',label:'榕樹廣場',action:'看看廣場布告欄'},
  {id:'home',path:'/dock/cabin',event:'home:rest',label:'我的小屋',action:'在自家小屋歇歇'},
  {id:'forest',path:'/world/forest',event:'forest:walk',label:'雪松森林',action:'沿雪松小徑散步'},

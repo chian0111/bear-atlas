@@ -1,5 +1,6 @@
 // Presentation and native form lifecycle only; settlements remain server-authoritative.
 export const playerExperienceCss=`
+[data-inline-status]{position:fixed;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:1000;background:#fff4d6;color:#29483c;border:1px solid #b9c6ad;border-radius:14px;padding:12px 18px;width:max-content;max-width:calc(100vw - 32px)}
 body{padding-top:var(--atlas-header-space,172px)!important;padding-bottom:max(16px,env(safe-area-inset-bottom))}
 html{scroll-padding-top:var(--atlas-header-space,180px)}
 .resort-topbar{padding-top:max(8px,env(safe-area-inset-top));padding-right:max(14px,env(safe-area-inset-right))}
@@ -66,7 +67,7 @@ export function playerExperienceClient(){
   const update=async(endpoint,options,anchor)=>{
    if(working)return;working=true;
    const selector=document.querySelector('.collection-page')?'.collection-page':'.adventure';
-   const current=document.querySelector(selector),y=window.scrollY,offset=anchor?.getBoundingClientRect().top;
+   const current=document.querySelector(selector),height=Math.ceil(current.getBoundingClientRect().height),y=window.scrollY,offset=anchor?.getBoundingClientRect().top;
    const anchorId=anchor?.closest?.('[id]')?.id;
    current.setAttribute('aria-busy','true');
    let note=current.querySelector('[data-inline-status]');if(!note){note=document.createElement('p');note.dataset.inlineStatus='';note.setAttribute('role','status');current.prepend(note);}note.textContent=document.documentElement.lang==='en'?'Saving…':'正在更新…';
@@ -74,9 +75,10 @@ export function playerExperienceClient(){
     const response=await fetch(endpoint,{...options,credentials:'same-origin',headers:{Accept:'text/html'}});
     const url=new URL(response.url),parsed=new DOMParser().parseFromString(await response.text(),'text/html'),fresh=parsed.querySelector(selector);
     if(!response.ok||url.pathname!==location.pathname||!fresh)throw Error('save');
-    if(!options.method)fresh.style.minHeight=Math.ceil(current.getBoundingClientRect().height)+'px';
+    fresh.style.minHeight=height+'px';
     const opened=[...current.querySelectorAll('details[id][open]')].map(d=>d.id);
-    current.replaceWith(fresh);opened.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true;});window.BearI18n?.bind?.(fresh);
+    const openItems=[...current.querySelectorAll('.collection-card')].filter(card=>card.querySelector('details[open]')).map(card=>card.id);
+    current.replaceWith(fresh);openItems.forEach(id=>{const card=fresh.querySelector('#'+id),d=card?.querySelector('details');if(d)d.open=true;});opened.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true;});window.BearI18n?.bind?.(fresh);
     const balance=parsed.querySelector('.bear-coin-balance'),old=document.querySelector('.bear-coin-balance');if(balance&&old)old.replaceWith(balance);
     history.replaceState(history.state,'',url.pathname+url.search);try{sessionStorage.removeItem('bear-atlas-task-return');}catch{}
     const oldLink=anchor?.querySelector?.('a[aria-current=page]');if(oldLink)fresh.querySelector('a[aria-current=page]')?.focus({preventScroll:true});
@@ -93,7 +95,7 @@ export function playerExperienceClient(){
   document.addEventListener('submit',event=>{
    const form=event.target;if(event.defaultPrevented||form.method?.toLowerCase()!=='post'||!form.checkValidity()||navigator.onLine===false)return;
    const action=form.querySelector('[name=action]')?.value;
-   if(location.pathname!=='/dock/adventure'&&action!=='apply')return;
+   if(location.pathname!=='/dock/adventure'&&action!=='apply'&&action!=='sell-batch')return;
    if(location.pathname==='/dock/adventure'&&action!=='claim'&&action!=='npc-setting')return;
    event.preventDefault();update(form.getAttribute('action')||location.pathname,{method:'POST',body:new URLSearchParams(new FormData(form))},form.closest('[id]')||form);
   });

@@ -110,9 +110,39 @@ const furnishings=await html('/dock/collection?item=lamp&view=display');
 const placing=tokens(card(furnishings,'lamp')).find(f=>f.body.includes('collection.slot'));
 assert.equal((await apply(placing.token)).status,303);assert.equal(sql.prepare("SELECT count(*) n FROM island_collection_displays WHERE visitor_key=? AND item_id='lamp'").get(alice).n,1);
 assert.match(await html('/dock/cabin'),/collection.lamp/);
-assert.match(await html('/world?at=9&adventure=done'),/揮手成功/);
+assert.ok(!(await html('/world?at=9')).includes('id="harbor-wave"'));
 assert.match(await html('/world?at=9'),/atlas-destinations/);
 console.log('V97 goods: six purchases, replay, food account isolation/consumption/competing tokens, unchanged balance, cottage placement/readback, harbor feedback passed.');
+// V98 bulk sales: reserve display stock; reject forged quantities; settle all units or none.
+sql.prepare("INSERT INTO island_collection_inventory(visitor_key,item_id,quantity,first_at) VALUES(?,'carrot',8,1) ON CONFLICT(visitor_key,item_id) DO UPDATE SET quantity=8").run(alice);
+const salePage=await html('/dock/collection?filter=sell');assert.match(salePage,/data-bulk-sell/);
+const sale=tokens(card(salePage,'carrot')).find(f=>f.body.includes('sell-batch'));
+const batch=(token,quantity,key=alice)=>post({action:'sell-batch',token,quantity},key);
+assert.equal((await batch(sale.token,'3',bob)).status,403);
+for(const bad of ['0','-1','1.5','51','3e0','999'])assert.equal((await batch(sale.token,bad)).status,400);
+const cashBefore=coins(alice),price=sql.prepare('SELECT coin_delta n FROM island_collection_operations WHERE token=?').get(sale.token).n;
+assert.equal((await batch(sale.token,'3')).status,303);assert.equal(qty(alice,'carrot'),5);assert.equal(coins(alice),cashBefore+3*price);
+assert.equal((await batch(sale.token,'5')).status,303);assert.equal(qty(alice,'carrot'),5);assert.equal(coins(alice),cashBefore+3*price);
+const reserved=await collectionIssue(DB,alice,'display',{item:'carrot',slot:4});await apply(reserved);
+const freshSale=tokens(card(await html('/dock/collection?filter=sell'),'carrot')).find(f=>f.body.includes('sell-batch'));
+assert.equal((await batch(freshSale.token,'5')).status,400);
+// Stock changed after rendering: rollback the entire transaction, including the first unit.
+sql.prepare("UPDATE island_collection_inventory SET quantity=2 WHERE visitor_key=? AND item_id='carrot'").run(alice);
+const cash=coins(alice);assert.equal((await batch(freshSale.token,'3')).status,409);assert.equal(qty(alice,'carrot'),2);assert.equal(coins(alice),cash);assert.equal(sql.prepare('SELECT applied_at n FROM island_collection_operations WHERE token=?').get(freshSale.token).n,null);
+assert.equal((await batch(freshSale.token,'1')).status,303);assert.equal(qty(alice,'carrot'),1);
+assert.equal(sql.prepare("SELECT count(*) n FROM island_collection_displays WHERE visitor_key=? AND item_id='carrot'").get(alice).n,1);
+// Another independent sale of the same quantity must not collide in the ledger.
+sql.prepare("UPDATE island_collection_inventory SET quantity=6 WHERE visitor_key=? AND item_id='carrot'").run(alice);
+for(let n=0;n<2;n++){
+ const offer=tokens(card(await html('/dock/collection?filter=sell'),'carrot')).find(f=>f.body.includes('sell-batch'));
+ assert.equal((await batch(offer.token,'2')).status,303);
+}
+assert.equal(qty(alice,'carrot'),2);
+const snackPage=await html('/dock/collection?filter=food');const tea=tokens(card(snackPage,'tea')).find(f=>f.body.includes('collection.eat'));const eatingResponse=await apply(tea.token);
+assert.match(await html(eatingResponse.headers.get('Location')),/snack-moment/);assert.equal(qty(alice,'tea'),0);
+const map=await html('/world');assert.ok(!map.includes('id="harbor-wave"'));assert.ok(!map.includes('data-i18n="simple.home"'));assert.match(map,/留一句島嶼招呼/);
+assert.match(await html('/dock/adventure'),/collection-scene-banner/);assert.match(await html('/dock/shop'),/collection-scene-banner/);
+console.log('V98 bulk selling, forged/replayed quantities, atomic stock conflict rollback, display reservation, zero-stock snack animation and simplified map passed.');
 assert.deepEqual(audit.report().missing,[]);
 console.log('V88 PASS: server pickups, account isolation, duplicate/competing tokens, Taipei midnight, inventory/display reservation, atomic crafting/sale/purchase/gifts, insufficient funds, injected rollback, legacy quest bonus, bilingual routes, unchanged identities and missing-schema fallback.');
 

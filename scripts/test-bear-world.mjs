@@ -767,7 +767,7 @@ for(const path of ['/world','/dock/sports','/dock/cabin','/islands/neighbors','/
  assert.match(page,/aria-label="渡假村主要導覽"/);assert.match(page,/position:fixed/);
  assert.match(page,/href="\/about"/);
  const header=page.match(/<header class="resort-topbar">[\s\S]*?<\/header>/)[0];
- assert.match(header,/data-i18n="nav.square" href="\/dock\/square"/);assert.match(header,/data-i18n="nav.garden" href="\/world\/garden"/);assert.ok(!header.includes('data-i18n="nav.dock"'));
+ assert.match(header,/data-i18n="nav.market" href="\/dock\/collection\?filter=sell"/);assert.match(header,/data-i18n="nav.garden" href="\/world\/garden"/);assert.ok(!header.includes('data-i18n="nav.dock"'));
 }
 const cleanMap=await (await get('/world',friend)).text();
 assert.ok(!cleanMap.includes('看看動靜 ✦')&&!cleanMap.includes('其他活動與舊工具')&&!cleanMap.includes('下班／週末輪盤'));

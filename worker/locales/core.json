@@ -3704,5 +3704,57 @@
   "collection.backpack": {
     "zh-TW": "我的背包",
     "en": "My backpack"
+  },
+  "collection.sellTitle": {
+    "zh-TW": "收成販售",
+    "en": "Sell your harvest"
+  },
+  "collection.sellHint": {
+    "zh-TW": "選好數量，一次賣出。展示中的物品會保留。每次最多 50 份。",
+    "en": "Choose a quantity to sell at once. Displayed items stay reserved. Up to 50 per sale."
+  },
+  "collection.sellQty": {
+    "zh-TW": "賣出數量",
+    "en": "Quantity to sell"
+  },
+  "collection.sellBatch": {
+    "zh-TW": "確認賣出",
+    "en": "Sell selected quantity"
+  },
+  "collection.sellPrice": {
+    "zh-TW": "每份可獲得",
+    "en": "Coins per unit"
+  },
+  "collection.sold": {
+    "zh-TW": "已賣出，熊熊幣與庫存已更新。",
+    "en": "Sold. Your coins and inventory are updated."
+  },
+  "collection.browseMarket": {
+    "zh-TW": "逛居民農產市集",
+    "en": "Visit the resident market"
+  },
+  "collection.eatScene": {
+    "zh-TW": "慢慢享用的小時光",
+    "en": "A quiet snack break"
+  },
+  "v98.copy0": {
+    "zh-TW": "市集",
+    "en": "Market"
+  },
+  "v98.copy1": {
+    "zh-TW": "留一句島嶼招呼",
+    "en": "Leave an island greeting"
+  },
+  "v98.copy2": {
+    "zh-TW": "收成販售 →",
+    "en": "Sell your harvest →"
+  },
+  "v98.copy3": {
+    "zh-TW": "抵達港口，開始散步",
+    "en": "Arrive at the harbor and begin a walk"
+  },
+  "nav.market": {
+    "zh-TW": "市集",
+    "en": "Market"
   }
 }

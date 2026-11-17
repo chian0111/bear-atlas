@@ -27,7 +27,9 @@ assert.equal((await post({action:'claim',quest:'unknown'})).status,400);assert.e
 assert.equal((await post({action:'claim',quest:'welcome'})).status,409);assert.equal(count('island_adventure_rewards'),0);
 await post({action:'tour-start'});
 for(const station of adventureStations){
- const text=await html(station.path),t=token(text);assert.ok(t,station.path);assert.match(text,/和 Ari 探索這裡|向港口揮揮手|沿雪松小徑散步|坐在木棧道聽海/);
+ const text=await html(station.path);
+ if(station.id==='dock'){assert.ok(!text.includes('id="harbor-wave"'));assert.equal(sql.prepare("SELECT count(*) n FROM island_adventure_events WHERE visitor_key=? AND event='dock:hello'").get(key).n,1);await html(station.path);assert.equal(sql.prepare("SELECT count(*) n FROM island_adventure_events WHERE visitor_key=? AND event='dock:hello'").get(key).n,1);continue;}
+ const t=token(text);assert.ok(t,station.path);assert.match(text,/和 Ari 探索這裡|向港口揮揮手|沿雪松小徑散步|坐在木棧道聽海/);
  assert.equal((await post({action:'station',scene:station.id,token:t},other)).status,409);
  assert.equal((await post({action:'station',scene:station.id,token:t})).status,303);
  assert.equal((await post({action:'station',scene:station.id,token:t})).status,409);
@@ -110,6 +112,6 @@ assert.match(taskPage,/<details id="pocket-residents" class="pocket-section">/);
 const gardenPage=await html('/world/garden');assert.match(gardenPage,/href="\/world\/garden" aria-current="page"/);assert.ok(!gardenPage.includes('id="carrot-story"'));
 
 const squarePage=await html('/dock/square');
-assert.match(squarePage,/data-i18n="nav.square" href="\/dock\/square" aria-current="page"/);
+assert.match(squarePage,/data-i18n="nav.market" href="\/dock\/collection\?filter=sell"/);
 assert.ok(!squarePage.includes('<nav class="adventure"><a href="/dock/collection">'));
 assert.match(gardenPage,/data-i18n="nav.garden" href="\/world\/garden" aria-current="page"/);

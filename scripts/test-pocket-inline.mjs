@@ -18,6 +18,14 @@ const event={target:{closest:()=>link},button:0,defaultPrevented:false,preventDe
 for(const fn of listeners.click)fn(event);
 await new Promise(resolve=>setTimeout(resolve,0));
 assert.equal(event.defaultPrevented,true);assert.equal(calls,1);assert.equal(replaced,true);assert.equal(scroll.top,650);assert.equal(fresh.style.minHeight,'1800px');assert.equal(fetchOptions.credentials,'same-origin');
+// V98 bulk POST keeps page height and scroll; duplicate submits share the pending request.
+globalThis.FormData=class{*[Symbol.iterator](){yield ['action','sell-batch'];yield ['token','owned-token'];yield ['quantity','3'];}};
+const form={method:'post',checkValidity:()=>true,querySelector:()=>({value:'sell-batch'}),getAttribute:()=>'/dock/collection',closest:()=>nav};
+const saleEvent=()=>({target:form,defaultPrevented:false,preventDefault(){this.defaultPrevented=true;}});
+const before=calls;
+for(let n=0;n<2;n++){const e=saleEvent();for(const fn of listeners.submit)fn(e);assert.equal(e.defaultPrevented,true);}
+await new Promise(resolve=>setTimeout(resolve,0));
+assert.equal(calls,before+1);assert.equal(fetchOptions.method,'POST');assert.equal(fetchOptions.body.get('quantity'),'3');assert.equal(scroll.top,650);assert.equal(fresh.style.minHeight,'1800px');
 // Modified and cross-page links retain normal browser navigation.
 for(const event of [{target:{closest:()=>link},button:0,ctrlKey:true},{target:{closest:()=>({...link,href:'https://test.invalid/world'})},button:0}]){
  event.preventDefault=()=>assert.fail('must retain native navigation');for(const fn of listeners.click)fn(event);
