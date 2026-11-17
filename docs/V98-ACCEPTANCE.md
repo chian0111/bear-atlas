@@ -10,4 +10,4 @@ Validation: build and ESM artifact; source and compiled collection integration; 
 
 Verification limit: required Sites browser tool cua_repl.js is unavailable in this environment; no browser QA or physical mobile acceptance is claimed. Source and runtime integration tests pass.
 
-Publication: pending native deployment.
+Publication verified: V98 / platform 116, runtime bc8525f9498caf6e9140e03b8489ad5d380be2a4. Deployment appgdep_6afb9fb77a508191af3a023cd0117a27 succeeded at 2026-11-17 00:28 UTC. GitHub implementation 87eae57e89541fbf222afb3ae315acbc5d10d666 matched remote main. Historical sync helper stopped because old commits live in the preserved Git bundle; a normal non-force push mirrored V98 without changing historical backup.
