@@ -60,6 +60,44 @@ export function playerExperienceClient(){
    }finally{saving.delete(form);buttons.forEach(b=>b.disabled=false);form.removeAttribute('aria-busy');}
   });
  }
+ // Same-page bag/shop controls replace only their content and retain the clicked row.
+ if(typeof fetch==='function'&&typeof DOMParser!=='undefined'&&['/dock/collection','/dock/shop','/dock/adventure'].includes(location.pathname)){
+  let working=false;
+  const update=async(endpoint,options,anchor)=>{
+   if(working)return;working=true;
+   const selector=document.querySelector('.collection-page')?'.collection-page':'.adventure';
+   const current=document.querySelector(selector),y=window.scrollY,offset=anchor?.getBoundingClientRect().top;
+   const anchorId=anchor?.closest?.('[id]')?.id;
+   current.setAttribute('aria-busy','true');
+   let note=current.querySelector('[data-inline-status]');if(!note){note=document.createElement('p');note.dataset.inlineStatus='';note.setAttribute('role','status');current.prepend(note);}note.textContent=document.documentElement.lang==='en'?'Saving…':'正在更新…';
+   try{
+    const response=await fetch(endpoint,{...options,credentials:'same-origin',headers:{Accept:'text/html'}});
+    const url=new URL(response.url),parsed=new DOMParser().parseFromString(await response.text(),'text/html'),fresh=parsed.querySelector(selector);
+    if(!response.ok||url.pathname!==location.pathname||!fresh)throw Error('save');
+    if(!options.method)fresh.style.minHeight=Math.ceil(current.getBoundingClientRect().height)+'px';
+    const opened=[...current.querySelectorAll('details[id][open]')].map(d=>d.id);
+    current.replaceWith(fresh);opened.forEach(id=>{const d=document.getElementById(id);if(d)d.open=true;});window.BearI18n?.bind?.(fresh);
+    const balance=parsed.querySelector('.bear-coin-balance'),old=document.querySelector('.bear-coin-balance');if(balance&&old)old.replaceWith(balance);
+    history.replaceState(history.state,'',url.pathname+url.search);try{sessionStorage.removeItem('bear-atlas-task-return');}catch{}
+    const oldLink=anchor?.querySelector?.('a[aria-current=page]');if(oldLink)fresh.querySelector('a[aria-current=page]')?.focus({preventScroll:true});
+    const target=anchorId&&document.getElementById(anchorId);measure();
+    window.scrollTo({top:Math.max(0,target&&offset!==undefined?window.scrollY+target.getBoundingClientRect().top-offset:y),behavior:'instant'});
+   }catch{note.textContent=document.documentElement.lang==='en'?'Unable to confirm. Try again; the same action cannot be charged twice.':'無法確認更新，請再試一次；同一筆操作不會重複扣款。';}
+   finally{working=false;current.removeAttribute('aria-busy');}
+  };
+  document.addEventListener('click',event=>{
+   const link=event.target.closest?.('.collection-nav a');if(!link||event.defaultPrevented||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||event.button!==0)return;
+   const url=new URL(link.href,location.href);if(url.origin!==location.origin||url.pathname!==location.pathname||url.hash)return;
+   event.preventDefault();update(url.href,{},link.closest('nav'));
+  });
+  document.addEventListener('submit',event=>{
+   const form=event.target;if(event.defaultPrevented||form.method?.toLowerCase()!=='post'||!form.checkValidity()||navigator.onLine===false)return;
+   const action=form.querySelector('[name=action]')?.value;
+   if(location.pathname!=='/dock/adventure'&&action!=='apply')return;
+   if(location.pathname==='/dock/adventure'&&action!=='claim'&&action!=='npc-setting')return;
+   event.preventDefault();update(form.getAttribute('action')||location.pathname,{method:'POST',body:new URLSearchParams(new FormData(form))},form.closest('[id]')||form);
+  });
+ }
  const network=()=>{if(notice)notice.hidden=navigator.onLine!==false;};
  network();window.addEventListener('online',network);window.addEventListener('offline',network);
  const visibility=()=>root.toggleAttribute('data-atlas-background',document.hidden);

@@ -1045,6 +1045,11 @@
       "platform_version": 114,
       "runtime_commit": "4e6dd4b4ca64df3bc65794e8f38852df59ff714d",
       "deployment_id": "appgdep_6afb2e1827d08191a14aa8f925371f6b"
+    },
+    {
+      "release": "V97",
+      "status": "validated-awaiting-publication",
+      "report": "docs/V97-ACCEPTANCE.md"
     }
   ]
 }

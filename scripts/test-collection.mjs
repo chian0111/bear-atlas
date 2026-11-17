@@ -92,6 +92,27 @@ assert.ok(!(await html('/dock/collection',visitor)).includes('奶油扇貝</span
 assert.deepEqual(sql.prepare('SELECT * FROM island_passports').all(),original);assert.deepEqual(sql.prepare('SELECT * FROM island_credentials').all(),credentials);
 sql.exec('ALTER TABLE island_collection_spawns RENAME TO collection_missing_fixture');assert.equal((await get('/dock/collection')).status,503);assert.equal((await get('/world')).status,200);assert.equal((await get('/world/beach')).status,200);
 sql.exec('ALTER TABLE collection_missing_fixture RENAME TO island_collection_spawns');
+// V97: new goods use the same atomic, account-owned settlement and display reservation.
+sql.prepare('UPDATE island_collection_wallets SET coins=100 WHERE visitor_key=?').run(alice);
+for(const id of ['bread','tea','berries','lamp','plant','clock']){
+ const page=await html('/dock/shop?category='+(['bread','tea','berries'].includes(id)?'food':'decor'));
+ const purchase=tokens(card(page,id))[0];assert.ok(purchase,id);
+ assert.equal((await apply(purchase.token)).status,303);assert.equal(qty(alice,id),1);
+ assert.equal((await apply(purchase.token)).status,303);assert.equal(qty(alice,id),1);
+}
+const foodBag=await html('/dock/collection?filter=food');assert.match(foodBag,/collection.bread/);assert.ok(!card(foodBag,'lamp'));
+const eating=tokens(card(foodBag,'bread')).find(f=>f.body.includes('collection.eat'));
+const balanceBefore=coins(alice);assert.equal((await post({action:'apply',token:eating.token},bob)).status,403);
+assert.equal((await apply(eating.token)).status,303);assert.equal(qty(alice,'bread'),0);assert.equal(coins(alice),balanceBefore);
+assert.equal((await apply(eating.token)).status,303);assert.equal(qty(alice,'bread'),0);
+const competing=await collectionIssue(DB,alice,'sell',{item:'bread',coins:0});assert.equal((await apply(competing)).status,409);
+const furnishings=await html('/dock/collection?item=lamp&view=display');
+const placing=tokens(card(furnishings,'lamp')).find(f=>f.body.includes('collection.slot'));
+assert.equal((await apply(placing.token)).status,303);assert.equal(sql.prepare("SELECT count(*) n FROM island_collection_displays WHERE visitor_key=? AND item_id='lamp'").get(alice).n,1);
+assert.match(await html('/dock/cabin'),/collection.lamp/);
+assert.match(await html('/world?at=9&adventure=done'),/揮手成功/);
+assert.match(await html('/world?at=9'),/atlas-destinations/);
+console.log('V97 goods: six purchases, replay, food account isolation/consumption/competing tokens, unchanged balance, cottage placement/readback, harbor feedback passed.');
 assert.deepEqual(audit.report().missing,[]);
 console.log('V88 PASS: server pickups, account isolation, duplicate/competing tokens, Taipei midnight, inventory/display reservation, atomic crafting/sale/purchase/gifts, insufficient funds, injected rollback, legacy quest bonus, bilingual routes, unchanged identities and missing-schema fallback.');
 

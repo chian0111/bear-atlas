@@ -3899,13 +3899,17 @@ async function adventureEnhance(content,path,url,db,key){
   content=content.replace('<details class="hb-welcome"',mapGuideMarkup(pref,await readPassportProfile(db,key))+'<details class="hb-welcome" data-server-guide="true"');
   if(pref.tour_status==='active'||pref.tour_replay)content=content.replace('data-public-harbor','data-tour-stop="'+mapGuideStops[pref.tour_step||0]+'" data-public-harbor');
   if(station?.id==='dock'){const own=await db.prepare('SELECT message,visible FROM island_custom_greetings WHERE visitor_key=?').bind(key).first();block+=greetingEditor(own,'harbor')+(url.searchParams.get('greeting')==='saved'?'<p role="status">招呼已保存，島民可以在廣場看到。</p>':'');}
-  if(station?.id==='dock')block+='<div class="adventure">'+adventureForm('station',await adventureIssue(db,key,'dock'),'向港口揮揮手','<input type="hidden" name="scene" value="dock">')+'</div>';
+  if(station?.id==='dock'){
+   const progress=(await adventureProgress(db,key)).find(q=>q.id==='welcome');
+   const waved=await db.prepare("SELECT 1 done FROM island_adventure_events WHERE visitor_key=? AND event='dock:hello' LIMIT 1").bind(key).first();
+   block+='<section class="adventure" id="harbor-wave"><h2>港口的問候</h2><p role="status">'+(url.searchParams.get('adventure')==='done'?'揮手成功！Ari 向你揮了揮手，這次問候已記入冒險手帳。':waved?'已完成港口問候，可以繼續探索其他角落。':'向港口揮揮手，開始今天的島嶼散步。')+'</p><p>五個舒服的角落 · '+progress.done+' / '+progress.events.length+'</p><progress max="'+progress.events.length+'" value="'+progress.done+'" aria-label="探索進度"></progress>'+adventureForm('station',await adventureIssue(db,key,'dock'),waved?'再向港口揮揮手':'向港口揮揮手','<input type="hidden" name="scene" value="dock">')+'<a href="/dock/adventure">查看探索進度 →</a></section>';
+  }
   station=null;
  }
 
  if(station){const token=await adventureIssue(db,key,station.id);block='<details class="adventure"'+(pref.tour_status==='active'||pref.tour_replay?' open':'')+'><summary>和 Ari 探索這裡</summary><p>'+station.label+'</p>'+adventureForm('station',token,station.action,'<input type="hidden" name="scene" value="'+station.id+'">')+'<a href="/dock/adventure">冒險手帳</a></details>';block+=adventureGuideNav(station,pref);if(url.searchParams.has('adventure'))block+='<p class="adventure" role="status">這次互動已保存，可以到手帳查看進度。</p>';}
- if(['/world','/islands','/dock/cabin','/dock/quests'].includes(path)&&await collectionReady(db)){block+='<nav class="adventure"><a href="/dock/collection">我的背包</a><a href="/dock/shop">海風小舖</a><a href="/world/garden">我的花園</a><a href="/dock/trades">物物交換</a></nav>';if(path==='/dock/cabin')content=content.replace('<div class="game-stage">','<div class="game-stage">'+await collectionRoomShelf(db,key));}
- if(path==='/world'||path==='/dock/quests'||path==='/dock/cabin')block+='<div class="adventure"><a href="/dock/adventure">冒險手帳</a> <a href="/world/forest">雪松森林</a> <a href="/world/beach">貝殼海灘</a></div>';
+ if(['/world','/islands'].includes(path))block+='<nav class="atlas-destinations" aria-label="島嶼生活入口">'+[['🎒','我的背包','整理素材與收藏','/dock/collection'],['🛍️','海風小舖','購買食物與小屋擺設','/dock/shop'],['🌱','我的花園','播種、澆水與收成','/world/garden'],['📖','冒險手帳','查看任務與領取紀念卡','/dock/adventure'],['🌲','雪松森林','散步、拾趣與觀察動物','/world/forest'],['🐚','貝殼海灘','聽海與拾取貝殼','/world/beach']].map(([icon,name,hint,href])=>'<a href="'+href+'"><span aria-hidden="true">'+icon+'</span><strong>'+name+'</strong><small>'+hint+'</small></a>').join('')+'</nav>';
+ else if(['/dock/cabin','/dock/quests'].includes(path)&&await collectionReady(db)){block+='<nav class="adventure"><a href="/dock/collection">我的背包</a><a href="/dock/shop">海風小舖</a><a href="/dock/adventure">冒險手帳</a></nav>';if(path==='/dock/cabin')content=content.replace('<div class="game-stage">','<div class="game-stage">'+await collectionRoomShelf(db,key));}
  if(path==='/dock/cabin'){
   content=content.replace('data-cabin-game','data-npc-visits="bounded" data-cabin-game');
   const visit=await db.prepare('SELECT * FROM island_adventure_visits WHERE visitor_key=? AND day=?').bind(key,adventureDay()).first();
@@ -3982,7 +3986,7 @@ async function adventureRoute(request,env,url){
   }else return page('<p>請使用頁面上的互動。</p>',400);
   if(!await adventureRecord(db,key,scene,f.get('token'),event,day,now))return page('<p>互動已更新，請回到場景再試。</p><a href="'+back+'">回到場景</a>',409);
   const progress=await adventureProgress(db,key,now);if(progress.find(q=>q.id==='welcome').complete)await db.prepare("INSERT INTO island_adventure_preferences(visitor_key,tour_status,tour_replay) VALUES(?,'complete',0) ON CONFLICT(visitor_key) DO UPDATE SET tour_status='complete',tour_replay=CASE WHEN ?='beach' THEN 0 ELSE island_adventure_preferences.tour_replay END").bind(key,scene).run();
-  return dockRedirect(back+(back.includes('?')?'&':'?')+'adventure=done');
+  return dockRedirect(back+(back.includes('?')?'&':'?')+'adventure=done'+(scene==='dock'?'#harbor-wave':''));
  }
  if(url.pathname==='/world/forest'||url.pathname==='/world/beach'){
   const forest=url.pathname.endsWith('forest'),station=adventureStations[forest?3:4],token=await adventureIssue(db,key,station.id,now),wild=adventureWildlife(now);

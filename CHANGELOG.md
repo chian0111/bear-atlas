@@ -1,3 +1,7 @@
+# V97 — 療癒日常互動更新
+
+港口揮手成功回饋與探索進度；地圖六個圖示入口；背包插圖與分類原地更新；新增三款食物及三款小屋展示擺設，接通購買、持有、享用及擺放；修正雪松探索按鈕對比。沿用既有交易與玩家存檔。驗證及限制見 docs/V97-ACCEPTANCE.md。
+
 # V96.4 — 修正花園播種連線錯誤（已正式部署）
 
 Fix form.action being shadowed by the hidden action input, which sent garden POSTs to an invalid [object HTMLInputElement] URL. Read the action attribute and validate the same-origin garden endpoint. Original state, tokens and Bear coin header preserved. Targeted regression and compiled garden checks pass; see docs/V96.4-ACCEPTANCE.md.

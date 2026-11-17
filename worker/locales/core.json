@@ -3552,5 +3552,157 @@
   "garden.saveError": {
     "zh-TW": "連線中斷，請再次操作確認；不會重複消耗或發放物品。",
     "en": "Connection interrupted. Try this action again to confirm; items will not be issued twice."
+  },
+  "collection.food": {
+    "zh-TW": "療癒食物",
+    "en": "Comfort food"
+  },
+  "collection.eat": {
+    "zh-TW": "慢慢享用一份",
+    "en": "Enjoy one serving"
+  },
+  "collection.eatNote": {
+    "zh-TW": "享用後會消耗一份；沒有體力或限時要求。",
+    "en": "Uses one serving. No energy meter or time pressure."
+  },
+  "collection.eatAction": {
+    "zh-TW": "享用食物",
+    "en": "Enjoyed food"
+  },
+  "collection.bread": {
+    "zh-TW": "蜂蜜小麵包",
+    "en": "Honey bread"
+  },
+  "collection.breadNote": {
+    "zh-TW": "柔軟的蜂蜜麵包，替散步留一點甜。",
+    "en": "Soft honey bread for a gentle walking break."
+  },
+  "collection.tea": {
+    "zh-TW": "森林花草茶",
+    "en": "Woodland herbal tea"
+  },
+  "collection.teaNote": {
+    "zh-TW": "捧著溫暖的茶，慢慢休息一下。",
+    "en": "A warm cup for a quiet pause."
+  },
+  "collection.berries": {
+    "zh-TW": "莓果小點",
+    "en": "Berry bowl"
+  },
+  "collection.berriesNote": {
+    "zh-TW": "一碗酸甜莓果，陪你度過午後。",
+    "en": "A little bowl of berries for the afternoon."
+  },
+  "collection.lamp": {
+    "zh-TW": "暖光桌燈",
+    "en": "Warm table lamp"
+  },
+  "collection.lampNote": {
+    "zh-TW": "可放入小屋四格展示位置的迷你桌燈。",
+    "en": "A miniature lamp for one of four cottage display slots."
+  },
+  "collection.plant": {
+    "zh-TW": "雪松盆栽",
+    "en": "Cedar planter"
+  },
+  "collection.plantNote": {
+    "zh-TW": "把森林帶回家，放在小屋展示架上。",
+    "en": "Bring a little woodland to your cottage shelf."
+  },
+  "collection.clock": {
+    "zh-TW": "木作小座鐘",
+    "en": "Wooden mantel clock"
+  },
+  "collection.clockNote": {
+    "zh-TW": "溫潤木色的小屋擺設，可放上展示架。",
+    "en": "A warm wooden keepsake for your cottage shelf."
+  },
+  "collection.farm_deliverAction": {
+    "zh-TW": "訂單作物交付",
+    "en": "Order produce delivered"
+  },
+  "collection.farm_incomeAction": {
+    "zh-TW": "居民訂單報酬",
+    "en": "Resident order reward"
+  },
+  "v97.copy0": {
+    "zh-TW": "島嶼生活入口",
+    "en": "Island life entrances"
+  },
+  "v97.copy1": {
+    "zh-TW": "探索進度",
+    "en": "Exploration progress"
+  },
+  "v97.copy2": {
+    "zh-TW": "整理素材與收藏",
+    "en": "Organize materials and keepsakes"
+  },
+  "v97.copy3": {
+    "zh-TW": "購買食物與小屋擺設",
+    "en": "Buy food and cottage decor"
+  },
+  "v97.copy4": {
+    "zh-TW": "播種、澆水與收成",
+    "en": "Plant, water and harvest"
+  },
+  "v97.copy5": {
+    "zh-TW": "查看任務與領取紀念卡",
+    "en": "Check tasks and claim keepsakes"
+  },
+  "v97.copy6": {
+    "zh-TW": "散步、拾趣與觀察動物",
+    "en": "Walk, collect and watch wildlife"
+  },
+  "v97.copy7": {
+    "zh-TW": "聽海與拾取貝殼",
+    "en": "Listen to the sea and collect shells"
+  },
+  "v97.copy8": {
+    "zh-TW": "查看探索進度 →",
+    "en": "View exploration progress →"
+  },
+  "v97.copy9": {
+    "zh-TW": "港口的問候",
+    "en": "A harbor greeting"
+  },
+  "v97.copy10": {
+    "zh-TW": "向港口揮揮手，開始今天的島嶼散步。",
+    "en": "Wave at the harbor to begin a gentle island walk."
+  },
+  "v97.copy11": {
+    "zh-TW": "揮手成功！Ari 向你揮了揮手，這次問候已記入冒險手帳。",
+    "en": "Wave saved! Ari waves back. Your greeting is in the adventure journal."
+  },
+  "v97.copy12": {
+    "zh-TW": "已完成港口問候，可以繼續探索其他角落。",
+    "en": "Harbor greeting complete. Explore another cozy corner."
+  },
+  "v97.copy13": {
+    "zh-TW": "再向港口揮揮手",
+    "en": "Wave at the harbor again"
+  },
+  "v97.copy14": {
+    "zh-TW": "全部商品",
+    "en": "All products"
+  },
+  "v97.copy15": {
+    "zh-TW": "小屋擺設",
+    "en": "Cottage decor"
+  },
+  "v97.copy16": {
+    "zh-TW": "已享用一份，願這一刻讓你慢慢放鬆。",
+    "en": "One serving enjoyed. Take a gentle moment to unwind."
+  },
+  "v97.copy17": {
+    "zh-TW": "背包剩餘",
+    "en": "Remaining in backpack"
+  },
+  "v97.copy18": {
+    "zh-TW": "份。",
+    "en": "servings."
+  },
+  "collection.backpack": {
+    "zh-TW": "我的背包",
+    "en": "My backpack"
   }
 }
