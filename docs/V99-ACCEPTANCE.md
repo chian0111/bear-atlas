@@ -12,4 +12,4 @@ Validation passed: build, ESM artifact, source and compiled collection integrati
 
 Verification limit: required Sites browser tool cua_repl.js is unavailable. Browser/physical mobile visual acceptance is unverified; no alternate browser tooling was installed.
 
-Publication: pending native deployment.
+Publication verified: V99 / platform 117, runtime 66801c449d2d775caddc53309d367052aa46a12c. Deployment appgdep_6afba960e46881919ec2f55c4ca8ae44 succeeded at 2026-11-17 01:10 UTC. GitHub implementation 2746c137cd734d46728dcaaaa11b01aefbb1370c matched remote main. Historical sync helper stopped because original commits live in the preserved Git bundle; a normal non-force push mirrored V99 without changing that backup.

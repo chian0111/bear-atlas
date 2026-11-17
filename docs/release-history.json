@@ -817,6 +817,13 @@
       "commit": "bc8525f9498caf6e9140e03b8489ad5d380be2a4",
       "deployment_id": "appgdep_6afb9fb77a508191af3a023cd0117a27",
       "archive_sha256": "sha256:046630b314870ba68983079432867520f88b0a3cab7438075ed0ac8ed7231a5e"
+    },
+    {
+      "version": 117,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_92bfaa688d048191a541f53ba21e9632",
+      "commit": "66801c449d2d775caddc53309d367052aa46a12c",
+      "deployment_id": "appgdep_6afba960e46881919ec2f55c4ca8ae44",
+      "archive_sha256": "sha256:5d2034200c3b8f879e4e224e376d692b665d57b78d3f0d490f1b21f3dc325cc9"
     }
   ],
   "candidates": [
@@ -1080,8 +1087,12 @@
     },
     {
       "release": "V99",
-      "status": "validated-awaiting-publication",
-      "report": "docs/V99-ACCEPTANCE.md"
+      "status": "deployed-engineering-player-acceptance-pending",
+      "report": "docs/V99-ACCEPTANCE.md",
+      "platform_version": 117,
+      "runtime_commit": "66801c449d2d775caddc53309d367052aa46a12c",
+      "github_implementation_commit": "2746c137cd734d46728dcaaaa11b01aefbb1370c",
+      "deployment_id": "appgdep_6afba960e46881919ec2f55c4ca8ae44"
     }
   ]
 }
