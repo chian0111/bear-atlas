@@ -47,7 +47,14 @@ export function playerExperienceClient(){
    try{
     const endpoint=new URL(form.getAttribute('action')||'/world/garden',location.href);
     if(endpoint.origin!==new URL(location.href).origin||endpoint.pathname!=='/world/garden')throw Error('garden-endpoint');
-    const response=await fetch(endpoint.href,{method:'POST',body:new URLSearchParams(new FormData(form)),credentials:'same-origin',headers:{Accept:'text/html'}});
+    const response=await fetch(endpoint.href,{method:'POST',body:new URLSearchParams(new FormData(form)),credentials:'same-origin',headers:{Accept:'text/html','X-Atlas-Fragment':'garden-plot'}});
+    if(response.headers?.get('Content-Type')?.includes('application/json')){
+     const data=await response.json();if(!response.ok)throw Error('garden-save');
+     const parsed=new DOMParser().parseFromString(data.html+data.summary,'text/html'),fresh=parsed.querySelector('[data-garden-slot]');if(!fresh||fresh.id!==id)throw Error('garden-save');
+     plot.replaceWith(fresh);const summary=parsed.querySelector('.garden-summary'),old=document.querySelector('.garden-summary');if(summary&&old)old.replaceWith(summary);window.BearI18n?.bind?.(fresh);window.BearI18n?.bind?.(summary);
+     try{sessionStorage.removeItem('bear-atlas-task-return');}catch{}
+     const url=new URL(data.url,location.href);url.hash='';history.replaceState(history.state,'',url);measure();window.scrollTo({top:Math.max(0,window.scrollY+fresh.getBoundingClientRect().top-offset),behavior:'instant'});return;
+    }
     const parsed=new DOMParser().parseFromString(await response.text(),'text/html'),fresh=parsed.querySelector('.garden-page'),current=document.querySelector('.garden-page');
     if(!response.ok){const failure=Error('garden-save');failure.playerMessage=parsed.querySelector('.garden-page p')?.textContent;throw failure;}if(!fresh||new URL(response.url).pathname!=='/world/garden')throw Error('garden-save');
     current.replaceWith(fresh);window.BearI18n?.bind?.(fresh);

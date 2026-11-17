@@ -137,7 +137,7 @@ export function cabin3DClient(){
  const canvas=display.querySelector('canvas'),ctx=canvas?.getContext('2d');
  if(!ctx)return;
  const game=display.closest?.('[data-cabin-game]');
- let collectionItems=[];try{collectionItems=JSON.parse(game?.querySelector?.('[data-collection-room-shelf]')?.dataset.collectionItems||'[]').filter(r=>Number.isInteger(r.slot)&&r.slot>=1&&r.slot<=4&&['scallop','spiral','clam','pinecone','leaf','mobile','frame','vase','tray','herb','carrot','tomato','rice','sunflower','silverfish','pondcarp'].includes(r.item_id));}catch{}
+ let collectionItems=[];try{collectionItems=JSON.parse(game?.querySelector?.('[data-collection-room-shelf]')?.dataset.collectionItems||'[]').filter(r=>Number.isInteger(r.slot)&&r.slot>=1&&r.slot<=4&&['scallop','spiral','clam','pinecone','leaf','mobile','frame','vase','tray','herb','carrot','tomato','rice','sunflower','silverfish','pondcarp','lamp','plant','clock'].includes(r.item_id));}catch{}
  const fallback=display.querySelector('.cabin-scene'),controls=display.querySelector('[data-cabin-camera]');
  let roomTransition=false;
  let yaw=.72,pitch=.55,zoom=1,frame=0;
@@ -311,9 +311,13 @@ export function cabin3DClient(){
    }
   }
   // A wall-mounted collection shelf: no floor footprint, layout writes or movement blockers.
-  if(game&&room==='living'&&leftVisible&&!editMode){
-   layer=0;furniture=null;box(-2.75,1.65,.2,.45,.075,2.05,'#b4946a');
-   for(const r of collectionItems){const x=-2.38,y=1.73,z=.43+(r.slot-1)*.48,id=r.item_id;
+  if(game&&room==='living'&&!editMode){
+   layer=0;furniture=null;if(leftVisible)box(-2.75,1.65,.2,.45,.075,2.05,'#b4946a');
+   for(const r of collectionItems){const position=String(r.placement||'place:shelf').split(':')[1],spots={shelf:[-2.38,1.73,.43+(r.slot-1)*.48],window:[-1.25,.88,-1.35+(r.slot-1)*.28],table:[.25+(r.slot-1)*.25,.94,1.65],corner:[2.35,.8,.2+(r.slot-1)*.32]},[x,y,z]=spots[position]||spots.shelf,id=r.item_id;if(position==='shelf'&&!leftVisible)continue;if(position!=='shelf'){box(x-.17,0,z-.17,.34,y-.04,.34,'#b99b74');box(x-.22,y-.05,z-.22,.44,.05,.44,'#dbc29a');}
+    if(id==='lamp'){cylinder(x,y,z,.15,.035,'#b48c61');cylinder(x,y+.035,z,.025,.27,'#a78556',8);cylinder(x,y+.30,z,.19,.20,'#f1d8a0',10);}
+    else if(id==='plant'){cylinder(x,y,z,.12,.18,'#d3a281',8);box(x-.012,y+.18,z-.012,.025,.30,.025,'#789b6a');for(const h of [.2,.3,.4])leaf(x,y+h,z,0,.18,.16,'#7e9d77');}
+    else if(id==='clock'){box(x-.09,y,z-.16,.18,.34,.32,'#b48c61');box(x+.095,y+.07,z-.11,.008,.22,.22,'#fff0ce');box(x+.10,y+.16,z-.01,.01,.10,.012,'#52664e');box(x+.10,y+.16,z-.01,.01,.012,.08,'#52664e');}
+    else
     if(['herb','carrot','tomato','rice','sunflower'].includes(id)){
      cylinder(x,y,z,.10,.10,'#c7ac7d',8);box(x-.012,y+.08,z-.01,.024,.30,.024,'#769761');leaf(x,y+.19,z,0,.15,.12,'#88a570');
      if(id==='tomato')cylinder(x,y+.18,z+.08,.08,.09,'#ce8f75',8);
@@ -439,6 +443,9 @@ export function cabin3DClient(){
   if(species==='cat')for(const side of [-1,1])for(const y of [.91,.99])poly([point(side*.15,y,.30),point(side*.37,y+.03,.30),point(side*.37,y+.04,.30),point(side*.15,y+.01,.30)],'#846b59');round(0,.99,.323,species==='bear'?.06:.043,species==='bear'?.043:.028,.028,species==='bear'?'#463c35':'#d89482');
   const blink=activity==='sleep'?.008:!reducedMotion.matches&&Math.sin(motionTime*.9)> .995?.008:.036;
   round(-.13,1.085,.255,species==='bear'?.026:.047,species==='bear'?blink:blink===.008?.008:.062,.024,species==='bear'?'#302f2b':'#674b38');round(.13,1.085,.255,species==='bear'?.026:.047,species==='bear'?blink:blink===.008?.008:.062,.024,species==='bear'?'#302f2b':'#674b38');if(species!=='bear'){if(activity!=='sleep'){round(-.14,1.11,.279,.015,.02,.008,'#fff9eb');round(.12,1.11,.279,.015,.02,.008,'#fff9eb');}round(-.23,.96,.24,.06,.035,.013,'#e8b5a5');round(.23,.96,.24,.06,.035,.013,'#e8b5a5');if(species==='cat')round(.04,1.24,.17,.11,.065,.04,'#cfb091');}
+  if(owner&&display.dataset.shopAccessory==='sun_hat'){round(0,1.32,0,.48,.045,.36,'#e4c68b');round(0,1.43,0,.29,.15,.25,'#e4c68b');round(0,1.34,0,.31,.04,.26,'#8f9f76');}
+  if(owner&&display.dataset.shopAccessory==='red_scarf'){poly([point(-.25,.82,.2),point(.25,.82,.2),point(.22,.73,.26),point(-.22,.73,.26)],'#b36c79');poly([point(.08,.76,.27),point(.2,.48,.26),point(.29,.52,.26),point(.17,.78,.27)],'#b36c79');}
+  if(owner&&display.dataset.shopAccessory==='star_bag'){poly([point(.24,.4,.04),point(.53,.4,.04),point(.53,.68,.04),point(.24,.68,.04)],'#ac986d');round(.39,.55,.055,.07,.07,.012,'#fff0bf');}
   if(activity==='wave'){round(-.125,1.096,.278,.009,.01,.006,'#fff7e4');round(.135,1.096,.278,.009,.01,.006,'#fff7e4');poly([point(-.055,.895,.32),point(0,.877,.33),point(.055,.895,.32),point(0,.885,.33)],'#675148');}
   head=false;
   if(activity==='read'){

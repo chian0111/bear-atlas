@@ -3888,5 +3888,297 @@
   "v99.livingCta": {
     "zh-TW": "逛逛生活街",
     "en": "Explore Living Street"
+  },
+  "living.title": {
+    "zh-TW": "我的角色生活",
+    "en": "My character life"
+  },
+  "living.style": {
+    "zh-TW": "商店換裝間",
+    "en": "Shop dressing room"
+  },
+  "living.furnish": {
+    "zh-TW": "佈置商店家具",
+    "en": "Arrange shop furnishings"
+  },
+  "living.fireworks": {
+    "zh-TW": "港灣星光煙火",
+    "en": "Harbor starlight fireworks"
+  },
+  "living.bear": {
+    "zh-TW": "熊熊",
+    "en": "Bear"
+  },
+  "living.cat": {
+    "zh-TW": "貓咪",
+    "en": "Cat"
+  },
+  "living.rabbit": {
+    "zh-TW": "兔子",
+    "en": "Rabbit"
+  },
+  "living.knowledge": {
+    "zh-TW": "知識",
+    "en": "Knowledge"
+  },
+  "living.adventure": {
+    "zh-TW": "冒險",
+    "en": "Adventure"
+  },
+  "living.health": {
+    "zh-TW": "健康",
+    "en": "Health"
+  },
+  "living.wealth": {
+    "zh-TW": "財富",
+    "en": "Wealth"
+  },
+  "living.intro": {
+    "zh-TW": "熊、貓、兔的經驗值分開保存，參與時使用哪一種角色，就由那一種角色累積。V100 起開始記錄，不會倒扣。",
+    "en": "Bear, cat and rabbit keep separate experience. The character in use earns the experience. Tracking starts in V100 and never decays."
+  },
+  "living.rules": {
+    "zh-TW": "閱讀／研究增加知識；探索、澆水、收成增加冒險；伸展與小食增加健康；賣出與交付訂單增加財富。每種角色、每天每項最多 20 XP。",
+    "en": "Reading/research earns Knowledge; exploring, watering and harvests earn Adventure; stretching and snacks earn Health; sales and deliveries earn Wealth. Each character can earn up to 20 XP per attribute per Taiwan day."
+  },
+  "living.level": {
+    "zh-TW": "等級",
+    "en": "Level"
+  },
+  "living.xp": {
+    "zh-TW": "經驗值",
+    "en": "Experience"
+  },
+  "living.equip": {
+    "zh-TW": "穿戴這件",
+    "en": "Wear this"
+  },
+  "living.clear": {
+    "zh-TW": "換回原有造型",
+    "en": "Use original style"
+  },
+  "living.saved": {
+    "zh-TW": "已保存，角色外觀與進度都跟著帳號。",
+    "en": "Saved to your account."
+  },
+  "living.empty": {
+    "zh-TW": "先到商店購買一件喜歡的服裝或配件。",
+    "en": "Visit the shop to buy an outfit or accessory."
+  },
+  "living.shop": {
+    "zh-TW": "前往海風小舖",
+    "en": "Visit the shop"
+  },
+  "living.home": {
+    "zh-TW": "回小屋",
+    "en": "Go home"
+  },
+  "living.map": {
+    "zh-TW": "回島嶼地圖",
+    "en": "Island map"
+  },
+  "living.read": {
+    "zh-TW": "讀完，留下今天的閱讀記錄",
+    "en": "Record today’s reading"
+  },
+  "living.exercise": {
+    "zh-TW": "完成伸展，記錄健康經驗",
+    "en": "Record a stretch and earn Health"
+  },
+  "living.done": {
+    "zh-TW": "今天的活動已記錄，重複送出不會重複增加。",
+    "en": "Today’s activity is recorded. Repeated submissions add nothing extra."
+  },
+  "living.ticketHint": {
+    "zh-TW": "每日台灣時間 21:00–21:10。每張票供一個晚上使用；入場才扣票，同晚可重新進入。活動結束仍未用的票留待下次。僅持票帳號能取得煙火畫面。",
+    "en": "Daily 21:00–21:10 Taiwan time. One ticket per evening, consumed on admission. Re-entry that evening is free. Unused tickets remain for a future evening. Only ticket holders receive the fireworks scene."
+  },
+  "living.enter": {
+    "zh-TW": "使用一張票，入場看煙火",
+    "en": "Use one ticket and enter"
+  },
+  "living.waiting": {
+    "zh-TW": "煙火尚未開場，下次台灣時間 21:00 見。",
+    "en": "The show is closed. Join us at the next 21:00 Taiwan time."
+  },
+  "living.noTicket": {
+    "zh-TW": "背包還沒有煙火票，到海風小舖選一張吧。",
+    "en": "No fireworks ticket in your backpack. Pick one up at the shop."
+  },
+  "living.admitted": {
+    "zh-TW": "今晚已入場，可以安心回來看。",
+    "en": "Admitted for tonight. You may return freely."
+  },
+  "living.watch": {
+    "zh-TW": "煙火在港灣上空綻放。",
+    "en": "Fireworks bloom over the harbor."
+  },
+  "living.place": {
+    "zh-TW": "放到這個位置",
+    "en": "Place here"
+  },
+  "living.shelf": {
+    "zh-TW": "展示架",
+    "en": "Display shelf"
+  },
+  "living.window": {
+    "zh-TW": "窗邊矮櫃",
+    "en": "Window cabinet"
+  },
+  "living.table": {
+    "zh-TW": "客廳小桌",
+    "en": "Living room table"
+  },
+  "living.corner": {
+    "zh-TW": "角落小台",
+    "en": "Corner stand"
+  },
+  "living.slot": {
+    "zh-TW": "展示位置",
+    "en": "Display slot"
+  },
+  "living.furnishHint": {
+    "zh-TW": "從已持有的擺設選一件，安排到小屋的展示架、窗邊、桌上或角落。每件仍佔一個展示位置；收回後回到背包，不會重複扣物品。",
+    "en": "Choose an owned decoration for the shelf, window cabinet, table or corner stand. Each uses one display slot. Removing it returns it to your backpack without consuming another item."
+  },
+  "living.arrange": {
+    "zh-TW": "在小屋擺放",
+    "en": "Arrange in your cottage"
+  },
+  "living.invalid": {
+    "zh-TW": "操作或物品已更新，請回原頁重試。",
+    "en": "This action or item changed. Reopen the page and try again."
+  },
+  "living.login": {
+    "zh-TW": "請先登入島民證，讓物品與經驗值跟著你保存。",
+    "en": "Sign in with your passport to save items and experience."
+  },
+  "living.nutrition": {
+    "zh-TW": "享用小食也會留下角色經驗：麵包健康 +2、莓果健康 +3、花草茶知識 +1／健康 +1；受每日上限限制。",
+    "en": "Snacks earn character experience: bread Health +2; berries Health +3; tea Knowledge +1 and Health +1, subject to daily caps."
+  },
+  "living.sage_knit": {
+    "zh-TW": "鼠尾草針織衫",
+    "en": "Sage knit sweater"
+  },
+  "living.lilac_apron": {
+    "zh-TW": "紫丁香圍裙",
+    "en": "Lilac apron"
+  },
+  "living.ocean_hoodie": {
+    "zh-TW": "海藍連帽衫",
+    "en": "Ocean hoodie"
+  },
+  "living.sun_hat": {
+    "zh-TW": "麥草遮陽帽",
+    "en": "Straw sun hat"
+  },
+  "living.red_scarf": {
+    "zh-TW": "莓紅小領巾",
+    "en": "Berry scarf"
+  },
+  "living.star_bag": {
+    "zh-TW": "星星探險包",
+    "en": "Star explorer bag"
+  },
+  "living.firework_ticket": {
+    "zh-TW": "星光煙火票",
+    "en": "Starlight fireworks ticket"
+  },
+  "collection.outfit": {
+    "zh-TW": "商店服裝",
+    "en": "Shop outfit"
+  },
+  "collection.accessory": {
+    "zh-TW": "造型配件",
+    "en": "Style accessory"
+  },
+  "collection.ticket": {
+    "zh-TW": "活動票券",
+    "en": "Event ticket"
+  },
+  "collection.sage_knit": {
+    "zh-TW": "鼠尾草針織衫",
+    "en": "Sage knit sweater"
+  },
+  "collection.sage_knitNote": {
+    "zh-TW": "購買後到商店換裝間穿戴，熊、貓、兔皆可使用。",
+    "en": "Wear it in the shop dressing room after buying. Available for bears, cats and rabbits."
+  },
+  "collection.lilac_apron": {
+    "zh-TW": "紫丁香圍裙",
+    "en": "Lilac apron"
+  },
+  "collection.lilac_apronNote": {
+    "zh-TW": "購買後到商店換裝間穿戴，熊、貓、兔皆可使用。",
+    "en": "Wear it in the shop dressing room after buying. Available for bears, cats and rabbits."
+  },
+  "collection.ocean_hoodie": {
+    "zh-TW": "海藍連帽衫",
+    "en": "Ocean hoodie"
+  },
+  "collection.ocean_hoodieNote": {
+    "zh-TW": "購買後到商店換裝間穿戴，熊、貓、兔皆可使用。",
+    "en": "Wear it in the shop dressing room after buying. Available for bears, cats and rabbits."
+  },
+  "collection.sun_hat": {
+    "zh-TW": "麥草遮陽帽",
+    "en": "Straw sun hat"
+  },
+  "collection.sun_hatNote": {
+    "zh-TW": "購買後到商店換裝間穿戴，熊、貓、兔皆可使用。",
+    "en": "Wear it in the shop dressing room after buying. Available for bears, cats and rabbits."
+  },
+  "collection.red_scarf": {
+    "zh-TW": "莓紅小領巾",
+    "en": "Berry scarf"
+  },
+  "collection.red_scarfNote": {
+    "zh-TW": "購買後到商店換裝間穿戴，熊、貓、兔皆可使用。",
+    "en": "Wear it in the shop dressing room after buying. Available for bears, cats and rabbits."
+  },
+  "collection.star_bag": {
+    "zh-TW": "星星探險包",
+    "en": "Star explorer bag"
+  },
+  "collection.star_bagNote": {
+    "zh-TW": "購買後到商店換裝間穿戴，熊、貓、兔皆可使用。",
+    "en": "Wear it in the shop dressing room after buying. Available for bears, cats and rabbits."
+  },
+  "collection.firework_ticket": {
+    "zh-TW": "星光煙火票",
+    "en": "Starlight fireworks ticket"
+  },
+  "collection.firework_ticketNote": {
+    "zh-TW": "每日台灣時間 21:00–21:10，一票一晚，入場才扣票。",
+    "en": "Daily 21:00–21:10 Taiwan time. One ticket per evening, consumed on admission."
+  },
+  "v100.copy0": {
+    "zh-TW": "服裝與配件",
+    "en": "Outfits and accessories"
+  },
+  "v100.copy1": {
+    "zh-TW": "煙火票券",
+    "en": "Fireworks tickets"
+  },
+  "v100.copy2": {
+    "zh-TW": "服裝與配件換裝",
+    "en": "Shop dressing room"
+  },
+  "v100.copy3": {
+    "zh-TW": "前往港灣煙火",
+    "en": "Visit harbor fireworks"
+  },
+  "v100.copy4": {
+    "zh-TW": "佈置商店家具",
+    "en": "Arrange shop furnishings"
+  },
+  "v100.copy5": {
+    "zh-TW": "角色經驗值",
+    "en": "Character experience"
+  },
+  "v100.copy6": {
+    "zh-TW": "角色生活",
+    "en": "Character life"
   }
 }

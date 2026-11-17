@@ -20,5 +20,11 @@ const duplicate=event();for(const fn of handlers)await fn(duplicate);assert.equa
 release();await Promise.all(pending);assert.equal(replaced,1);assert.equal(scroll.top,580);assert.equal(button.disabled,false);assert.equal(request.body.get('token'),'original-server-token');assert.equal(storage.size,0);
 // Ambiguous transport failure keeps the original token and offers retry; it does not navigate or replay automatically.
 fail=true;pending=[];for(const fn of handlers)pending.push(fn(event()));release();await Promise.all(pending);assert.equal(fetches,2);assert.equal(replaced,1);assert.match(note.textContent,/不會重複/);assert.equal(button.disabled,false);
+// V100 watering JSON replaces just the plot and preserves its measured position.
+fail=false;const compact={id:plot.id,getBoundingClientRect:()=>({top:220})};
+plot.replaceWith=value=>{assert.equal(value,compact);replaced++;};
+globalThis.DOMParser=class{parseFromString(){return{querySelector:s=>s==='[data-garden-slot]'?compact:null};}};
+globalThis.fetch=async(url,init)=>{request=init;fetches++;return{ok:true,headers:{get:()=> 'application/json'},json:async()=>({html:'<article></article>',summary:'',url:'/world/garden?garden=saved'})};};
+for(const fn of handlers)await fn(event());assert.equal(replaced,2);assert.equal(scroll.top,540);assert.equal(button.disabled,false);assert.equal(request.headers['X-Atlas-Fragment'],'garden-plot');
 Object.defineProperty(globalThis,'sessionStorage',{configurable:true,get(){throw Error('storage denied');}});assert.doesNotThrow(()=>playerExperienceClient());
 console.log('Garden inline: same-plot offset, original server token, duplicate guard, header measurement and ambiguous-network retry passed.');

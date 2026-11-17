@@ -54,7 +54,7 @@ export async function gardenRoute(request,env,url,ctx){
  if(!['GET','POST'].includes(request.method))return render(gardenT('invalid','p'),405);
  if(!profile)return render(gardenT('login','p')+'<a href="/passport?next=%2Fworld%2Fgarden">'+gardenT('signin')+'</a>',request.method==='POST'?403:200);
  if(!await gardenReady(db))return render(gardenT('unavailable','p'),503);
- await gardenInit(db,key);
+ if(request.method==='GET')await gardenInit(db,key);
  if(request.method==='POST'){
   if(url.pathname!=='/world/garden')return render(gardenT('invalid','p'),405);
   const parsed=await parse(request,url,1500);if(!parsed.fields)return render(gardenT('invalid','p'),parsed.status);const f=parsed.fields;
@@ -71,6 +71,18 @@ export async function gardenRoute(request,env,url,ctx){
   }
   if(f.get('action')!=='apply'||f.has('member')||f.has('offer')||f.has('want')||!f.get('token'))return render(gardenT('invalid','p'),400);
   const r=await gardenApply(db,key,f.get('token'),now);if(r.status!==303)return render(gardenT(r.message,'p')+gardenNav(),r.status);
+  if(request.headers.get('X-Atlas-Fragment')==='garden-plot'&&r.op.kind==='water'){
+   const plot=await db.prepare('SELECT * FROM island_garden_plots WHERE visitor_key=? AND slot=?').bind(key,r.op.slot).first(),crop=gardenCrops.find(c=>c.id===plot?.crop_id);
+   if(!plot||!crop)return render(gardenT('conflict','p'),409);
+   const stage=plot.ready_at<=now?'ripe':'seedling';
+   let html='<article id="garden-plot-'+plot.slot+'" class="garden-plot" data-garden-slot="'+plot.slot+'"><h2>'+gardenT(plot.slot===4?'paddy':'beds')+' '+plot.slot+'</h2>'+gardenPlotArt(crop.id,stage,plot.slot===4)+'<p class="garden-state">'+gardenT(stage)+'</p><p role="status" class="garden-note">'+gardenT(r.replay?'replay':'saved')+'</p><div class="garden-crop-info">'+gardenC(crop.id)+'<span>'+gardenT('growth')+' · '+crop.minutes+' '+gardenT('minutes')+'</span></div>';
+   if(plot.ready_at<=now)html+=gardenForm(await gardenIssue(db,key,'harvest',{slot:plot.slot,revision:plot.revision,crop:crop.id,item:crop.id}),gardenT('harvest'));
+   else html+='<p>'+gardenT('remaining')+' · '+Math.ceil((plot.ready_at-now)/60000)+'</p><p>'+gardenT('readyAt')+gardenDate(plot.ready_at)+'</p><a href="/world/garden#garden-plot-'+plot.slot+'">'+gardenT('refresh')+'</a>';
+   html+='</article>';
+   const counts=await db.prepare('SELECT SUM(CASE WHEN crop_id IS NOT NULL AND watered_at IS NOT NULL AND ready_at<=? THEN 1 ELSE 0 END) ready,SUM(CASE WHEN crop_id IS NOT NULL AND watered_at IS NULL THEN 1 ELSE 0 END) water,SUM(CASE WHEN crop_id IS NULL THEN 1 ELSE 0 END) empty FROM island_garden_plots WHERE visitor_key=?').bind(now,key).first();
+   const summary='<section class="garden-summary" aria-labelledby="garden-overview"><h2 id="garden-overview">'+gardenT('overview')+'</h2><p>'+gardenT('readyCount')+' '+counts.ready+' · '+gardenT('waterCount')+' '+counts.water+' · '+gardenT('emptyCount')+' '+counts.empty+'</p></section>';
+   return new Response(JSON.stringify({html,summary,url:'/world/garden?garden='+(r.replay?'replay':'saved')}),{headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'private, no-store'}});
+  }
   const path=r.op.kind.startsWith('trade_')?'/dock/trades':['cast','catch'].includes(r.op.kind)?'/world/pond':'/world/garden';return redirect(path+'?garden='+(r.replay?'replay':'saved')+(path==='/world/garden'?'&receipt='+encodeURIComponent(r.op.token)+(r.op.slot?'#garden-plot-'+r.op.slot:''):''));
  }
  const mode=url.pathname==='/world/pond'?'pond':url.pathname==='/dock/trades'?'tradeTitle':'title';
