@@ -824,6 +824,13 @@
       "commit": "66801c449d2d775caddc53309d367052aa46a12c",
       "deployment_id": "appgdep_6afba960e46881919ec2f55c4ca8ae44",
       "archive_sha256": "sha256:5d2034200c3b8f879e4e224e376d692b665d57b78d3f0d490f1b21f3dc325cc9"
+    },
+    {
+      "version": 118,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_ce2e8e51fb988191af1565f6ba0b061e",
+      "commit": "9d9e150aa326db30c06792c00700873b2ceb6652",
+      "deployment_id": "appgdep_6afc8744b7e88191af71af2accdccef5",
+      "archive_sha256": "sha256:fbcf8b07ba8fe397fa6a514923fa25ce90947a74168c9d740c0c8fe1b33ba78e"
     }
   ],
   "candidates": [
@@ -1096,8 +1103,17 @@
     },
     {
       "release": "V100",
-      "status": "validated-awaiting-publication",
-      "report": "docs/V100-ACCEPTANCE.md"
+      "status": "deployed-engineering-player-acceptance-pending",
+      "report": "docs/V100-ACCEPTANCE.md",
+      "platform_version": 118,
+      "runtime_commit": "9d9e150aa326db30c06792c00700873b2ceb6652",
+      "github_implementation_commit": "b1a0c0b5fb332096f66e990e463035d26959acac",
+      "deployment_id": "appgdep_6afc8744b7e88191af71af2accdccef5",
+      "production_schema_verified": [
+        "island_character_growth",
+        "island_shop_styles",
+        "island_firework_admissions"
+      ]
     }
   ]
 }

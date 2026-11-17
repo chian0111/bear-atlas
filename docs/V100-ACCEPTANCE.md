@@ -12,4 +12,4 @@ Browser limitation: required Sites cua_repl.js tool unavailable. Physical mobile
 
 Deployment requires additive migration0024; archive includes drizzle SQL/journal. Rollback can redeploy platform117 while retaining additive tables and all player records. Previously bought new items remain stored even if an older renderer does not display them.
 
-Publication: pending native deployment and production schema verification.
+Publication verified: V100 / platform118, runtime 9d9e150aa326db30c06792c00700873b2ceb6652. Native deployment appgdep_6afc8744b7e88191af71af2accdccef5 succeeded at 2026-11-18 00:56 Asia/Taipei (2026-11-17 16:56 UTC). Production DB overview confirmed island_character_growth, island_shop_styles and island_firework_admissions with existing tables retained; no player rows were read. GitHub implementation b1a0c0b5fb332096f66e990e463035d26959acac matched remote main. Historical sync helper cannot tag commits stored only in the preserved Git bundle; normal non-force push mirrors this release while preserving that backup.
