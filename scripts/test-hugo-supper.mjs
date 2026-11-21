@@ -10,6 +10,8 @@ const alice='1'.repeat(48),bob='2'.repeat(48),visitor='3'.repeat(48);
 for(const [key,name]of [[alice,'Alice'],[bob,'Bob'],[visitor,'Third']]){sql.prepare('INSERT INTO island_passports VALUES(?,?,?,?,?)').run(key,name,'rabbit','picnic',1);sql.prepare('INSERT INTO island_credentials(visitor_key) VALUES(?)').run(key);}
 const original=sql.prepare('SELECT * FROM island_passports').all(),credentials=sql.prepare('SELECT * FROM island_credentials').all();
 const DB={prepare(query){const p=sql.prepare(query);function bind(...args){return{first:async()=>p.get(...args),all:async()=>({results:p.all(...args)}),run:async()=>({meta:p.run(...args)}),executeBatch:()=>p.columns().length?{results:p.all(...args)}:{meta:p.run(...args)},bind}}return bind();},async batch(rows){sql.exec('BEGIN');try{const results=rows.map(s=>s.executeBatch());sql.exec('COMMIT');return results;}catch(e){sql.exec('ROLLBACK');throw e;}}};
+// Production currently lacks the optional new tables; the story must use existing adventure storage.
+sql.exec('DROP TABLE island_supper_actions; DROP TABLE island_supper_story');
 const origin='https://collection.test',audit=createI18nAudit();
 const get=async(path,key=alice)=>audit.response(await worker.fetch(new Request(origin+path,{headers:{Cookie:key?'atlas_islander='+key:''}}),{DB}),path);
 const html=async(path,key=alice)=>await(await get(path,key)).text();
@@ -28,7 +30,7 @@ const story=key=>html('/world/hugo-supper',key);
 const count=table=>sql.prepare('SELECT count(*) n FROM '+table).get().n;
 assert.equal((await get('/world/hugo-supper','')).status,200);assert.ok(!(await story('')).includes('name="token"'));
 assert.equal((await send('x','start',{},'')).status,403);
-const startA=formFor(await story(alice),'start'),startB=formFor(await story(alice),'start');assert.ok(startA&&startB);assert.equal(await sceneState(alice),undefined);
+const startA=formFor(await story(alice),'start'),startB=formFor(await story(alice),'start');assert.ok(startA&&startB);assert.equal(await sceneState(alice),null);
 assert.equal((await send(startA.token,'start',{},bob)).status,403);
 assert.equal((await send(startA.token,'start',{},alice,true)).status,403);
 assert.equal((await send(startA.token,'start',{coins:'9999'})).status,400);
@@ -80,7 +82,7 @@ sql.prepare("INSERT INTO island_collection_inventory(visitor_key,item_id,quantit
 assert.equal((await send(risky.token,'decide',{choice:'sell',source:'own'},retry)).status,409);assert.equal((await sceneState(retry)).step,2);assert.equal(qty(retry,'carrot'),1);assert.equal(coins(retry),0);
 sql.prepare("UPDATE island_collection_inventory SET quantity=2 WHERE visitor_key=? AND item_id='carrot'").run(retry);
 sql.exec("CREATE TRIGGER supper_fixture_failure BEFORE INSERT ON island_collection_ledger WHEN NEW.kind='supper_sale' BEGIN SELECT RAISE(ABORT,'fixture');END");
-assert.equal((await send(risky.token,'decide',{choice:'sell',source:'own'},retry)).status,409);assert.equal(qty(retry,'carrot'),2);assert.equal(coins(retry),0);assert.equal((await sceneState(retry)).step,2);assert.equal(sql.prepare('SELECT applied_at t FROM island_supper_actions WHERE token=?').get(risky.token).t,null);
+assert.equal((await send(risky.token,'decide',{choice:'sell',source:'own'},retry)).status,409);assert.equal(qty(retry,'carrot'),2);assert.equal(coins(retry),0);assert.equal((await sceneState(retry)).step,2);assert.equal(sql.prepare('SELECT consumed_at t FROM island_adventure_actions WHERE scene=?').get('supper:v101:action:'+risky.token).t,null);
 sql.exec('DROP TRIGGER supper_fixture_failure');assert.equal((await send(risky.token,'decide',{choice:'sell',source:'own'},retry)).status,303);assert.equal(qty(retry,'carrot'),0);assert.equal(coins(retry),8);
 // Expired actions leave the persistent story untouched and can be refreshed.
 const expired=await supperIssue(DB,retry,'finish',(await sceneState(retry)).revision,0,1);assert.equal((await send(expired,'finish',{detail:'room'},retry)).status,409);assert.equal((await sceneState(retry)).step,3);

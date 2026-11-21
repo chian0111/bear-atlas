@@ -39,18 +39,56 @@ export const supperCopy={
 export function supperT(k,tag='span',params={}){let value=supperCopy[k][0];for(const [name,text]of Object.entries(params))value=value.replaceAll('{'+name+'}',String(text));return '<'+tag+' data-i18n="supper.'+k+'"'+(Object.keys(params).length?' data-i18n-params="'+supperEscape(JSON.stringify(params))+'"':'')+'>'+value+'</'+tag+'>';}
 export const supperEscape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const supperPrice=()=>gardenCrops.find(c=>c.id==='carrot').sell*2;
-export async function supperReady(db){try{return (await db.prepare("SELECT count(*) n FROM sqlite_master WHERE type='table' AND name IN ('island_supper_story','island_supper_actions')").first())?.n===2;}catch{return false;}}
-export const supperState=(db,key)=>db.prepare('SELECT * FROM island_supper_story WHERE visitor_key=?').bind(key).first();
-export async function supperIssue(db,key,kind,revision,clue=0,now=Date.now()){const token=crypto.randomUUID();await db.prepare('INSERT INTO island_supper_actions(token,visitor_key,kind,revision,clue,coin_delta,created_at,expires_at) VALUES(?,?,?,?,?,?,?,?)').bind(token,key,kind,revision,clue,kind==='decide'?supperPrice():0,now,now+1800000).run();return token;}
+// Existing adventure actions are a namespaced, account-owned store for persistent story state and expiring actions.
+// This avoids requiring new production tables when the hosting service omits a migration.
+const supperStateScene='supper:v101:state';
+const supperActionScene=token=>'supper:v101:action:'+token;
+export async function supperReady(db){try{return (await db.prepare("SELECT count(*) n FROM sqlite_master WHERE type='table' AND name IN ('island_adventure_actions','island_collection_inventory','island_collection_wallets','island_collection_ledger','island_collection_displays')").first())?.n===5;}catch{return false;}}
+export async function supperState(db,key){const row=await db.prepare('SELECT event FROM island_adventure_actions WHERE visitor_key=? AND scene=?').bind(key,supperStateScene).first();if(!row)return null;const state=JSON.parse(row.event);if(!Number.isInteger(state.step)||state.step<0||state.step>5||!Number.isInteger(state.revision))throw Error('Invalid story save');return state;}
+export async function supperIssue(db,key,kind,revision,clue=0,now=Date.now()){
+ const token=crypto.randomUUID(),event=JSON.stringify({kind,revision,clue,coin_delta:kind==='decide'?supperPrice():0});
+ await db.prepare('INSERT INTO island_adventure_actions(visitor_key,scene,token,event,period,expires_at) VALUES(?,?,?,?,?,?)').bind(key,supperActionScene(token),token,event,'issued',now+1800000).run();return token;
+}
 export async function supperApply(db,key,fields,now=Date.now()){
- const op=await db.prepare('SELECT * FROM island_supper_actions WHERE token=? AND visitor_key=?').bind(fields.get('token'),key).first();
- if(!op||op.kind!==fields.get('action'))return {status:403};if(op.applied_at!==null)return {status:303,replay:true};if(op.expires_at<=now)return {status:409};
- let choice=null,source=null,detail=null;
- if(op.kind==='decide'){choice=fields.get('choice');source=fields.get('source');if(!['sell','cook','share'].includes(choice)||!['own','hugo'].includes(source))return {status:400};}
- if(op.kind==='finish'){detail=fields.get('detail');if(!['seeds','room','window','door','near','sea'].includes(detail))return {status:400};}
- if(op.kind==='feedback'){detail=fields.get('detail');if(!['yes','unsure','no'].includes(detail))return {status:400};}
- const coins=op.kind==='decide'&&choice==='sell'&&source==='own'?op.coin_delta:0;
- try{const result=await db.prepare('UPDATE island_supper_actions SET choice=?,source=?,detail=?,coin_delta=?,applied_at=? WHERE token=? AND visitor_key=? AND applied_at IS NULL AND expires_at>?').bind(choice,source,detail,coins,now,op.token,key,now).run();return {status:303,replay:result.meta.changes===0};}catch{return {status:409};}
+ const token=fields.get('token');if(!/^[a-f0-9-]{36}$/i.test(token||''))return {status:403};
+ const row=await db.prepare('SELECT * FROM island_adventure_actions WHERE visitor_key=? AND scene=? AND token=?').bind(key,supperActionScene(token),token).first();
+ if(!row)return {status:403};const op={...JSON.parse(row.event),expires_at:row.expires_at,applied_at:row.consumed_at};
+ if(op.kind!==fields.get('action'))return {status:403};if(op.applied_at!==null)return {status:303,replay:true};if(op.expires_at<=now)return {status:409};
+ const state=await supperState(db,key);if((state?.revision||0)!==op.revision)return {status:409};
+ const steps={clue:1,listen:1,decide:2,finish:3,return:4,feedback:5};
+ if(op.kind==='start'?Boolean(state):!state||state.step!==steps[op.kind])return {status:409};
+ const next=state?{...state,revision:state.revision+1,updated_at:now}:{step:1,revision:1,clues:0,choice:null,source:null,detail:null,feedback:null,started_at:now,updated_at:now,completed_at:null};
+ let own=false,coins=0;
+ if(op.kind==='clue'){if(![1,2,4].includes(op.clue))return {status:400};next.clues|=op.clue;}
+ if(op.kind==='listen'){if(!state.clues)return {status:409};next.step=2;}
+ if(op.kind==='decide'){
+  const choice=fields.get('choice'),source=fields.get('source');if(!['sell','cook','share'].includes(choice)||!['own','hugo'].includes(source))return {status:400};
+  next.choice=choice;next.source=source;next.step=3;own=source==='own';coins=own&&choice==='sell'?op.coin_delta:0;
+ }
+ if(op.kind==='finish'){
+  const detail=fields.get('detail');if(!['seeds','room','window','door','near','sea'].includes(detail))return {status:400};
+  if(!({sell:['seeds','room'],cook:['window','door'],share:['near','sea']}[state.choice]||[]).includes(detail))return {status:409};
+  next.detail=detail;next.step=4;
+ }
+ if(op.kind==='return'){next.step=5;next.completed_at=now;}
+ if(op.kind==='feedback'){const value=fields.get('detail');if(!['yes','unsure','no'].includes(value))return {status:400};next.feedback=value;}
+ const active="EXISTS(SELECT 1 FROM island_adventure_actions a WHERE a.visitor_key=? AND a.scene=? AND a.token=? AND a.consumed_at IS NULL AND a.expires_at>?)";
+ const activeArgs=[key,supperActionScene(token),token,now];
+ const marker="EXISTS(SELECT 1 FROM island_adventure_actions s WHERE s.visitor_key=? AND s.scene=? AND s.token=? AND s.period=?)";
+ const markerArgs=[key,supperStateScene,token,String(next.revision)];
+ const stock=own?" AND COALESCE((SELECT quantity FROM island_collection_inventory WHERE visitor_key=? AND item_id='carrot'),0)-(SELECT count(*) FROM island_collection_displays WHERE visitor_key=? AND item_id='carrot')>=2":'';
+ const statements=op.kind==='start'?
+ [db.prepare('INSERT INTO island_adventure_actions(visitor_key,scene,token,event,period,consumed_at,expires_at) SELECT ?,?,?,?,?,?,4102444800000 WHERE '+active+' AND NOT EXISTS(SELECT 1 FROM island_adventure_actions WHERE visitor_key=? AND scene=?)').bind(key,supperStateScene,token,JSON.stringify(next),String(next.revision),now,...activeArgs,key,supperStateScene)]:
+ [db.prepare('UPDATE island_adventure_actions SET token=?,event=?,period=?,consumed_at=? WHERE visitor_key=? AND scene=? AND period=? AND '+active+stock).bind(token,JSON.stringify(next),String(next.revision),now,key,supperStateScene,String(op.revision),...activeArgs,...(own?[key,key]:[]))];
+ statements.push(db.prepare('UPDATE island_adventure_actions SET consumed_at=?,period=? WHERE visitor_key=? AND scene=? AND token=? AND consumed_at IS NULL AND '+marker).bind(now,'applied',key,supperActionScene(token),token,...markerArgs));
+ if(op.kind==='start')statements.push(db.prepare('INSERT OR IGNORE INTO island_collection_wallets(visitor_key) SELECT ? WHERE '+marker).bind(key,...markerArgs));
+ if(own){
+  statements.push(db.prepare("UPDATE island_collection_inventory SET quantity=quantity-2 WHERE visitor_key=? AND item_id='carrot' AND "+marker).bind(key,...markerArgs));
+  statements.push(db.prepare('UPDATE island_collection_wallets SET coins=coins+? WHERE visitor_key=? AND '+marker).bind(coins,key,...markerArgs));
+  statements.push(db.prepare("INSERT INTO island_collection_ledger(operation_id,visitor_key,kind,item_id,quantity_delta,coin_delta,reference,happened_at) SELECT ?,?,'supper_use','carrot',-2,0,?,? WHERE "+marker).bind(token+':carrot',key,token,now,...markerArgs));
+  if(coins)statements.push(db.prepare("INSERT INTO island_collection_ledger(operation_id,visitor_key,kind,item_id,quantity_delta,coin_delta,reference,happened_at) SELECT ?,?,'supper_sale',NULL,0,?,?,? WHERE "+marker).bind(token+':coins',key,coins,token,now,...markerArgs));
+ }
+ try{const results=await db.batch(statements);return {status:results[0].meta.changes?303:409};}catch{return {status:409};}
 }
 export const supperCss=`.supper-story{width:100%;max-width:1000px;margin:0 auto;color:#294b40;font-size:1rem}.supper-story p{line-height:1.95;max-width:700px}.supper-story h1{font-size:clamp(1.65rem,4vw,2.8rem);line-height:1.4}.supper-story h2{font-size:1.2rem}.supper-stage{position:relative;overflow:hidden;border-radius:26px;background:#a6c3bd;isolation:isolate;margin:22px 0}.supper-stage>svg{width:100%;height:auto;display:block}.supper-person{position:absolute;width:12%;max-width:100px;left:49%;bottom:20%;pointer-events:none}.supper-person svg{width:100%;height:auto;display:block}.supper-player{left:65%;bottom:17%}.supper-look{position:absolute;min-height:48px;z-index:3}.supper-look form{margin:0}.supper-look button{font-size:.875rem!important;padding:10px!important;background:#fff9edeb!important;box-shadow:0 3px 12px #284b3f26}.supper-look[data-object=carrots]{left:4%;bottom:16%}.supper-look[data-object=board]{left:6%;top:10%}.supper-look[data-object=chair]{right:4%;bottom:4%}.supper-story button,.supper-story a.supper-button{font:inherit;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border:1px solid #a7bda1;border-radius:16px;background:#315b48;color:#fff8e7!important;cursor:pointer;text-decoration:none}.supper-story button:hover{background:#426e58}.supper-story button:focus-visible,.supper-story a:focus-visible,.supper-story input:focus-visible{outline:3px solid #b17b3e;outline-offset:4px}.supper-story .supper-soft{background:#eef2e4;color:#294b40!important}.supper-dialogue{padding:22px 24px;border-left:4px solid #8ba380;background:#f8f4e8;border-radius:0 20px 20px 0;margin:18px 0}.supper-dialogue p{margin:0}.supper-dialogue strong{display:block;margin-bottom:8px}#supper-observation,#supper-feedback,#supper-current{scroll-margin-top:calc(var(--atlas-header-space,180px) + 18px)}.supper-clues{display:grid;gap:12px}.supper-clues p{padding:14px 18px;background:#e8eee0;border-radius:16px;margin:0}.supper-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}.supper-choice{padding:20px;border:1px solid #c0cbb1;border-radius:20px;background:#fbf7ed;display:flex;flex-direction:column;gap:10px;min-width:0}.supper-choice p{font-size:1rem;margin:0;flex:1}.supper-choice button{width:100%}.supper-choice>span[aria-hidden]{font-size:2rem}.supper-source{padding:18px 22px;border:1px solid #c0cbb1;border-radius:20px;background:#eff2e5}.supper-source label{display:flex;align-items:center;gap:12px;min-height:48px}.supper-source input{width:22px;height:22px;accent-color:#315b48}.supper-story nav,.supper-actions{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}.supper-story small{font-size:.875rem;line-height:1.7}.supper-receipt{border:1px solid #a9bda0;border-radius:18px;background:#e5eddb;padding:18px 22px}.supper-memory{padding:20px;border:1px solid #becbb0;border-radius:22px;margin:20px 0;background:#edf1e3}.supper-memory p{font-size:1rem;line-height:1.8}.supper-memory a{min-height:44px;display:inline-flex;align-items:center;padding:10px 14px;border-radius:12px;background:#315b48;color:#fff8e7!important;text-decoration:none}.supper-object-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:12px;background:#dce5d3}.supper-picture{position:relative}.supper-picture>svg{display:block;width:100%;height:auto}.supper-person{position:absolute;width:12%;bottom:17%;transform:translateX(-50%);pointer-events:none}.supper-person>svg{display:block;width:100%;height:auto;max-width:none}.supper-memory-scene{max-width:560px;margin:12px auto}.supper-steam{animation:supper-warmth 4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.supper-stage.is-stirring .supper-steam{animation-duration:1.4s}.supper-feedback{border-top:1px solid #bfcbb2;padding-top:22px;margin-top:30px}.supper-feedback button[aria-pressed=true]{background:#315b48;color:#fff8e7!important}@keyframes supper-warmth{50%{opacity:.5;translate:0 -4px}}@media(max-width:650px){.supper-choices{grid-template-columns:1fr}.supper-look{position:static;display:inline-block;margin:5px}.supper-stage .supper-object-actions{padding:8px;background:#dce5d3}.supper-look button{font-size:.875rem!important}.supper-person{width:14%}.supper-story button{width:auto}.supper-dialogue{padding:18px}.supper-source{padding:14px}}@media(prefers-reduced-motion:reduce){.supper-steam{animation:none}.supper-stage *{scroll-behavior:auto}}`;
 export function supperScene(state={},hugo='',player=''){
