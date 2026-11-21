@@ -4180,5 +4180,289 @@
   "v100.copy6": {
     "zh-TW": "角色生活",
     "en": "Character life"
+  },
+  "supper.title": {
+    "zh-TW": "Hugo 的一張晚餐桌",
+    "en": "A supper table with Hugo"
+  },
+  "supper.tag": {
+    "zh-TW": "一段可以慢慢玩的島嶼故事",
+    "en": "A little island story at your own pace"
+  },
+  "supper.intro": {
+    "zh-TW": "海邊的小攤快打烊了。Hugo 沒有催你接單，只把兩根胡蘿蔔和一張空椅子放在桌邊。",
+    "en": "The seaside stall is closing. Hugo offers no order to rush through—just two carrots and an empty chair beside the table."
+  },
+  "supper.duration": {
+    "zh-TW": "約 5–10 分鐘。隨時離開，下次從這裡繼續。",
+    "en": "About 5–10 minutes. Leave whenever you like and resume here."
+  },
+  "supper.start": {
+    "zh-TW": "走近 Hugo 的小攤",
+    "en": "Walk over to Hugo’s stall"
+  },
+  "supper.leave": {
+    "zh-TW": "先去島上散步",
+    "en": "Take a walk on the island"
+  },
+  "supper.login": {
+    "zh-TW": "登入島民證，開始並保存故事",
+    "en": "Sign in with your passport to begin and save"
+  },
+  "supper.arrival": {
+    "zh-TW": "「今天攤上很安靜。我本來想煮一小鍋湯，可是……」Hugo 把話停在海風裡。你注意到桌上有三樣東西。",
+    "en": "“The stall was quiet today. I thought I’d make a little soup, but…” Hugo lets the sea breeze finish the sentence. Three things catch your eye."
+  },
+  "supper.inspect": {
+    "zh-TW": "點一樣東西，看看這裡發生了什麼。",
+    "en": "Look at something in the scene to see what happened here."
+  },
+  "supper.carrots": {
+    "zh-TW": "看看那兩根胡蘿蔔",
+    "en": "Look at the two carrots"
+  },
+  "supper.board": {
+    "zh-TW": "翻開小黑板",
+    "en": "Read the chalkboard"
+  },
+  "supper.chair": {
+    "zh-TW": "看看空椅子",
+    "en": "Look at the empty chair"
+  },
+  "supper.carrotClue": {
+    "zh-TW": "胡蘿蔔葉還帶著泥土的氣味。Hugo 說：「它們不多，倒是足夠讓一頓晚餐有個開始。」",
+    "en": "The leaves still smell of soil. “Not many,” Hugo says, “but enough to begin a supper.”"
+  },
+  "supper.boardClue": {
+    "zh-TW": "黑板寫著「今日湯品」，下面卻空著。旁邊有一行小字：「一個人吃飯，也值得好好準備。」",
+    "en": "The board says “Today’s soup,” with nothing below it. A smaller line reads: “A meal for one deserves care, too.”"
+  },
+  "supper.chairClue": {
+    "zh-TW": "第二張椅子擦得很乾淨，卻沒擺碗。Hugo 說：「有時候我也不知道，想等的是客人，還是能一起坐下的人。」",
+    "en": "The second chair is clean, but has no bowl. “Sometimes I’m not sure,” Hugo says, “whether I’m waiting for a customer or someone to sit with.”"
+  },
+  "supper.listen": {
+    "zh-TW": "坐下來，聽 Hugo 說",
+    "en": "Sit down and listen to Hugo"
+  },
+  "supper.listenFirst": {
+    "zh-TW": "先看看桌邊的一樣東西，再跟 Hugo 聊聊。",
+    "en": "Look at something beside the table before talking with Hugo."
+  },
+  "supper.dilemma": {
+    "zh-TW": "「收成可以換錢、填飽肚子，也可以讓一個人留下來。」Hugo 把決定交給你：「今晚，你想怎麼用它們？」",
+    "en": "“A harvest can become money, a meal, or a reason for someone to stay.” Hugo asks, “What would you like to do with these tonight?”"
+  },
+  "supper.own": {
+    "zh-TW": "使用自己背包裡的兩根胡蘿蔔",
+    "en": "Use two carrots from my backpack"
+  },
+  "supper.loan": {
+    "zh-TW": "使用 Hugo 提供的故事食材",
+    "en": "Use Hugo’s story ingredients"
+  },
+  "supper.loanNote": {
+    "zh-TW": "故事食材只用在這段故事，不會進入背包。若選販售，收入由 Hugo 留作攤位備料。",
+    "en": "Story ingredients are only for this story and never enter your backpack. If sold, Hugo keeps the proceeds for the stall."
+  },
+  "supper.ownNote": {
+    "zh-TW": "選擇自己的食材時，確認後會扣除兩根可用胡蘿蔔；展示中的物品不會被使用。只有販售會增加熊熊幣。",
+    "en": "Choosing your own ingredients consumes two available carrots on confirmation. Displayed items stay reserved. Only selling earns you coins."
+  },
+  "supper.available": {
+    "zh-TW": "可用胡蘿蔔",
+    "en": "Available carrots"
+  },
+  "supper.unit": {
+    "zh-TW": "份",
+    "en": "units"
+  },
+  "supper.source": {
+    "zh-TW": "今晚的食材來源",
+    "en": "Tonight’s ingredients"
+  },
+  "supper.sell": {
+    "zh-TW": "留一點給明天",
+    "en": "Set something aside for tomorrow"
+  },
+  "supper.sellNote": {
+    "zh-TW": "把兩根胡蘿蔔交給收攤前的買家。用自己的食材，收入歸你；用 Hugo 的食材，收入歸攤位。",
+    "en": "Sell the two carrots before closing. Proceeds from your own ingredients go to you; proceeds from Hugo’s ingredients stay with his stall."
+  },
+  "supper.cook": {
+    "zh-TW": "煮一碗給自己",
+    "en": "Make a bowl for yourself"
+  },
+  "supper.cookNote": {
+    "zh-TW": "把食材煮成今晚的一碗熱湯，不增加熊熊幣。留下來照顧自己，也是完整的選擇。",
+    "en": "Turn the ingredients into a warm bowl of soup, with no coin reward. Taking care of yourself is a complete choice."
+  },
+  "supper.share": {
+    "zh-TW": "替 Hugo 留一張椅子",
+    "en": "Save a chair for Hugo"
+  },
+  "supper.shareNote": {
+    "zh-TW": "把食材交給 Hugo，一起準備兩小碗湯。不增加熊熊幣，會在市集留下一張雙人晚餐桌。",
+    "en": "Give the ingredients to Hugo and prepare two small bowls together. No coin reward; a table for two remains in your market scene."
+  },
+  "supper.confirm": {
+    "zh-TW": "確認這個選擇",
+    "en": "Confirm this choice"
+  },
+  "supper.settled": {
+    "zh-TW": "今晚的食材已安排好。接下來的互動不會再扣物品。",
+    "en": "Tonight’s ingredients are settled. The following interactions consume nothing more."
+  },
+  "supper.sellTalk": {
+    "zh-TW": "收攤前的買家收好了胡蘿蔔。Hugo 把零錢放進小信封：「不是每一份收成都要立刻用完。替明天留一點，也很好。」",
+    "en": "The last customer takes the carrots. Hugo slips the coins into an envelope. “A harvest doesn’t have to be used all at once. It’s good to leave something for tomorrow.”"
+  },
+  "supper.cookTalk": {
+    "zh-TW": "Hugo 把小鍋移近你：「想安靜一點吃，也很好。這碗湯不用拿來交換什麼。」蒸氣慢慢爬上鍋沿。",
+    "en": "Hugo moves the pot toward you. “A quiet meal is good, too. You don’t have to trade this bowl for anything.” Steam rises over the rim."
+  },
+  "supper.shareTalk": {
+    "zh-TW": "「你是說……也幫我盛一碗？」Hugo 拿出第二個碗，笑得有點不好意思。你們可以決定，把那張椅子放在哪裡。",
+    "en": "“You mean… a bowl for me too?” Hugo brings out another bowl with a shy smile. You can choose where to put his chair."
+  },
+  "supper.seeds": {
+    "zh-TW": "留作下一次種植的準備",
+    "en": "Set it aside for the next planting"
+  },
+  "supper.room": {
+    "zh-TW": "留作小屋的小心意",
+    "en": "Set it aside for something at home"
+  },
+  "supper.window": {
+    "zh-TW": "在窗邊慢慢吃",
+    "en": "Eat slowly by the window"
+  },
+  "supper.door": {
+    "zh-TW": "端到門口聽海",
+    "en": "Eat by the door and listen to the sea"
+  },
+  "supper.near": {
+    "zh-TW": "把椅子放近一點",
+    "en": "Bring the chair closer"
+  },
+  "supper.sea": {
+    "zh-TW": "把椅子朝向海",
+    "en": "Turn the chair toward the sea"
+  },
+  "supper.stir": {
+    "zh-TW": "慢慢攪拌一下",
+    "en": "Stir gently"
+  },
+  "supper.stirred": {
+    "zh-TW": "湯匙碰到鍋邊，發出輕輕的一聲。Hugo 笑了：「聞起來像一個可以好好休息的晚上。」",
+    "en": "The spoon softly touches the pot. Hugo smiles. “It smells like an evening when you can rest.”"
+  },
+  "supper.resultSell": {
+    "zh-TW": "小信封留在桌上，黑板多了一行「明天，慢慢來」。Hugo 沒有因為你選擇販售而失望。他說，明天的小攤也需要被照顧。",
+    "en": "An envelope rests on the table. The board now says “Take tomorrow slowly.” Hugo is not disappointed that you chose to sell. Tomorrow’s stall needs care, too."
+  },
+  "supper.resultCook": {
+    "zh-TW": "你捧起碗，湯的熱度剛好。Hugo 沒有追問今天發生什麼，只把收攤的聲音放得更輕了一點。這張桌子，今晚可以只屬於你。",
+    "en": "The bowl is comfortably warm. Hugo asks no questions about your day; he simply closes the stall a little more quietly. Tonight, this table can be yours alone."
+  },
+  "supper.resultShare": {
+    "zh-TW": "第二張椅子終於有人坐下。Hugo 說，他最喜歡的不是忙碌的時候，而是收攤後，還有人願意留一會兒。",
+    "en": "At last, someone sits in the second chair. Hugo says his favorite moment is not a busy rush, but when someone chooses to stay after closing."
+  },
+  "supper.linger": {
+    "zh-TW": "再坐一會兒",
+    "en": "Stay a little longer"
+  },
+  "supper.goodnight": {
+    "zh-TW": "這一晚，已經留下來了",
+    "en": "This evening stays with you"
+  },
+  "supper.farewellSell": {
+    "zh-TW": "「下次路過，空手來也沒關係。」Hugo 記得你替明天做的打算，小攤上留著那只小信封。",
+    "en": "“Come empty-handed next time if you like.” Hugo remembers your plan for tomorrow, and keeps the little envelope at the stall."
+  },
+  "supper.farewellCook": {
+    "zh-TW": "「下次想安靜吃飯，這個位置還在。」Hugo 替你留下一個不用說話的角落。",
+    "en": "“This seat will be here when you want a quiet meal.” Hugo keeps a corner where no conversation is required."
+  },
+  "supper.farewellShare": {
+    "zh-TW": "「下次不用帶胡蘿蔔，帶你自己就好。」Hugo 已經記得，你喜歡把椅子放在哪裡。",
+    "en": "“Next time, just bring yourself.” Hugo remembers where you like the chair."
+  },
+  "supper.record": {
+    "zh-TW": "故事與選擇會保存。重看不會再扣食材或發放收入；沒有每日重做要求。",
+    "en": "Your story and choices are saved. Revisiting never consumes ingredients or grants income again. There is no daily repeat requirement."
+  },
+  "supper.market": {
+    "zh-TW": "去市集看看留下的變化",
+    "en": "See what changed at the market"
+  },
+  "supper.memory": {
+    "zh-TW": "回看這一晚",
+    "en": "Revisit this evening"
+  },
+  "supper.return": {
+    "zh-TW": "繼續這段故事",
+    "en": "Continue this story"
+  },
+  "supper.memorySell": {
+    "zh-TW": "Hugo 的桌邊留著一只小信封。他記得，你替明天留了一點準備。",
+    "en": "A little envelope waits at Hugo’s table. He remembers that you planned for tomorrow."
+  },
+  "supper.memoryCook": {
+    "zh-TW": "Hugo 留著一只湯碗。那是你可以安靜坐下、不必解釋的一個位置。",
+    "en": "Hugo keeps a soup bowl ready—a place to sit quietly without explaining anything."
+  },
+  "supper.memoryShare": {
+    "zh-TW": "Hugo 的攤位多了一張雙人晚餐桌。他記得，你曾留下來一起吃飯。",
+    "en": "A supper table for two remains at Hugo’s stall. He remembers that you stayed for a meal."
+  },
+  "supper.feedback": {
+    "zh-TW": "玩完這一段，你有想再回來遇見 Hugo 嗎？",
+    "en": "After this story, would you like to meet Hugo again?"
+  },
+  "supper.yes": {
+    "zh-TW": "有，我想再來",
+    "en": "Yes, I would"
+  },
+  "supper.unsure": {
+    "zh-TW": "還不確定",
+    "en": "Not sure yet"
+  },
+  "supper.no": {
+    "zh-TW": "目前還沒有",
+    "en": "Not yet"
+  },
+  "supper.thanks": {
+    "zh-TW": "已收到你的感受，不會影響角色或獎勵。",
+    "en": "Your response is saved. It does not affect your character or rewards."
+  },
+  "supper.noRank": {
+    "zh-TW": "三種選擇都有自己的結局，沒有最佳答案，也沒有額外通關獎勵。",
+    "en": "Each choice has its own ending. There is no best answer or completion bonus."
+  },
+  "supper.invalid": {
+    "zh-TW": "這個選擇已更新或過期。請重新開啟故事；既有進度與物品保留。",
+    "en": "This choice changed or expired. Reopen the story; your progress and items are preserved."
+  },
+  "supper.conflict": {
+    "zh-TW": "背包或故事進度已改變，本次沒有部分扣物或入帳。請重新確認食材與選擇。",
+    "en": "Your backpack or story changed. No partial item or coin changes were made. Review the ingredients and choice."
+  },
+  "supper.unavailable": {
+    "zh-TW": "故事暫時無法載入，你原本的島嶼與存檔仍在。",
+    "en": "The story is temporarily unavailable. Your island and saves remain intact."
+  },
+  "collection.supper_useAction": {
+    "zh-TW": "晚餐故事食材",
+    "en": "Supper story ingredients"
+  },
+  "collection.supper_saleAction": {
+    "zh-TW": "晚餐故事販售",
+    "en": "Supper story sale"
+  },
+  "supper.income": {
+    "zh-TW": "自己的兩根收成可獲得",
+    "en": "Your two carrots earn"
   }
 }

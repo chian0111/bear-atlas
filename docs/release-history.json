@@ -1114,6 +1114,11 @@
         "island_shop_styles",
         "island_firework_admissions"
       ]
+    },
+    {
+      "release": "V101",
+      "status": "validated-awaiting-publication",
+      "report": "docs/V101-ACCEPTANCE.md"
     }
   ]
 }

@@ -3,7 +3,7 @@ import {bearCoinArt} from './cozy-navigation.js';
 import {pocketT,pocketUtilities,pocketSource,pocketOrders} from './pocket.js';
 import {natureItems,natureItemCopy,natureItemArt} from './nature-catalog.js';
 // V88 — all quantities, prices and counterparties come from server-owned operations.
-export const collectionCopy={
+export const collectionCopy={supper_useAction:['晚餐故事食材','Supper story ingredients'],supper_saleAction:['晚餐故事販售','Supper story sale'],
  outfit:['商店服裝','Shop outfit'],accessory:['造型配件','Style accessory'],ticket:['活動票券','Event ticket'],
  ...Object.fromEntries(livingProducts.flatMap(p=>[[p.id,p.name],[p.id+'Note',p.type==='ticket'?['每日台灣時間 21:00–21:10，一票一晚，入場才扣票。','Daily 21:00–21:10 Taiwan time. One ticket per evening, consumed on admission.']:['購買後到商店換裝間穿戴，熊、貓、兔皆可使用。','Wear it in the shop dressing room after buying. Available for bears, cats and rabbits.']]])),
 

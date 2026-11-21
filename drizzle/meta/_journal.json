@@ -169,6 +169,13 @@
       "when": 1794909600000,
       "tag": "0024_character_living",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "6",
+      "when": 1795258800000,
+      "tag": "0025_hugo_supper",
+      "breakpoints": true
     }
   ]
 }
