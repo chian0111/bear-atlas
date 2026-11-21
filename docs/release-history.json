@@ -839,6 +839,13 @@
       "deployment_id": "appgdep_6b019e16a0388191b92fdd4aaba49bb3",
       "archive_sha256": "sha256:93db7b2c96e102edfcd05735fb34c42b91c143a80c55cddc9abb60f66ae3cb30",
       "verification": "Native deployment succeeded, but story disabled because new tables were not applied. Persistence repaired in the following version."
+    },
+    {
+      "version": 120,
+      "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_e43986bab2608191b7014abe66997eb4",
+      "commit": "7fda50108ac67ea48d69a8eb216007cd69bf2fb8",
+      "deployment_id": "appgdep_6b019fabf39c8191a659311529843964",
+      "archive_sha256": "sha256:2f09169885e0b400ea03b7c3841ebf71f1f8ffdb69e26eb17d9bcdd2f5f41d53"
     }
   ],
   "candidates": [
@@ -1125,8 +1132,14 @@
     },
     {
       "release": "V101",
-      "status": "validated-awaiting-publication",
-      "report": "docs/V101-ACCEPTANCE.md"
+      "status": "deployed-prototype-player-validation-pending",
+      "report": "docs/V101-ACCEPTANCE.md",
+      "platform_version": 120,
+      "runtime_commit": "7fda50108ac67ea48d69a8eb216007cd69bf2fb8",
+      "github_implementation_commit": "96507adf117aad0e8ece7f2e4002dc73a58ed13c",
+      "deployment_id": "appgdep_6b019fabf39c8191a659311529843964",
+      "storage": "Existing adventure action store, supper:v101 namespace",
+      "public_story_http_status": 200
     }
   ]
 }
