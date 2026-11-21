@@ -837,8 +837,8 @@
       "version_id": "appgprj_6af26b560248819190b1dc4fdcf765b2~appgver_e1eff1b389388191bd3363c55d3c2a69",
       "commit": "47bd7692a58c41eb2f227c4529553fc9188e8ed1",
       "deployment_id": "appgdep_6b019e16a0388191b92fdd4aaba49bb3",
-      "archive_sha256": "sha256:93db7b2c96e102edfcd05735fb34c6144c1b60ea8691714a1224d8b83b80ff338e",
-      "verification": "Native deployment succeeded; story unavailable because new tables were absent. Repaired by existing adventure storage."
+      "archive_sha256": "sha256:93db7b2c96e102edfcd05735fb34c42b91c143a80c55cddc9abb60f66ae3cb30",
+      "verification": "Native deployment succeeded, but story disabled because new tables were not applied. Persistence repaired in the following version."
     }
   ],
   "candidates": [
